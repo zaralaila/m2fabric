@@ -1,0 +1,7 @@
+FROM hyperledger/fabric-peer:2.5.12
+
+# Replace the peer binary with our PQC-enabled version
+COPY pqc-peer-linux /usr/local/bin/peer
+
+# Ensure it is executable
+RUN chmod +x /usr/local/bin/peer

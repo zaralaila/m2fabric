@@ -1,0 +1,14 @@
+caliper:
+  blockchain: fabric
+  sutOptions:
+    mutualTls: false
+
+fabric:
+  gateway:
+    enabled: true
+    localHost: true
+    queryProposalTimeout: 300000
+    endorseTimeout: 300000
+    broadcastTimeout: 300000
+    commitTimeout: 300000
+

@@ -1,0 +1,33 @@
+name: fabric-network
+version: "2.0.0"
+caliper:
+  blockchain: fabric
+channels:
+  - channelName: mychannel
+    created: false
+    contracts:
+      - id: basic
+        contractID: basic
+organizations:
+  - mspid: Org1MSP
+    identities:
+      certificates:
+        - name: org1caliper
+          clientPrivateKey:
+            path: ../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/caliper@org1.example.com/msp/keystore/key.pem
+          clientSignedCert:
+            path: ../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/caliper@org1.example.com/msp/signcerts/cert.pem
+    connectionProfile:
+      path: ../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml
+      discover: true
+  - mspid: Org2MSP
+    identities:
+      certificates:
+        - name: org2caliper
+          clientPrivateKey:
+            path: ../fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/caliper@org2.example.com/msp/keystore/key.pem
+          clientSignedCert:
+            path: ../fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/caliper@org2.example.com/msp/signcerts/cert.pem
+    connectionProfile:
+      path: ../fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/connection-org2.yaml
+      discover: true

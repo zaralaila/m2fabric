@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'fabric-peer-org1'
+    static_configs:
+      - targets: ['host.docker.internal:9444']
+
+  - job_name: 'fabric-peer-org2'
+    static_configs:
+      - targets: ['host.docker.internal:9445']
+
+  - job_name: 'fabric-orderer'
+    static_configs:
+      - targets: ['host.docker.internal:9443']

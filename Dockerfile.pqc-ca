@@ -1,0 +1,4 @@
+FROM hyperledger/fabric-ca:1.5.12
+COPY fabric-ca-server-linux /usr/local/bin/fabric-ca-server
+COPY fabric-ca-client-linux /usr/local/bin/fabric-ca-client
+RUN chmod +x /usr/local/bin/fabric-ca-server /usr/local/bin/fabric-ca-client

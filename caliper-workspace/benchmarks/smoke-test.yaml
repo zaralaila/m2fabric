@@ -1,0 +1,28 @@
+test:
+  name: fabric-smoke-test
+  description: >
+    Quick smoke test to verify Caliper + PQC Fabric integration works.
+    Two short rounds at low TPS.
+  workers:
+    number: 2
+  rounds:
+    - label: write-10tps
+      txDuration: 10
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 10
+      workload:
+        module: workload/createAsset.js
+        arguments:
+          contractId: basic
+    - label: write-25tps
+      txDuration: 10
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 25
+      workload:
+        module: workload/createAsset.js
+        arguments:
+          contractId: basic

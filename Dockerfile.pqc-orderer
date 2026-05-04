@@ -1,0 +1,7 @@
+FROM hyperledger/fabric-orderer:2.5.12
+
+# Replace the orderer binary with our PQC-enabled version
+COPY pqc-orderer-linux /usr/local/bin/orderer
+
+# Ensure it is executable
+RUN chmod +x /usr/local/bin/orderer

@@ -1,0 +1,139 @@
+# Copyright the Hyperledger Fabric contributors. All rights reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Release
+
+on:
+  push:
+    tags: [ v1.* ]
+
+env:
+  GO_VER: 1.22.4
+  UBUNTU_VER: 20.04
+  DOCKER_REGISTRY: ${{ github.repository_owner == 'hyperledger' && 'docker.io' || 'ghcr.io' }}
+  IMAGE_NAME: ${{ github.repository }}
+
+permissions:
+  contents: read
+
+jobs:
+  build-binaries:
+    name: Build Fabric CA Binaries
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu-20.04
+            platform: linux-amd64
+          - image: ubuntu-20.04
+            platform: linux-arm64
+          - image: macos-12
+            platform: darwin-arm64
+          - image: macos-12
+            platform: darwin-amd64
+          - image: windows-2022
+            platform: windows-amd64
+    runs-on: ${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout Fabric CA Code
+      
+      - uses: actions/setup-go@v5
+        name: Install Go
+        with:
+          go-version: ${{ env.GO_VER }}
+
+      - name: Install GCC cross-compilers
+        if:  ${{ contains(matrix.platform, 'linux') }}
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install gcc-aarch64-linux-gnu
+          sudo apt-get -y install gcc-x86-64-linux-gnu
+
+      - run: make dist/${{ matrix.platform }}
+        name: Compile Binary and Create Tarball
+        env:
+          BASE_VERSION: ${{ github.ref_name }}
+
+      - uses: actions/upload-artifact@v4
+        name: Publish Release Artifacts
+        with:
+          # <name> of the artifact must not collide between platform/arch builds
+          name: release-${{ matrix.platform }}
+          # <path> of the artifact may include multiple files.
+          path: release/${{ matrix.platform }}/*.tar.gz
+
+
+  build-and-push-image:
+    runs-on: ubuntu-20.04
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to the ${{ env.DOCKER_REGISTRY }} Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_REGISTRY == 'docker.io' && secrets.DOCKERHUB_USERNAME || github.actor }}
+          password: ${{ env.DOCKER_REGISTRY == 'docker.io' && secrets.DOCKERHUB_TOKEN    || secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: images/fabric-ca/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            UBUNTU_VER=${{ env.UBUNTU_VER }}
+            GO_VER=${{ env.GO_VER }}
+            GO_TAGS=pkcs11
+            GO_LDFLAGS=-X github.com/hyperledger/fabric-ca/lib/metadata.Version=${{ github.ref_name }}
+
+
+  create-release:
+    name: Create GitHub Release
+    needs:
+      - build-binaries
+      - build-and-push-image
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Fabric CA Code
+        uses: actions/checkout@v4
+      - name: Download Artifacts
+        id: download
+        uses: actions/download-artifact@v4
+      - name: Release Fabric CA Version
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: "true"
+          artifacts: "release-*-*/*.tar.gz"
+          bodyFile: release_notes/${{ github.ref_name }}.md
+          tag: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
