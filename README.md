@@ -8,7 +8,7 @@ M²Fabric is a complete runtime-level integration of NIST-standardised post-quan
 |---|---|---|---|
 | BCCSP | Transaction signing, block signing, gossip | FN-DSA-512 / ML-DSA-44 / ML-DSA-65 | FIPS 204, FIPS 206 |
 | Fabric CA | Certificate issuance | FN-DSA-512 leaf keys (dual-CA design) | FIPS 206 |
-| MSP | Identity validation, NodeOU | `buildPQCChain()` validator | — |
+| MSP | Identity validation, NodeOU | `buildPQCChain()` — OID-dispatched signature verification, validity period, KeyUsage `keyCertSign`, AKID/SKID match | — |
 | TLS | Inter-node key exchange | Hybrid X25519 + ML-KEM-768 | FIPS 203 |
 
 This repository accompanies the PhD thesis *"M²Fabric: A Post-Quantum Cryptographic Multilayer Architecture for Hyperledger Fabric"* (Universiti Brunei Darussalam, 2026).
@@ -26,8 +26,8 @@ See chapter 4 of the thesis for the full quantum threat model and chapter 5 for 
 ```
 .
 ├── pqc-bccsp/           # The post-quantum BCCSP plugin (FN-DSA, ML-DSA, ML-KEM)
-├── fabric-source/       # Hyperledger Fabric 2.5.x fork with PQC integration
-├── fabric-ca/           # Hyperledger Fabric CA 1.5.x fork with PQC issuance + buildPQCChain
+├── fabric-source/       # Hyperledger Fabric 2.5.x fork with PQC integration + buildPQCChain MSP validator
+├── fabric-ca/           # Hyperledger Fabric CA 1.5.x fork with PQC certificate issuance
 ├── fabric-samples/      # test-network with PQC-aware registerEnroll.sh + dual-CA setup
 ├── caliper-workspace/   # Caliper benchmarks (workload, network config, baseline yamls)
 ├── prometheus/          # Prometheus scrape config for runtime metrics
@@ -155,6 +155,14 @@ cd caliper-workspace
 ```
 
 To switch signing algorithm, edit `--csr.keyrequest.algo` in [organizations/fabric-ca/registerEnroll.sh](fabric-samples/test-network/organizations/fabric-ca/registerEnroll.sh) (`mldsa44`, `mldsa65`, or `fndsa512`), then `network.sh down && up -ca && createChannel && deployCC`.
+
+## Running the unit tests
+
+The MSP `buildPQCChain` validator has unit tests covering valid chains, tampered signatures, unknown issuers, expired and not-yet-valid certs, and unconfigured roots, across ML-DSA-44, ML-DSA-65, and FN-DSA-512:
+
+```bash
+(cd fabric-source && go test -count=1 -run TestBuildPQCChain ./msp/)
+```
 
 ## Verifying the deployment is end-to-end PQC
 

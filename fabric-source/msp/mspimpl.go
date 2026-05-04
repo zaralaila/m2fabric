@@ -724,10 +724,24 @@ func (msp *bccspmsp) getUniqueValidationChain(cert *x509.Certificate, opts x509.
 	if msp.opts == nil {
 		return nil, errors.New("the supplied identity has no verify options")
 	}
+
+	// Route through the post-quantum chain validator when either the leaf or
+	// any trust anchor uses a PQC algorithm. Go's crypto/x509 cannot verify
+	// signatures from unknown public-key algorithms, so x509.Verify would
+	// fail before signature checking even runs.
+	if isPQCCertificate(cert) || msp.hasPQCAnchors() {
+		chain, err := msp.buildPQCChain(cert)
+		if err != nil {
+			return nil, errors.WithMessage(err, "the supplied identity is not valid")
+		}
+		if err := verifyLegacyNameConstraints(chain); err != nil {
+			return nil, errors.WithMessage(err, "the supplied identity is not valid")
+		}
+		return chain, nil
+	}
+
 	validationChains, err := cert.Verify(opts)
 	if err != nil {
-		// For PQC CAs, Go x509 cannot verify chains with unknown public key algorithms.
-		// Build the chain manually: [leaf, CA root].
 		if isUnknownAuthorityError(err) && opts.Roots != nil {
 			chain, cerr := msp.buildPQCChain(cert)
 			if cerr == nil {
