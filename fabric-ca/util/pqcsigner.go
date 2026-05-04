@@ -152,7 +152,7 @@ func CreatePQCCertificate(
 	if parent != nil {
 		issuer = parent
 	}
-	sigAlgOID, sigAlgParams, err := sigAlgFromX509(caSignAlg)
+	sigAlg, isPQC, err := chooseSigAlg(caSigner, caSignAlg)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +178,6 @@ func CreatePQCCertificate(
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to marshal subject RDN")
 	}
-	sigAlg := pkix.AlgorithmIdentifier{Algorithm: sigAlgOID, Parameters: sigAlgParams}
 	tbs := tbsCertificate{
 		Version:              2,
 		SerialNumber:         template.SerialNumber,
@@ -193,13 +192,9 @@ func CreatePQCCertificate(
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to marshal TBSCertificate")
 	}
-	digest, err := hashForSigAlg(caSignAlg, tbsDER)
+	sig, err := signTBS(caSigner, caSignAlg, tbsDER, isPQC)
 	if err != nil {
 		return nil, err
-	}
-	sig, err := caSigner.Sign(rand.Reader, digest, hashOptsForSigAlg(caSignAlg))
-	if err != nil {
-		return nil, errors.WithMessage(err, "CA signing failed")
 	}
 	type certificate struct {
 		TBSCertificate     asn1.RawValue
@@ -216,6 +211,45 @@ func CreatePQCCertificate(
 		return nil, errors.WithMessage(err, "failed to marshal Certificate")
 	}
 	return pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: certDER}), nil
+}
+
+// chooseSigAlg decides which AlgorithmIdentifier to stamp into the
+// certificate's signatureAlgorithm field. If caSigner is a PQC signer, the
+// algorithm OID for that PQC algorithm is used and the second return value is
+// true. Otherwise the caller-supplied classical algorithm (caSignAlg) is used
+// via sigAlgFromX509 and the second return is false.
+func chooseSigAlg(caSigner crypto.Signer, caSignAlg x509.SignatureAlgorithm) (pkix.AlgorithmIdentifier, bool, error) {
+	if pqc, ok := caSigner.(*pqcCryptoSigner); ok && pqc.pub != nil {
+		return pkix.AlgorithmIdentifier{Algorithm: pqc.pub.OID}, true, nil
+	}
+	oid, params, err := sigAlgFromX509(caSignAlg)
+	if err != nil {
+		return pkix.AlgorithmIdentifier{}, false, err
+	}
+	return pkix.AlgorithmIdentifier{Algorithm: oid, Parameters: params}, false, nil
+}
+
+// signTBS signs the encoded TBSCertificate. For PQC signers the raw TBS is
+// passed directly to the underlying library, whose signing primitive performs
+// the FIPS-mandated internal hashing. For classical signers the TBS is first
+// hashed per the configured x509.SignatureAlgorithm.
+func signTBS(caSigner crypto.Signer, caSignAlg x509.SignatureAlgorithm, tbsDER []byte, isPQC bool) ([]byte, error) {
+	if isPQC {
+		sig, err := caSigner.Sign(rand.Reader, tbsDER, crypto.Hash(0))
+		if err != nil {
+			return nil, errors.WithMessage(err, "PQC CA signing failed")
+		}
+		return sig, nil
+	}
+	digest, err := hashForSigAlg(caSignAlg, tbsDER)
+	if err != nil {
+		return nil, err
+	}
+	sig, err := caSigner.Sign(rand.Reader, digest, hashOptsForSigAlg(caSignAlg))
+	if err != nil {
+		return nil, errors.WithMessage(err, "CA signing failed")
+	}
+	return sig, nil
 }
 
 func sigAlgFromX509(alg x509.SignatureAlgorithm) (asn1.ObjectIdentifier, asn1.RawValue, error) {
@@ -469,7 +503,7 @@ func CreatePQCCertificateWithRawSPKI(
 	if parent != nil {
 		issuer = parent
 	}
-	sigAlgOID, sigAlgParams, err := sigAlgFromX509(caSignAlg)
+	sigAlg, isPQC, err := chooseSigAlg(caSigner, caSignAlg)
 	if err != nil {
 		return nil, err
 	}
@@ -495,7 +529,6 @@ func CreatePQCCertificateWithRawSPKI(
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to marshal subject RDN")
 	}
-	sigAlg := pkix.AlgorithmIdentifier{Algorithm: sigAlgOID, Parameters: sigAlgParams}
 	tbs := tbsCertificate{
 		Version:              2,
 		SerialNumber:         template.SerialNumber,
@@ -510,13 +543,9 @@ func CreatePQCCertificateWithRawSPKI(
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to marshal TBSCertificate")
 	}
-	digest, err := hashForSigAlg(caSignAlg, tbsDER)
+	sig, err := signTBS(caSigner, caSignAlg, tbsDER, isPQC)
 	if err != nil {
 		return nil, err
-	}
-	sig, err := caSigner.Sign(rand.Reader, digest, hashOptsForSigAlg(caSignAlg))
-	if err != nil {
-		return nil, errors.WithMessage(err, "CA signing failed")
 	}
 	type certificate struct {
 		TBSCertificate     asn1.RawValue

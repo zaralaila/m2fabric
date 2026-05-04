@@ -47,12 +47,24 @@ func newPQCTestKey(t *testing.T, algo string) *pqcTestKey {
 	return &pqcTestKey{algo: algo, oid: oid, csp: csp, key: k}
 }
 
+// certSigningMode controls how makePQCCert encodes the signatureAlgorithm
+// field and signs the TBSCertificate. The default (modeCurrent) matches the
+// post-fix CreatePQCCertificate: PQC OID in signatureAlgorithm + raw-TBS
+// signing. modeLegacy emits the pre-fix convention used to verify the
+// validator's backward-compatibility fallback.
+type certSigningMode int
+
+const (
+	modeCurrent certSigningMode = iota
+	modeLegacy
+)
+
 // makePQCCert constructs a minimal X.509 certificate carrying a PQC SPKI and
 // signed by `signer`. If signer == subject, the certificate is self-signed
-// (used for the CA root). The signature follows the same convention as
-// fabric-ca's CreatePQCCertificate: SHA-256(TBSCertificate) signed by the
-// PQC private key, with the cert's SignatureAlgorithm field set to
-// ECDSAWithSHA256 (matching the live cert generator).
+// (used for the CA root). When mode == modeCurrent, the cert's
+// signatureAlgorithm carries the PQC OID and the raw TBSCertificate is signed
+// directly. When mode == modeLegacy, signatureAlgorithm carries
+// ecdsa-with-SHA256 and SHA-256(TBSCertificate) is signed instead.
 func makePQCCert(
 	t *testing.T,
 	subject *pqcTestKey,
@@ -62,6 +74,7 @@ func makePQCCert(
 	isCA bool,
 	notBefore, notAfter time.Time,
 	serial int64,
+	mode certSigningMode,
 ) *x509.Certificate {
 	t.Helper()
 
@@ -116,8 +129,16 @@ func makePQCCert(
 		})
 	}
 
-	sigAlg := pkix.AlgorithmIdentifier{
-		Algorithm: asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 2}, // ECDSAWithSHA256, matches generator
+	var sigAlg pkix.AlgorithmIdentifier
+	switch mode {
+	case modeCurrent:
+		sigAlg = pkix.AlgorithmIdentifier{Algorithm: signer.oid}
+	case modeLegacy:
+		sigAlg = pkix.AlgorithmIdentifier{
+			Algorithm: asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 2}, // ECDSAWithSHA256
+		}
+	default:
+		t.Fatalf("unsupported signing mode %d", mode)
 	}
 
 	type tbsCertificate struct {
@@ -143,8 +164,15 @@ func makePQCCert(
 	tbsDER, err := asn1.Marshal(tbs)
 	require.NoError(t, err)
 
-	digest := sha256.Sum256(tbsDER)
-	sig, err := signer.csp.Sign(signer.key, digest[:])
+	var sigInput []byte
+	switch mode {
+	case modeCurrent:
+		sigInput = tbsDER
+	case modeLegacy:
+		d := sha256.Sum256(tbsDER)
+		sigInput = d[:]
+	}
+	sig, err := signer.csp.Sign(signer.key, sigInput)
 	require.NoError(t, err)
 
 	type certificate struct {
@@ -184,8 +212,8 @@ func TestBuildPQCChain_ValidChain(t *testing.T) {
 			notBefore := time.Now().Add(-time.Hour)
 			notAfter := time.Now().Add(24 * time.Hour)
 
-			caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1)
-			leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false, notBefore, notAfter, 2)
+			caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1, modeCurrent)
+			leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false, notBefore, notAfter, 2, modeCurrent)
 
 			m := newMSPWithRoots(t, caCert)
 			chain, err := m.buildPQCChain(leafCert)
@@ -205,8 +233,8 @@ func TestBuildPQCChain_TamperedSignature(t *testing.T) {
 			notBefore := time.Now().Add(-time.Hour)
 			notAfter := time.Now().Add(24 * time.Hour)
 
-			caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1)
-			leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false, notBefore, notAfter, 2)
+			caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1, modeCurrent)
+			leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false, notBefore, notAfter, 2, modeCurrent)
 
 			// Flip a byte in the parsed signature. Note: x509.ParseCertificate copies
 			// the signature into cert.Signature, so mutating that field is enough for
@@ -228,8 +256,8 @@ func TestBuildPQCChain_UnknownIssuer(t *testing.T) {
 	notBefore := time.Now().Add(-time.Hour)
 	notAfter := time.Now().Add(24 * time.Hour)
 
-	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1)
-	leafCert := makePQCCert(t, leaf, other, "TestLeaf", "OtherCA", false, notBefore, notAfter, 2)
+	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true, notBefore, notAfter, 1, modeCurrent)
+	leafCert := makePQCCert(t, leaf, other, "TestLeaf", "OtherCA", false, notBefore, notAfter, 2, modeCurrent)
 
 	m := newMSPWithRoots(t, caCert)
 	_, err := m.buildPQCChain(leafCert)
@@ -240,9 +268,9 @@ func TestBuildPQCChain_ExpiredCert(t *testing.T) {
 	ca := newPQCTestKey(t, "MLDSA44")
 	leaf := newPQCTestKey(t, "MLDSA44")
 	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true,
-		time.Now().Add(-2*time.Hour), time.Now().Add(2*time.Hour), 1)
+		time.Now().Add(-2*time.Hour), time.Now().Add(2*time.Hour), 1, modeCurrent)
 	leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false,
-		time.Now().Add(-2*time.Hour), time.Now().Add(-time.Hour), 2)
+		time.Now().Add(-2*time.Hour), time.Now().Add(-time.Hour), 2, modeCurrent)
 
 	m := newMSPWithRoots(t, caCert)
 	_, err := m.buildPQCChain(leafCert)
@@ -254,9 +282,9 @@ func TestBuildPQCChain_NotYetValid(t *testing.T) {
 	ca := newPQCTestKey(t, "MLDSA44")
 	leaf := newPQCTestKey(t, "MLDSA44")
 	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true,
-		time.Now().Add(-2*time.Hour), time.Now().Add(2*time.Hour), 1)
+		time.Now().Add(-2*time.Hour), time.Now().Add(2*time.Hour), 1, modeCurrent)
 	leafCert := makePQCCert(t, leaf, ca, "TestLeaf", "TestCA", false,
-		time.Now().Add(time.Hour), time.Now().Add(48*time.Hour), 2)
+		time.Now().Add(time.Hour), time.Now().Add(48*time.Hour), 2, modeCurrent)
 
 	m := newMSPWithRoots(t, caCert)
 	_, err := m.buildPQCChain(leafCert)
@@ -267,7 +295,7 @@ func TestBuildPQCChain_NotYetValid(t *testing.T) {
 func TestBuildPQCChain_SelfSignedRootNotConfigured(t *testing.T) {
 	ca := newPQCTestKey(t, "MLDSA44")
 	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true,
-		time.Now().Add(-time.Hour), time.Now().Add(24*time.Hour), 1)
+		time.Now().Add(-time.Hour), time.Now().Add(24*time.Hour), 1, modeCurrent)
 
 	// MSP has NO roots configured.
 	m := newMSPWithRoots(t)
@@ -279,11 +307,59 @@ func TestBuildPQCChain_SelfSignedRootNotConfigured(t *testing.T) {
 func TestBuildPQCChain_HelpersOnPQCCert(t *testing.T) {
 	ca := newPQCTestKey(t, "MLDSA65")
 	caCert := makePQCCert(t, ca, ca, "TestCA", "TestCA", true,
-		time.Now().Add(-time.Hour), time.Now().Add(24*time.Hour), 1)
+		time.Now().Add(-time.Hour), time.Now().Add(24*time.Hour), 1, modeCurrent)
 
 	require.True(t, isPQCCertificate(caCert))
 	algo, pub, err := pqcSPKIInfo(caCert)
 	require.NoError(t, err)
 	require.Equal(t, "MLDSA65", algo)
 	require.Equal(t, ca.key.PublicKeyBytes(), pub)
+}
+
+// TestBuildPQCChain_LegacyFallback exercises the validator's backward-
+// compatibility path: certificates produced by the pre-fix CreatePQCCertificate
+// (sigAlg = ecdsa-with-SHA256, signed bytes = SHA-256(TBS)) must still
+// validate against the new validator so that already-issued credentials
+// remain usable through the migration window.
+func TestBuildPQCChain_LegacyFallback(t *testing.T) {
+	for _, algo := range []string{"MLDSA44", "MLDSA65", "FNDSA512"} {
+		t.Run(algo, func(t *testing.T) {
+			ca := newPQCTestKey(t, algo)
+			leaf := newPQCTestKey(t, algo)
+			notBefore := time.Now().Add(-time.Hour)
+			notAfter := time.Now().Add(24 * time.Hour)
+
+			caCert := makePQCCert(t, ca, ca, "LegacyCA", "LegacyCA", true, notBefore, notAfter, 1, modeLegacy)
+			leafCert := makePQCCert(t, leaf, ca, "LegacyLeaf", "LegacyCA", false, notBefore, notAfter, 2, modeLegacy)
+
+			m := newMSPWithRoots(t, caCert)
+			chain, err := m.buildPQCChain(leafCert)
+			require.NoError(t, err)
+			require.Len(t, chain, 2)
+		})
+	}
+}
+
+// TestBuildPQCChain_SignatureAlgorithmOID confirms that the post-fix cert
+// generator stamps the PQC OID into the signatureAlgorithm field.
+func TestBuildPQCChain_SignatureAlgorithmOID(t *testing.T) {
+	for _, tc := range []struct {
+		algo string
+		oid  asn1.ObjectIdentifier
+	}{
+		{"MLDSA44", oidMLDSA44PQC},
+		{"MLDSA65", oidMLDSA65PQC},
+		{"FNDSA512", oidFNDSA512PQC},
+	} {
+		t.Run(tc.algo, func(t *testing.T) {
+			ca := newPQCTestKey(t, tc.algo)
+			leaf := newPQCTestKey(t, tc.algo)
+			cert := makePQCCert(t, leaf, ca, "Leaf", "CA", false,
+				time.Now().Add(-time.Hour), time.Now().Add(24*time.Hour), 1, modeCurrent)
+			gotOID, err := certSignatureAlgorithmOID(cert)
+			require.NoError(t, err)
+			require.True(t, gotOID.Equal(tc.oid),
+				"expected signatureAlgorithm OID %v, got %v", tc.oid, gotOID)
+		})
+	}
 }

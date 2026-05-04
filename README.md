@@ -158,17 +158,20 @@ To switch signing algorithm, edit `--csr.keyrequest.algo` in [organizations/fabr
 
 ## Running the unit tests
 
-The MSP `buildPQCChain` validator has unit tests covering valid chains, tampered signatures, unknown issuers, expired and not-yet-valid certs, and unconfigured roots, across ML-DSA-44, ML-DSA-65, and FN-DSA-512:
+The MSP `buildPQCChain` validator has 17 unit tests covering valid chains, tampered signatures, unknown issuers, expired and not-yet-valid certs, unconfigured roots, the legacy SHA-256-pre-hash fallback for pre-fix certificates, and `signatureAlgorithm`-OID stamping by the live cert generator — each across ML-DSA-44, ML-DSA-65, and FN-DSA-512:
 
 ```bash
-(cd fabric-source && go test -count=1 -run TestBuildPQCChain ./msp/)
+(cd fabric-source && go test -count=1 -v -run TestBuildPQCChain ./msp/)
 ```
 
 ## Verifying the deployment is end-to-end PQC
 
 ```bash
-# Check a peer's signing cert public-key OID (1.3.9999.3.6 == FN-DSA-512)
-openssl x509 -in fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/signcerts/cert.pem -text -noout | grep "Public Key Algorithm"
+# Check a peer's signing cert: BOTH the public-key OID and the
+# signature-algorithm OID should be the same PQC OID
+# (e.g. 1.3.9999.3.6 == FN-DSA-512, 2.16.840.1.101.3.4.3.17 == ML-DSA-44).
+CERT=fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/signcerts/cert.pem
+openssl x509 -in "$CERT" -text -noout | grep -E "Signature Algorithm|Public Key Algorithm"
 
 # Verify hybrid TLS is negotiated on the orderer
 openssl s_client -connect localhost:7050 -groups 'X25519MLKEM768' </dev/null 2>&1 | grep "Negotiated TLS"

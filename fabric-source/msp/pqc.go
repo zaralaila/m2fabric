@@ -64,6 +64,23 @@ func pqcSPKIInfo(cert *x509.Certificate) (string, []byte, error) {
 	return algo, s.PublicKey.Bytes, nil
 }
 
+// certSignatureAlgorithmOID extracts the OID of the certificate's outer
+// signatureAlgorithm field by re-parsing cert.Raw. Go's x509.Certificate
+// struct does not expose the OID directly when the algorithm is unknown to
+// crypto/x509 (e.g. post-quantum), so we re-read the wrapper SEQUENCE.
+func certSignatureAlgorithmOID(cert *x509.Certificate) (asn1.ObjectIdentifier, error) {
+	type wrapper struct {
+		TBSCertificate     asn1.RawValue
+		SignatureAlgorithm pkix.AlgorithmIdentifier
+		SignatureValue     asn1.BitString
+	}
+	var w wrapper
+	if _, err := asn1.Unmarshal(cert.Raw, &w); err != nil {
+		return nil, errors.WithMessage(err, "parse outer Certificate")
+	}
+	return w.SignatureAlgorithm.Algorithm, nil
+}
+
 // isPQCCertificate reports whether cert's SubjectPublicKeyInfo carries a known
 // post-quantum algorithm OID.
 func isPQCCertificate(cert *x509.Certificate) bool {
@@ -224,18 +241,43 @@ func (msp *bccspmsp) verifyChainLink(child, issuer *x509.Certificate, now time.T
 		}
 	}
 
-	algo, issuerRawPub, err := pqcSPKIInfo(issuer)
+	// Dispatch on the child's signatureAlgorithm OID. PQC certificates issued
+	// by the M2Fabric CA carry the PQC algorithm OID directly in this field
+	// (post-fix); legacy PQC certificates that still carry the
+	// ecdsa-with-SHA256 placeholder are handled by the SPKI fallback below.
+	sigAlgOID, err := certSignatureAlgorithmOID(child)
+	if err != nil {
+		return errors.WithMessage(err, "read child signatureAlgorithm OID")
+	}
+	algo := pqcAlgoFromOID(sigAlgOID)
+
+	// Fallback: if the child's sigAlg is a classical OID but the issuer's SPKI
+	// carries a PQC OID, this is a legacy-format PQC certificate. Trust the
+	// issuer's algorithm and verify accordingly.
+	issuerAlgo, issuerRawPub, err := pqcSPKIInfo(issuer)
 	if err != nil {
 		return errors.WithMessage(err, "parse issuer SPKI")
 	}
+	if algo == "" && issuerAlgo != "" {
+		algo = issuerAlgo
+	}
+
 	if algo == "" {
-		// Classical issuer: delegate signature verification to Go x509.
+		// Fully classical link: delegate signature verification to Go x509.
 		return child.CheckSignatureFrom(issuer)
 	}
 
-	// Post-quantum issuer. CreatePQCCertificate signs SHA-256(TBSCertificate),
-	// so verification uses the same digest.
-	digest := sha256.Sum256(child.RawTBSCertificate)
+	if issuerAlgo == "" {
+		return errors.Errorf("certificate claims %s signature but issuer public key is not post-quantum", algo)
+	}
+	if issuerAlgo != algo {
+		return errors.Errorf("certificate signatureAlgorithm %s does not match issuer key algorithm %s",
+			algo, issuerAlgo)
+	}
+
+	// Post-quantum verification: pass the raw TBSCertificate to pqclib. The
+	// underlying ML-DSA / FN-DSA primitives perform their FIPS-mandated
+	// internal hashing, so no caller-side pre-hash is needed.
 	csp, err := pqclib.New(algo)
 	if err != nil {
 		return errors.WithMessagef(err, "instantiate PQC CSP for %s", algo)
@@ -244,9 +286,22 @@ func (msp *bccspmsp) verifyChainLink(child, issuer *x509.Certificate, now time.T
 	if err != nil {
 		return errors.WithMessage(err, "import issuer public key")
 	}
-	valid, err := csp.Verify(pubKey, child.Signature, digest[:])
+	valid, err := csp.Verify(pubKey, child.Signature, child.RawTBSCertificate)
 	if err != nil {
 		return errors.WithMessage(err, "PQC signature verification")
+	}
+	if valid {
+		return nil
+	}
+
+	// Legacy fallback: certificates produced by the pre-fix generator signed
+	// SHA-256(TBSCertificate) instead of the raw TBS. Try once more with the
+	// pre-hash so that already-issued credentials remain verifiable through
+	// the migration window.
+	digest := sha256.Sum256(child.RawTBSCertificate)
+	valid, err = csp.Verify(pubKey, child.Signature, digest[:])
+	if err != nil {
+		return errors.WithMessage(err, "PQC signature verification (pre-hash retry)")
 	}
 	if !valid {
 		return errors.Errorf("post-quantum signature does not verify (algorithm %s)", algo)
