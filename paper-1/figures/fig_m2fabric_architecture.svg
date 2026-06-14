@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 680 386" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g>
+        <g transform="matrix(1,0,0,1.016304,0,-2.130435)">
+            <path d="M672,19.807L672,364.193C672,370.709 666.623,376 660,376L20,376C13.377,376 8,370.709 8,364.193L8,19.807C8,13.291 13.377,8 20,8L660,8C666.623,8 672,13.291 672,19.807Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,339.647949,24)">
+            <g transform="matrix(14,0,0,14,201.222656,0)">
+            </g>
+            <text x="-201.223px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(68,68,65);">M²Fabric Post-Quantum <tspan x="-39.177px -29.066px " y="0px 0px ">Ar</tspan>chitecture For Hyperledger Fabric</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,89.606445,46)">
+        <text x="-15.009px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Layer</text>
+    </g>
+    <g transform="matrix(1,0,0,1,351.359863,46)">
+        <text x="-100.386px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Code integration  ·  library  ·  standard</text>
+    </g>
+    <g transform="matrix(1,0,0,1,602.704102,46)">
+        <text x="-43.69px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Phase  ·  threats</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,4)">
+        <path d="M18,48L662,48" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.5px;"/>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,0,4)">
+            <path d="M662,60L662,120C662,123.311 659.311,126 656,126L24,126C20.689,126 18,123.311 18,120L18,60C18,56.689 20.689,54 24,54L656,54C659.311,54 662,56.689 662,60Z" style="fill:rgb(238,237,254);stroke:rgb(83,74,183);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,89.849609,91)">
+            <text x="-24.117px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(60,52,137);">BCCSP</text>
+            <text x="-39.3px" y="14px" style="font-family:'Helvetica';font-size:14px;fill:rgb(60,52,137);">signing layer</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.080566,78)">
+            <text x="-121.779px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(60,52,137);">bccsp.Key  ·  bccsp.KeyGen  interfaces</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.214844,97)">
+            <g transform="matrix(11,0,0,11,-109.272217,0)">
+            </g>
+            <g transform="matrix(11,0,0,11,-105.960938,0)">
+            </g>
+            <text x="-142.385px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:11px;fill:rgb(83,74,183);">Cloudﬂare CIRCL v1.6.3  ·  go-fn-dsa v0.2.0</text>
+        </g>
+        <g transform="matrix(1,0,0,1,350.981201,116)">
+            <text x="-128.399px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(83,74,183);">FIPS 204 / FIPS 206  ·  Cat. 1–3  ·  pure Go, no CGo</text>
+        </g>
+        <g transform="matrix(1,0,0,1,603,113)">
+            <text x="-25.236px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(83,74,183);">TS2, <tspan x="3.229px 10.559px " y="0px 0px ">TS</tspan>3</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,0,4)">
+            <path d="M662,140L662,200C662,203.311 659.311,206 656,206L24,206C20.689,206 18,203.311 18,200L18,140C18,136.689 20.689,134 24,134L656,134C659.311,134 662,136.689 662,140Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,89.480469,179)">
+            <text x="-31.117px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">Fabric CA</text>
+        </g>
+        <g transform="matrix(1,0,0,1,350.714844,158)">
+            <g transform="matrix(14,0,0,14,-2.337891,0)">
+            </g>
+            <g transform="matrix(14,0,0,14,1.551758,0)">
+            </g>
+            <text x="-109.71px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">PQCSigner  satisﬁes  crypto.Signer</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.257812,177)">
+            <text x="-125.829px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:11px;fill:rgb(15,110,86);">buildPQCCert()  ·  custom ASN.1 bypass</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351,196)">
+            <g transform="matrix(11,0,0,11,147.911865,0)">
+            </g>
+            <g transform="matrix(11,0,0,11,150.968018,0)">
+            </g>
+            <text x="-174.203px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(15,110,86);">FIPS 204/206  ·  CIRCL<tspan x="-59.052px -55.996px " y="0px 0px "> +</tspan> go-fn-dsa  ·  bypasses x509.CreateCertiﬁcate</text>
+        </g>
+        <g transform="matrix(1,0,0,1,603,193)">
+            <text x="-11.004px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">TS1</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,0,4)">
+            <path d="M662,220L662,280C662,283.311 659.311,286 656,286L24,286C20.689,286 18,283.311 18,280L18,220C18,216.689 20.689,214 24,214L656,214C659.311,214 662,216.689 662,220Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,90,251)">
+            <text x="-15.169px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">MSP</text>
+            <text x="-53.7px" y="14px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">identity validation</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.10791,238)">
+            <text x="-102.324px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">buildPQCChain()  in  msp/pqc.go</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.131592,257)">
+            <text x="-122.517px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:11px;fill:rgb(15,110,86);">OID dispatch  ·  bypasses x509.Verify</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351,276)">
+            <text x="-162.731px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(15,110,86);">FIPS 204/206  ·  CIRCL<tspan x="-47.58px -44.524px " y="0px 0px "> +</tspan> go-fn-dsa  ·  endorsement + commit time</text>
+        </g>
+        <g transform="matrix(1,0,0,1,603,273)">
+            <text x="-11.004px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">TS1</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,0,4)">
+            <path d="M662,300L662,360C662,363.311 659.311,366 656,366L24,366C20.689,366 18,363.311 18,360L18,300C18,296.689 20.689,294 24,294L656,294C659.311,294 662,296.689 662,300Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,89.624023,331)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">TLS</text>
+            <text x="-48.638px" y="14px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">inter-node layer</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.606934,318)">
+            <text x="-117.496px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">tls.X25519MLKEM768  in  core/comm</text>
+        </g>
+        <g transform="matrix(1,0,0,1,351.263184,337)">
+            <text x="-145.696px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:11px;fill:rgb(24,95,165);">dual-CA: PQC CA → MSP  ·  classical CA → TLS</text>
+        </g>
+        <g transform="matrix(1,0,0,1,350.959717,356)">
+            <text x="-166.909px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(24,95,165);">FIPS 203  ·  ML-KEM-768  ·  Go 1.23 stdlib  ·  all inter-node sessions</text>
+        </g>
+        <g transform="matrix(1,0,0,1,603,353)">
+            <text x="-25.236px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">TS4, <tspan x="3.229px 10.559px " y="0px 0px ">TS</tspan>5</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,-6,14)">
+            <path d="M655,73C655,77.967 650.967,82 646,82L572,82C567.033,82 563,77.967 563,73C563,68.033 567.033,64 572,64L646,64C650.967,64 655,68.033 655,73Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.7px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,603,91)">
+            <text x="-22.017px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">Phase 1</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,-6,14)">
+            <path d="M655,153C655,157.967 650.967,162 646,162L572,162C567.033,162 563,157.967 563,153C563,148.033 567.033,144 572,144L646,144C650.967,144 655,148.033 655,153Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.7px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,603,171)">
+            <text x="-22.017px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">Phase 2</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,-6,14)">
+            <path d="M655,233C655,237.967 650.967,242 646,242L572,242C567.033,242 563,237.967 563,233C563,228.033 567.033,224 572,224L646,224C650.967,224 655,228.033 655,233Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.7px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,603,251)">
+            <text x="-22.017px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">Phase 2</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1,0,0,1,-6,14)">
+            <path d="M655,313C655,317.967 650.967,322 646,322L572,322C567.033,322 563,317.967 563,313C563,308.033 567.033,304 572,304L646,304C650.967,304 655,308.033 655,313Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.7px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,603,331)">
+            <text x="-22.017px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">Phase 3</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,5,0)">
+        <rect x="154" y="52" width="1" height="327" style="fill:rgb(210,208,202);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,387,0)">
+        <rect x="154" y="52" width="1" height="327" style="fill:rgb(210,208,202);"/>
+    </g>
+</svg>

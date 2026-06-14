@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 676" width="900" height="676">
+<title>Cryptographic inventory of Hyperledger Fabric v2.5.12 — 25 quantum-vulnerable operations across 8 component groups</title>
+<desc>Each chip represents one cryptographic operation, colour-coded red for Critical, amber for High, and blue for Medium severity. Solid borders indicate ECDSA signing operations; dashed borders indicate ECDH key exchange operations.</desc>
+<rect width="900" height="676" fill="#FAFAF8" rx="8"/>
+<rect x="0" y="0" width="900" height="38" fill="#2C2C2A" rx="8"/>
+<rect x="0" y="30" width="900" height="8" fill="#2C2C2A"/>
+<text x="450" y="20" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">Cryptographic Inventory — Hyperledger Fabric v2.5.12</text>
+<rect x="0" y="38" width="900" height="26" fill="#E1F5EE"/>
+<text x="12" y="51" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" letter-spacing="1">TRANSACTION LIFECYCLE</text>
+<line x1="0" y1="400" x2="900" y2="400" stroke="#D3D1C7" stroke-width="1.5"/>
+<rect x="0" y="400" width="900" height="26" fill="#EEEDFE"/>
+<text x="12" y="413" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#3C3489" letter-spacing="1">IDENTITY INFRASTRUCTURE</text>
+<rect x="0" y="64" width="185" height="66" fill="#E1F5EE"/>
+<line x1="185" y1="64" x2="900" y2="64" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="90" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#085041">Phase 1</text>
+<text x="12" y="105" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#085041" opacity="0.8">Transaction Proposal</text>
+<rect x="197" y="74" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="275" cy="84" r="8" fill="#BA7517"/>
+<text x="275" y="84" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="241" y="88" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-01</text>
+<text x="241" y="105" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Proposal sign</text>
+<rect x="293" y="74" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="371" cy="84" r="8" fill="#185FA5"/>
+<text x="371" y="84" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="337" y="88" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-02</text>
+<text x="337" y="105" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Client TLS</text>
+<rect x="0" y="130" width="185" height="66" fill="#E1F5EE"/>
+<line x1="185" y1="130" x2="900" y2="130" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="156" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#085041">Phase 2</text>
+<text x="12" y="171" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#085041" opacity="0.8">Peer Endorsement</text>
+<rect x="197" y="140" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="275" cy="150" r="8" fill="#BA7517"/>
+<text x="275" y="150" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="241" y="154" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-03</text>
+<text x="241" y="171" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Sig verify</text>
+<rect x="293" y="140" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="371" cy="150" r="8" fill="#E24B4A"/>
+<text x="371" y="150" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="337" y="154" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-04</text>
+<text x="337" y="171" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Cert chain val.</text>
+<rect x="389" y="140" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="467" cy="150" r="8" fill="#BA7517"/>
+<text x="467" y="150" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="433" y="154" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-05</text>
+<text x="433" y="171" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Endorse sign</text>
+<rect x="485" y="140" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="563" cy="150" r="8" fill="#185FA5"/>
+<text x="563" y="150" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="529" y="154" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-06</text>
+<text x="529" y="171" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Peer TLS</text>
+<rect x="0" y="196" width="185" height="66" fill="#E1F5EE"/>
+<line x1="185" y1="196" x2="900" y2="196" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="222" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#085041">Phase 3</text>
+<text x="12" y="237" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#085041" opacity="0.8">Transaction Assembly</text>
+<rect x="197" y="206" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="275" cy="216" r="8" fill="#BA7517"/>
+<text x="275" y="216" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="241" y="220" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-07</text>
+<text x="241" y="237" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Env. sign</text>
+<rect x="293" y="206" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="371" cy="216" r="8" fill="#185FA5"/>
+<text x="371" y="216" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="337" y="220" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-08</text>
+<text x="337" y="237" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Orderer TLS</text>
+<rect x="0" y="262" width="185" height="66" fill="#E1F5EE"/>
+<line x1="185" y1="262" x2="900" y2="262" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="288" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#085041">Phase 4</text>
+<text x="12" y="303" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#085041" opacity="0.8">Ordering Service</text>
+<rect x="197" y="272" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="275" cy="282" r="8" fill="#BA7517"/>
+<text x="275" y="282" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="241" y="286" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-09</text>
+<text x="241" y="303" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Env. verify</text>
+<rect x="293" y="272" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="371" cy="282" r="8" fill="#E24B4A"/>
+<text x="371" y="282" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="337" y="286" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-10</text>
+<text x="337" y="303" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Block sign</text>
+<rect x="389" y="272" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="467" cy="282" r="8" fill="#185FA5"/>
+<text x="467" y="282" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="433" y="286" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-11</text>
+<text x="433" y="303" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Bcast TLS</text>
+<rect x="485" y="272" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="563" cy="282" r="8" fill="#BA7517"/>
+<text x="563" y="282" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="529" y="286" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-12</text>
+<text x="529" y="303" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Raft mTLS</text>
+<rect x="581" y="272" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="659" cy="282" r="8" fill="#BA7517"/>
+<text x="659" y="282" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="625" y="286" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-13</text>
+<text x="625" y="303" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Raft TLS KX</text>
+<rect x="0" y="328" width="185" height="66" fill="#E1F5EE"/>
+<line x1="185" y1="328" x2="900" y2="328" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="354" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#085041">Phase 5</text>
+<text x="12" y="369" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#085041" opacity="0.8">Committing Peer</text>
+<rect x="197" y="338" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="275" cy="348" r="8" fill="#BA7517"/>
+<text x="275" y="348" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="241" y="352" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-14</text>
+<text x="241" y="369" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Endorse re-ver.</text>
+<rect x="293" y="338" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="371" cy="348" r="8" fill="#E24B4A"/>
+<text x="371" y="348" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="337" y="352" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-15</text>
+<text x="337" y="369" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Block verify</text>
+<rect x="389" y="338" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="467" cy="348" r="8" fill="#E24B4A"/>
+<text x="467" y="348" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="433" y="352" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-16</text>
+<text x="433" y="369" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Cert re-val.</text>
+<rect x="0" y="420" width="185" height="66" fill="#EEEDFE"/>
+<line x1="185" y1="420" x2="900" y2="420" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="446" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#3C3489">Fabric CA</text>
+<text x="12" y="461" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#3C3489" opacity="0.8">Certificate Infra.</text>
+<rect x="197" y="430" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="275" cy="440" r="8" fill="#E24B4A"/>
+<text x="275" y="440" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="241" y="444" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-17</text>
+<text x="241" y="461" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Root CA sign</text>
+<rect x="293" y="430" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="371" cy="440" r="8" fill="#E24B4A"/>
+<text x="371" y="440" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="337" y="444" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-18</text>
+<text x="337" y="461" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Int. CA sign</text>
+<rect x="389" y="430" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="467" cy="440" r="8" fill="#BA7517"/>
+<text x="467" y="440" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="433" y="444" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-19</text>
+<text x="433" y="461" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Cert issue</text>
+<rect x="485" y="430" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="563" cy="440" r="8" fill="#185FA5"/>
+<text x="563" y="440" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="529" y="444" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-20</text>
+<text x="529" y="461" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">CA TLS</text>
+<rect x="0" y="486" width="185" height="66" fill="#EEEDFE"/>
+<line x1="185" y1="486" x2="900" y2="486" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="512" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#3C3489">MSP</text>
+<text x="12" y="527" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#3C3489" opacity="0.8">Identity Validation</text>
+<rect x="197" y="496" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="275" cy="506" r="8" fill="#E24B4A"/>
+<text x="275" y="506" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="241" y="510" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-21</text>
+<text x="241" y="527" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Chain val.</text>
+<rect x="293" y="496" width="88" height="46" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+<circle cx="371" cy="506" r="8" fill="#E24B4A"/>
+<text x="371" y="506" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">C</text>
+<text x="337" y="510" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F">Op-22</text>
+<text x="337" y="527" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#791F1F">Config sign</text>
+<rect x="0" y="552" width="185" height="66" fill="#F1EFE8"/>
+<line x1="185" y1="552" x2="900" y2="552" stroke="#E8E6DE" stroke-width="0.5"/>
+<text x="12" y="578" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="bold" fill="#444441">Gossip · Key Mgmt</text>
+<text x="12" y="593" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444441" opacity="0.8">Gossip · Keys</text>
+<rect x="197" y="562" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" />
+<circle cx="275" cy="572" r="8" fill="#185FA5"/>
+<text x="275" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="241" y="576" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-23</text>
+<text x="241" y="593" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Gossip sign</text>
+<rect x="293" y="562" width="88" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+<circle cx="371" cy="572" r="8" fill="#185FA5"/>
+<text x="371" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">M</text>
+<text x="337" y="576" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0C447C">Op-24</text>
+<text x="337" y="593" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#0C447C">Gossip TLS</text>
+<rect x="389" y="562" width="88" height="46" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5" />
+<circle cx="467" cy="572" r="8" fill="#BA7517"/>
+<text x="467" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">H</text>
+<text x="433" y="576" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806">Op-25</text>
+<text x="433" y="593" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" fill="#633806">Keypair gen.</text>
+<line x1="185" y1="38" x2="185" y2="618" stroke="#D3D1C7" stroke-width="1"/>
+<rect x="0" y="632" width="900" height="44" fill="#F1EFE8" rx="0"/>
+<rect x="20" y="641" width="22" height="14" rx="3" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5"/>
+<text x="31" y="648" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="#791F1F">C</text>
+<text x="48" y="648" dominant-baseline="central" font-family="sans-serif" font-size="9.5" fill="#5F5E5A">= Critical</text>
+<rect x="125" y="641" width="22" height="14" rx="3" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<text x="136" y="648" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="#633806">H</text>
+<text x="153" y="648" dominant-baseline="central" font-family="sans-serif" font-size="9.5" fill="#5F5E5A">= High</text>
+<rect x="230" y="641" width="22" height="14" rx="3" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+<text x="241" y="648" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0C447C">M</text>
+<text x="258" y="648" dominant-baseline="central" font-family="sans-serif" font-size="9.5" fill="#5F5E5A">= Medium</text>
+<rect x="355" y="641" width="22" height="14" rx="3" fill="#F4F4F0" stroke="#5F5E5A" stroke-width="1.5"/>
+<text x="385" y="648" dominant-baseline="central" font-family="sans-serif" font-size="9.5" fill="#5F5E5A">= ECDSA signing</text>
+<rect x="470" y="641" width="22" height="14" rx="3" fill="#F4F4F0" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="500" y="648" dominant-baseline="central" font-family="sans-serif" font-size="9.5" fill="#5F5E5A">= ECDH key exchange (HNDL)</text>
+</svg>

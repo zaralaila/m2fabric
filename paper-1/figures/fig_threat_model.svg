@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 638 398" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,11,13)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">T<tspan x="6.891px 10.887px " y="0px 0px ">ra</tspan>nsaction lifecycle</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,0.794872,0,19.435897)">
+            <path d="M142,56.065L142,113.935C142,119.49 138.415,124 134,124L40,124C35.585,124 32,119.49 32,113.935L32,56.065C32,50.51 35.585,46 40,46L134,46C138.415,46 142,50.51 142,56.065Z" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,87,92)">
+            <text x="-34.234px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(99,56,6);">Client SDK</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,0.794872,0,19.435897)">
+            <path d="M300,56.065L300,113.935C300,119.49 296.415,124 292,124L178,124C173.585,124 170,119.49 170,113.935L170,56.065C170,50.51 173.585,46 178,46L292,46C296.415,46 300,50.51 300,56.065Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,235,82)">
+            <text x="-31.521px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">Endorsing</text>
+        </g>
+        <g transform="matrix(1,0,0,1,235,101)">
+            <text x="-14.01px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">peer</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,0.794872,0,19.435897)">
+            <path d="M469,56.065L469,113.935C469,119.49 465.415,124 461,124L344,124C339.585,124 336,119.49 336,113.935L336,56.065C336,50.51 339.585,46 344,46L461,46C465.415,46 469,50.51 469,56.065Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,402,82)">
+            <text x="-27.234px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">Ordering</text>
+        </g>
+        <g transform="matrix(1,0,0,1,402,101)">
+            <text x="-22.172px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">service</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,0.794872,0,19.435897)">
+            <path d="M648,56.065L648,113.935C648,119.49 644.415,124 640,124L514,124C509.585,124 506,119.49 506,113.935L506,56.065C506,50.51 509.585,46 514,46L640,46C644.415,46 648,50.51 648,56.065Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,577,82)">
+            <text x="-35.396px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">Committing</text>
+        </g>
+        <g transform="matrix(1,0,0,1,577,101)">
+            <text x="-14.01px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">peer</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-23)">
+        <path d="M142,85L170,85" style="fill:none;fill-rule:nonzero;stroke:rgb(115,114,108);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-23)">
+        <path d="M300,85L336,85" style="fill:none;fill-rule:nonzero;stroke:rgb(115,114,108);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-23)">
+        <path d="M469,85L506,85" style="fill:none;fill-rule:nonzero;stroke:rgb(115,114,108);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,5)">
+            <path d="M332,64L332,74C332,76.208 330.208,78 328,78L308,78C305.792,78 304,76.208 304,74L304,64C304,61.792 305.792,60 308,60L328,60C330.208,60 332,61.792 332,64Z" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,318.152344,78.286133)">
+            <text x="-11.004px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(133,79,11);">TS2</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-27)">
+        <defs>
+            <mask id="Mask">
+            
+                <g transform="matrix(1,-0,-0,1,21,27)"><image id="_Image1" width="638px" height="398px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAn4AAAGOCAAAAAAswVE4AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABTUlEQVR4nO3SsRFAQBQE0M9oQa4ENahCR3pThEQNQkN2sTlnLvBetNHOBhsBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwE81KV0VV/DcOh0FWoZlLtCSK72urTiCHFtfouXsSrS85n7/tI+1F0SE+wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF+6AZzSBw/XtDlwAAAAAElFTkSuQmCC"/>
+                </g>
+            </mask>
+        </defs>
+        <g mask="url(#Mask)">
+            <path d="M32,138L648,138" style="fill:none;fill-rule:nonzero;stroke:rgb(55,138,221);stroke-width:0.8px;stroke-dasharray:6,4;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,1)">
+            <path d="M536,133L536,143C536,145.208 534.208,147 532,147L448,147C445.792,147 444,145.208 444,143L444,133C444,130.792 445.792,129 448,129L532,129C534.208,129 536,130.792 536,133Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,490.18457,143.286133)">
+            <text x="-31.236px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">TS4 — <tspan x="9.229px 16.559px " y="0px 0px ">TL</tspan>S</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,11,130)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Identity infrastructure</text>
+    </g>
+    <g transform="matrix(1,0,0,0.913043,-21,-29.826087)">
+        <path d="M485,196.952L485,267.048C485,273.092 480.519,278 475,278L170,278C164.481,278 160,273.092 160,267.048L160,196.952C160,190.908 164.481,186 170,186L475,186C480.519,186 485,190.908 485,196.952Z" style="fill:none;stroke:rgb(163,45,45);stroke-width:1.5px;stroke-dasharray:8,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M194,182L194,192C194,194.208 192.208,196 190,196L170,196C167.792,196 166,194.208 166,192L166,182C166,179.792 167.792,178 170,178L190,178C192.208,178 194,179.792 194,182Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,181.116211,173.286133)">
+            <text x="-11.004px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(163,45,45);">TS1</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1.020067,0,0,0.697368,-3.411371,52.407895)">
+            <path d="M300,204.472L300,257.528C300,263.86 296.486,269 292.157,269L177.843,269C173.514,269 170,263.86 170,257.528L170,204.472C170,198.14 173.514,193 177.843,193L292.157,193C296.486,193 300,198.14 300,204.472Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,235.791653,218.527832)">
+            <text x="-31.117px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">Fabric CA</text>
+        </g>
+    </g>
+    <g transform="matrix(1.055556,0,0,1,-34.777778,-46)">
+        <path d="M300,231L336,231" style="fill:none;fill-rule:nonzero;stroke:rgb(115,114,108);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1.020067,0,0,0.697368,-3.411371,52.407895)">
+            <path d="M469,204.472L469,257.528C469,263.86 465.486,269 461.157,269L343.843,269C339.514,269 336,263.86 336,257.528L336,204.472C336,198.14 339.514,193 343.843,193L461.157,193C465.486,193 469,198.14 469,204.472Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,406.970728,218.500488)">
+            <text x="-15.169px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">MSP</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M648,201L648,261C648,265.415 644.415,269 640,269L514,269C509.585,269 506,265.415 506,261L506,201C506,196.585 509.585,193 514,193L640,193C644.415,193 648,196.585 648,201Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,0.068359,3.191406)">
+            <g transform="matrix(1,0,0,1,577,204)">
+                <text x="-21.786px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">Gossip</text>
+            </g>
+            <g transform="matrix(1,0,0,1,577,223)">
+                <text x="-24.903px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">protocol</text>
+            </g>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M538,182L538,192C538,194.208 536.208,196 534,196L514,196C511.792,196 510,194.208 510,192L510,182C510,179.792 511.792,178 514,178L534,178C536.208,178 538,179.792 538,182Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,524,173.286133)">
+            <text x="-11.004px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">TS5</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-46)">
+        <path d="M32,286L648,286" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,11,256)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Threat scenarios</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M144,316L144,356C144,359.311 141.311,362 138,362L38,362C34.689,362 32,359.311 32,356L32,316C32,312.689 34.689,310 38,310L138,310C141.311,310 144,312.689 144,316Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,88,314)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">TS1</text>
+        </g>
+        <g transform="matrix(1,0,0,1,88,329)">
+            <text x="-33.343px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(163,45,45);">Cert. forgery</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M266,316L266,356C266,359.311 263.311,362 260,362L160,362C156.689,362 154,359.311 154,356L154,316C154,312.689 156.689,310 160,310L260,310C263.311,310 266,312.689 266,316Z" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,210,314)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(99,56,6);">TS2</text>
+        </g>
+        <g transform="matrix(1,0,0,1,210,329)">
+            <text x="-30.68px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(133,79,11);">Sig. forgery</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M388,316L388,356C388,359.311 385.311,362 382,362L282,362C278.689,362 276,359.311 276,356L276,316C276,312.689 278.689,310 282,310L382,310C385.311,310 388,312.689 388,316Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,332,314)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(121,31,31);">TS3</text>
+        </g>
+        <g transform="matrix(1,0,0,1,332,329)">
+            <text x="-37.348px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(163,45,45);">Block integrity</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M510,316L510,356C510,359.311 507.311,362 504,362L404,362C400.689,362 398,359.311 398,356L398,316C398,312.689 400.689,310 404,310L504,310C507.311,310 510,312.689 510,316Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,454,314)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">TS4</text>
+        </g>
+        <g transform="matrix(1,0,0,1,454,329)">
+            <text x="-36.015px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">TLS sessions</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-28)">
+        <g transform="matrix(1,0,0,1,0,-18)">
+            <path d="M632,316L632,356C632,359.311 629.311,362 626,362L526,362C522.689,362 520,359.311 520,356L520,316C520,312.689 522.689,310 526,310L626,310C629.311,310 632,312.689 632,316Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,576,314)">
+            <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">TS5</text>
+        </g>
+        <g transform="matrix(1,0,0,1,576,329)">
+            <text x="-38.35px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">Gossip manip.</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-46)">
+        <path d="M32,375L648,375" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-46)">
+        <path d="M46,386L46,394C46,395.656 44.656,397 43,397L35,397C33.344,397 32,395.656 32,394L32,386C32,384.344 33.344,383 35,383L43,383C44.656,383 46,384.344 46,386Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,31,347.09375)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Critical — network-wide integrity compromise (8 operations: <tspan x="319.898px 327.229px " y="0px 0px ">TS</tspan>1, <tspan x="348.363px 355.693px " y="0px 0px ">TS</tspan>3)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-46)">
+        <path d="M46,406L46,414C46,415.656 44.656,417 43,417L35,417C33.344,417 32,415.656 32,414L32,406C32,404.344 33.344,403 35,403L43,403C44.656,403 46,404.344 46,406Z" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,31,367.084961)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">High — transaction or identity forgery within a channel (10 operations: <tspan x="373.986px 381.316px " y="0px 0px ">TS</tspan>2)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-21,-46)">
+        <path d="M46,426L46,434C46,435.656 44.656,437 43,437L35,437C33.344,437 32,435.656 32,434L32,426C32,424.344 33.344,423 35,423L43,423C44.656,423 46,424.344 46,426Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,31,387.125977)">
+        <g transform="matrix(12,0,0,12,138.064453,0)">
+        </g>
+        <g transform="matrix(12,0,0,12,141.398438,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">Medium — inter-node conﬁdentiality breach via HNDL<tspan x="285.691px 289.025px " y="0px 0px "> (</tspan>7 operations: <tspan x="365.525px 372.855px " y="0px 0px ">TS</tspan>4, <tspan x="393.99px 401.32px " y="0px 0px ">TS</tspan>5)</text>
+    </g>
+</svg>

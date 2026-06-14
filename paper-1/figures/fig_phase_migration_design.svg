@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 680 338" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g>
+        <g transform="matrix(1,0,0,1.025,0,-5.2)">
+            <path d="M672,19.707L672,316.293C672,322.754 666.623,328 660,328L20,328C13.377,328 8,322.754 8,316.293L8,19.707C8,13.246 13.377,8 20,8L660,8C666.623,8 672,13.246 672,19.707Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,339.684495,20)">
+            <text x="-141.586px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(68,68,65);">M²Fabric Three-Phase Migration Sequence</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1.142857,-53.232068,-8.857143)">
+            <path d="M352,37.5L352,58.5C352,60.432 350.341,62 348.297,62L193.703,62C191.659,62 190,60.432 190,58.5L190,37.5C190,35.568 191.659,34 193.703,34L348.297,34C350.341,34 352,35.568 352,37.5Z" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.6px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,44)">
+            <text x="-25.686px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(99,56,6);">Phase 1</text>
+        </g>
+        <g transform="matrix(1,0,0,1,239,57)">
+            <text x="-53.921px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(133,79,11);">BCCSP<tspan x="-12.788px -9.454px " y="0px 0px "> s</tspan>igning only</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1.142857,-53.232068,-8.857143)">
+            <path d="M512,37.5L512,58.5C512,60.432 510.341,62 508.297,62L355.703,62C353.659,62 352,60.432 352,58.5L352,37.5C352,35.568 353.659,34 355.703,34L508.297,34C510.341,34 512,35.568 512,37.5Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.6px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,411,44)">
+            <text x="-25.686px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">Phase 2</text>
+        </g>
+        <g transform="matrix(1,0,0,1,411,57)">
+            <text x="-51.577px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">BCCSP<tspan x="-10.444px -7.11px " y="0px 0px "> ·</tspan> CA<tspan x="15.571px 18.905px " y="0px 0px "> ·</tspan> MSP</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1.142857,-53.232068,-8.857143)">
+            <path d="M664,37.5L664,58.5C664,60.432 662.341,62 660.297,62L515.703,62C513.659,62 512,60.432 512,58.5L512,37.5C512,35.568 513.659,34 515.703,34L660.297,34C662.341,34 664,35.568 664,37.5Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.6px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,582,44)">
+            <text x="-25.686px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">Phase 3</text>
+        </g>
+        <g transform="matrix(1,0,0,1,582,57)">
+            <text x="-49.679px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(24,95,165);">complete M²Fabric</text>
+        </g>
+    </g>
+    <path d="M190,66L664,66" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.5px;"/>
+    <g transform="matrix(1,0,0,1,-43,0)">
+        <path d="M187,34L187,288" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,74,80)">
+        <text x="-24.117px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(20,20,19);">BCCSP</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,99)">
+        <text x="-33.686px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">signing layer</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,134)">
+        <text x="-31.117px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(20,20,19);">Fabric CA</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,153)">
+        <g transform="matrix(12,0,0,12,-18.011719,0)">
+        </g>
+        <g transform="matrix(12,0,0,12,-14.677734,0)">
+        </g>
+        <text x="-40.682px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">certiﬁcate infra.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,188)">
+        <text x="-15.169px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(20,20,19);">MSP</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,207)">
+        <text x="-46.028px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">identity validation</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,242)">
+        <text x="-12.838px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(20,20,19);">TLS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,74,261)">
+        <text x="-41.689px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(61,61,58);">inter-node layer</text>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1,-53.232068,0)">
+            <path d="M664,72L664,110C664,112.208 662.341,114 660.297,114L193.703,114C191.659,114 190,112.208 190,110L190,72C190,69.792 191.659,68 193.703,68L660.297,68C662.341,68 664,69.792 664,72Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,86)">
+            <text x="-39.296px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">PQC signing</text>
+        </g>
+        <g transform="matrix(1,0,0,1,239,104)">
+            <text x="-68.634px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:12px;fill:rgb(15,110,86);">bccsp.Key interface</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1,-53.232068,0)">
+            <path d="M352,126L352,164C352,166.208 350.341,168 348.297,168L193.703,168C191.659,168 190,166.208 190,164L190,126C190,123.792 191.659,122 193.703,122L348.297,122C350.341,122 352,123.792 352,126Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,150)">
+            <text x="-52.69px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">ECDSA<tspan x="-12.003px -8.669px " y="0px 0px "> P</tspan>-256 certs</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1,-53.232068,0)">
+            <path d="M664,126L664,164C664,166.208 662.341,168 660.297,168L355.703,168C353.659,168 352,166.208 352,164L352,126C352,123.792 353.659,122 355.703,122L660.297,122C662.341,122 664,123.792 664,126Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,408,140)">
+            <text x="-32.283px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">PQC certs</text>
+        </g>
+        <g transform="matrix(1,0,0,1,408,158)">
+            <text x="-50.572px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:12px;fill:rgb(15,110,86);">buildPQCCert()</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1,-53.232068,0)">
+            <path d="M352,180L352,218C352,220.208 350.341,222 348.297,222L193.703,222C191.659,222 190,220.208 190,218L190,180C190,177.792 191.659,176 193.703,176L348.297,176C350.341,176 352,177.792 352,180Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,204)">
+            <text x="-52.356px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">ECDSA<tspan x="-11.669px -8.335px " y="0px 0px "> c</tspan>hain verify</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.080169,0,0,1,-53.232068,0)">
+            <path d="M664,180L664,218C664,220.208 662.341,222 660.297,222L355.703,222C353.659,222 352,220.208 352,218L352,180C352,177.792 353.659,176 355.703,176L660.297,176C662.341,176 664,177.792 664,180Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,408,194)">
+            <text x="-40.462px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(8,80,65);">OID dispatch</text>
+        </g>
+        <g transform="matrix(1,0,0,1,408,212)">
+            <text x="-54.185px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:12px;fill:rgb(15,110,86);">buildPQCChain()</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.078059,0,0,1,-51.831224,0)">
+            <path d="M512,234L512,272C512,274.208 510.337,276 508.29,276L193.71,276C191.663,276 190,274.208 190,272L190,234C190,231.792 191.663,230 193.71,230L508.29,230C510.337,230 512,231.792 512,234Z" style="fill:rgb(241,239,232);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,327,258)">
+            <text x="-41.341px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(95,94,90);">classical ECDH</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.078059,0,0,1,-51.831224,0)">
+            <path d="M664,234L664,272C664,274.208 662.337,276 660.29,276L515.71,276C513.663,276 512,274.208 512,272L512,234C512,231.792 513.663,230 515.71,230L660.29,230C662.337,230 664,231.792 664,234Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,585,247)">
+            <text x="-33.725px" y="0px" style="font-family:'Helvetica';font-size:14px;fill:rgb(12,68,124);">hybrid <tspan x="8.049px 16.601px " y="0px 0px ">TL</tspan>S</text>
+        </g>
+        <g transform="matrix(1,0,0,1,585,265)">
+            <text x="-50.572px" y="0px" style="font-family:'Menlo-Regular', 'Menlo', monospace;font-size:12px;fill:rgb(24,95,165);">X25519MLKEM768</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-25,0)">
+        <defs>
+            <mask id="Mask">
+            
+                <g transform="matrix(1,-0,-0,1,25,-0)"><image id="_Image1" width="680px" height="338px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqgAAAFSCAAAAAAbMnJiAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACwElEQVR4nO3bsQ1CMRAFQX9EREahRDRCr2Qk0AIBlllrpoKn06Y3BgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB3jtUDtvAeLjnZafUA+IZQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESoJQSRAqCUIlQagkCJUEoZIgVBKESsJ59YAt3K7jtXoDAAAAAAAAAAAAAADAdMfqAVu4X8bzsXrE3oT6C+/hkpP5QiVBqCQIlQShkiBUEoRKglBJECoJQiVBqCQIlQShkiBUEoRKglBJECoJQiVBqCQIlQShkiBUEoRKglBJECoJQiVBqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAk3wAwGIHFuGZtmAAAAAASUVORK5CYII="/>
+                </g>
+            </mask>
+        </defs>
+        <g mask="url(#Mask)">
+            <path d="M352,67L352,288" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.3;stroke-width:0.8px;stroke-dasharray:4,3;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-12,0)">
+        <path d="M512,67L512,288" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.3;stroke-width:0.8px;stroke-dasharray:4,3;"/>
+    </g>
+    <path d="M190,118L664,118" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.4px;"/>
+    <path d="M190,172L664,172" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.4px;"/>
+    <path d="M190,226L664,226" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.4px;"/>
+    <path d="M190,280L664,280" style="fill:none;fill-rule:nonzero;stroke:rgb(31,30,29);stroke-opacity:0.15;stroke-width:0.4px;"/>
+    <g>
+        <g transform="matrix(1.075758,0,0,1,-49.848485,0)">
+            <path d="M342,297C342,301.967 338.251,306 333.634,306L204.366,306C199.749,306 196,301.967 196,297C196,292.033 199.749,288 204.366,288L333.634,288C338.251,288 342,292.033 342,297Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,301)">
+            <text x="-45.914px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">TS2 · <tspan x="-14.115px -6.785px " y="0px 0px ">TS</tspan>3 closed</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.075758,0,0,1,-49.848485,0)">
+            <path d="M342,316C342,320.415 338.668,324 334.563,324L203.437,324C199.332,324 196,320.415 196,316C196,311.585 199.332,308 203.437,308L334.563,308C338.668,308 342,311.585 342,316Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,239,319)">
+            <text x="-36.352px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(163,45,45);">TS1 still open</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.075758,0,0,1,-49.848485,0)">
+            <path d="M506,297C506,301.967 502.251,306 497.634,306L366.366,306C361.749,306 358,301.967 358,297C358,292.033 361.749,288 366.366,288L497.634,288C502.251,288 506,292.033 506,297Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,416,301)">
+            <text x="-30.015px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">TS1 closed</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.075758,0,0,1,-49.848485,0)">
+            <path d="M658,297C658,301.967 654.251,306 649.634,306L526.366,306C521.749,306 518,301.967 518,297C518,292.033 521.749,288 526.366,288L649.634,288C654.251,288 658,292.033 658,297Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,583,301)">
+            <text x="-45.914px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">TS4 · <tspan x="-14.115px -6.785px " y="0px 0px ">TS</tspan>5 closed</text>
+        </g>
+    </g>
+    <g>
+        <g transform="matrix(1.075758,0,0,1,-49.848485,0)">
+            <path d="M638,316C638,320.415 634.668,324 630.563,324L545.437,324C541.332,324 538,320.415 538,316C538,311.585 541.332,308 545.437,308L630.563,308C634.668,308 638,311.585 638,316Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,583,320)">
+            <text x="-34.242px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,110,86);">all <tspan x="-19.113px -11.783px " y="0px 0px ">TS</tspan> closed</text>
+        </g>
+    </g>
+</svg>

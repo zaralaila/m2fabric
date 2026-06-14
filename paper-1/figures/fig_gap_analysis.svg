@@ -1,0 +1,287 @@
+<svg width="100%" viewBox="0 0 680 648" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Gap analysis of prior work: criteria assessment and key limitation per work</title>
+<desc>Three-column matrix. Left: author, year, and abbreviated paper title. Centre: seven criteria cells coloured teal, amber, or grey. Right: key limitation description for each prior work. Bottom row is the thesis, all teal.</desc>
+
+<rect x="8" y="8" width="664" height="630" rx="10" fill="#F1EFE8" stroke="#D3D1C7" stroke-width="0.6"/>
+
+<!-- Column header separators (thin lines) -->
+<line x1="148" y1="10" x2="148" y2="636" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3,3"/>
+<line x1="418" y1="10" x2="418" y2="636" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+<!-- Column header labels -->
+<text font-family="sans-serif" font-size="9.5" fill="#888780" x="74" y="28" text-anchor="middle" dominant-baseline="central">Work</text>
+<text font-family="sans-serif" font-size="9.5" fill="#888780" x="544" y="28" text-anchor="middle" dominant-baseline="central">Key gap</text>
+
+<!-- Criterion header cells: cx 169 207 245 283 321 359 397 -->
+<rect x="151" y="14" width="36" height="24" rx="3" fill="#2C2C2A"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="169" y="26" text-anchor="middle" dominant-baseline="central">RQ1</text>
+<rect x="189" y="14" width="36" height="24" rx="3" fill="#2C2C2A"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="207" y="26" text-anchor="middle" dominant-baseline="central">RQ2</text>
+<rect x="227" y="14" width="36" height="24" rx="3" fill="#2C2C2A"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="245" y="26" text-anchor="middle" dominant-baseline="central">RQ3</text>
+<rect x="265" y="14" width="36" height="24" rx="3" fill="#534AB7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="283" y="26" text-anchor="middle" dominant-baseline="central">C1</text>
+<rect x="303" y="14" width="36" height="24" rx="3" fill="#534AB7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="321" y="26" text-anchor="middle" dominant-baseline="central">C2</text>
+<rect x="341" y="14" width="36" height="24" rx="3" fill="#534AB7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="359" y="26" text-anchor="middle" dominant-baseline="central">C3</text>
+<rect x="379" y="14" width="36" height="24" rx="3" fill="#534AB7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="white" x="397" y="26" text-anchor="middle" dominant-baseline="central">C4</text>
+
+<!-- Row backgrounds (alternating): rows at y=42,96,150,204,258,312,366,420,474,528 each h=52 -->
+<rect x="14" y="42" width="652" height="52" rx="3" fill="white" opacity="0.55"/>
+<rect x="14" y="96" width="652" height="52" rx="3" fill="#E8E6DE" opacity="0.5"/>
+<rect x="14" y="150" width="652" height="52" rx="3" fill="white" opacity="0.55"/>
+<rect x="14" y="204" width="652" height="52" rx="3" fill="#E8E6DE" opacity="0.5"/>
+<rect x="14" y="258" width="652" height="52" rx="3" fill="white" opacity="0.55"/>
+<rect x="14" y="312" width="652" height="52" rx="3" fill="#E8E6DE" opacity="0.5"/>
+<rect x="14" y="366" width="652" height="52" rx="3" fill="white" opacity="0.55"/>
+<rect x="14" y="420" width="652" height="52" rx="3" fill="#E8E6DE" opacity="0.5"/>
+<rect x="14" y="474" width="652" height="52" rx="3" fill="white" opacity="0.55"/>
+<rect x="14" y="528" width="652" height="52" rx="3" fill="#E8E6DE" opacity="0.5"/>
+
+<!-- ── CRITERION CELLS (w=32, h=42, x = cx-16) ── -->
+<!-- Campbell: ~ x x ~ x x x  (row cy=68) -->
+<rect x="153" y="47" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="191" y="47" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="47" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="267" y="47" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="305" y="47" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="47" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="47" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="169" y="68" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="68" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="245" y="68" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="283" y="68" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="68" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="68" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="68" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Holcomb: x ~ ~ x ~ ~ ~  (row cy=122) -->
+<rect x="153" y="101" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="101" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="229" y="101" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="267" y="101" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="101" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="343" y="101" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="381" y="101" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="122" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="207" y="122" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="245" y="122" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="122" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="321" y="122" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="359" y="122" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="397" y="122" text-anchor="middle" dominant-baseline="central">~</text>
+
+<!-- Kasula: x x x x x x x  (row cy=176) -->
+<rect x="153" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="267" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="155" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="245" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="176" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Abbas: x ~ ~ x x x x  (row cy=230) -->
+<rect x="153" y="209" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="209" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="229" y="209" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="267" y="209" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="209" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="209" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="209" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="230" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="207" y="230" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="245" y="230" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="230" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="230" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="230" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="230" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Lee: x x ~ x x x x  (row cy=284) -->
+<rect x="153" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="263" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="267" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="263" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="245" y="284" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="284" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Hu: x ~ ~ x x x x  (row cy=338) -->
+<rect x="153" y="317" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="317" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="229" y="317" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="267" y="317" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="317" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="317" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="317" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="338" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="207" y="338" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="245" y="338" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="338" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="338" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="338" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="338" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Razdan: x x x x x x x  (row cy=392) -->
+<rect x="153" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="267" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="371" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="245" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="392" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Brotsis: ~ x x x x x x  (row cy=446) -->
+<rect x="153" y="425" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="191" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="267" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="425" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="169" y="446" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="245" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="446" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Das: x x ~ x x x x  (row cy=500) -->
+<rect x="153" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="479" width="32" height="42" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<rect x="267" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="479" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="245" y="500" text-anchor="middle" dominant-baseline="central">~</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="500" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- Revathi: x x x x x x x  (row cy=554) -->
+<rect x="153" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="191" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="229" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="267" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="305" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="343" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<rect x="381" y="533" width="32" height="42" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="169" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="207" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="245" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="283" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="321" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="359" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="397" y="554" text-anchor="middle" dominant-baseline="central">✗</text>
+
+<!-- ── LEFT COLUMN: author bold + italic title ── -->
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="58" dominant-baseline="central">Campbell (2019)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="74" dominant-baseline="central">Hybrid QR-Classical PKI</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="112" dominant-baseline="central">Holcomb et al. (2021)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="128" dominant-baseline="central">PQFabric</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="166" dominant-baseline="central">Kasula et al. (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="182" dominant-baseline="central">LW-PQC &amp; National Alg.</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="220" dominant-baseline="central">Abbas et al. (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="236" dominant-baseline="central">Quantum-Safe Blockchain</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="274" dominant-baseline="central">Lee (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="290" dominant-baseline="central">PQC via Private Chaincode</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="328" dominant-baseline="central">Hu (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="344" dominant-baseline="central">PQC Migration Prototype</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="382" dominant-baseline="central">Razdan &amp; Nene (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="398" dominant-baseline="central">Post-Quantum Signature</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="436" dominant-baseline="central">Brotsis et al. (2020)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="452" dominant-baseline="central">Fabric Security &amp; Privacy</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="490" dominant-baseline="central">Das et al. (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="506" dominant-baseline="central">Genomic Quantum-Resilient</text>
+
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="18" y="544" dominant-baseline="central">Revathi &amp; Suganthi (2025)</text>
+<text font-family="sans-serif" font-size="7.5" font-style="italic" fill="#5F5E5A" x="18" y="560" dominant-baseline="central">Healthcare PQC Chaincode</text>
+
+<!-- ── RIGHT COLUMN: key gap description (two lines) ── -->
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="58" dominant-baseline="central">No implementation; qTESLA</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="74" dominant-baseline="central">did not advance past Round 2</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="112" dominant-baseline="central">Fabric 1.4; CGo; no live CA;</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="128" dominant-baseline="central">TLS unchanged; pre-FIPS alg.</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="166" dominant-baseline="central">SM2 is ECC-based; not quantum-</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="182" dominant-baseline="central">safe; Fabric 1.4; no TLS</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="220" dominant-baseline="central">Cryptogen offline only;</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="236" dominant-baseline="central">BCCSP, CA, MSP, TLS unchanged</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="274" dominant-baseline="central">Application layer only;</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="290" dominant-baseline="central">infrastructure entirely unchanged</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="328" dominant-baseline="central">Non-standard Go fork; pre-FIPS;</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="344" dominant-baseline="central">Cryptogen only; no live CA</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="382" dominant-baseline="central">Endorsement policy only;</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="398" dominant-baseline="central">no cryptographic integration</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="436" dominant-baseline="central">Classical Fabric attack-surface</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="452" dominant-baseline="central">survey; no PQC implementation</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="490" dominant-baseline="central">Application layer (chaincode);</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="506" dominant-baseline="central">genomic-data-specific only</text>
+
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="544" dominant-baseline="central">Chaincode only; no formal</text>
+<text font-family="sans-serif" font-size="8.5" fill="#2C2C2A" x="424" y="560" dominant-baseline="central">threat or perf model</text>
+
+<!-- ── THESIS ROW ── -->
+<line x1="14" y1="580" x2="666" y2="580" stroke="#D3D1C7" stroke-width="0.6"/>
+<rect x="14" y="582" width="652" height="30" rx="6" fill="#1D9E75" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="white" x="18" y="597" dominant-baseline="central">This thesis  (M²Fabric)</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="169" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="207" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="245" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="283" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="321" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="359" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="13" fill="white" x="397" y="597" text-anchor="middle" dominant-baseline="central">✓</text>
+<text font-family="sans-serif" font-size="8.5" fill="white" x="424" y="597" dominant-baseline="central">First complete FIPS-standardised multilayer integration</text>
+
+<!-- Legend -->
+<rect x="140" y="618" width="14" height="8" rx="2" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" fill="#5F5E5A" x="158" y="622" dominant-baseline="central">~ Partial</text>
+<rect x="240" y="618" width="14" height="8" rx="2" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" fill="#5F5E5A" x="258" y="622" dominant-baseline="central">✗ Not addressed</text>
+<rect x="370" y="618" width="14" height="8" rx="2" fill="#1D9E75" stroke="#0F6E56" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" fill="#5F5E5A" x="388" y="622" dominant-baseline="central">✓ Fully addressed</text>
+<text font-family="sans-serif" font-size="8" fill="#888780" x="490" y="622" dominant-baseline="central">RQ = research question  ·  C = contribution</text>
+</svg>

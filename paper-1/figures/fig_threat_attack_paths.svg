@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 366" width="680" height="366">
+<title>Quantum threat scenario attack paths mapped to Hyperledger Fabric components</title>
+<desc>Matrix diagram. Six Fabric components shown as column headers: Ledger, Fabric CA, BCCSP, Ordering service, TLS, Gossip. Five threat scenarios as rows. Downward arrows mark the entry point component for each scenario. Filled circles mark impacted components.</desc>
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ── COMPONENT COLUMN HEADERS ──────────────────────────────────────────── -->
+<!-- cx: 250 329 408 487 566 645 — box width 70, gap 9 -->
+
+<!-- Thin vertical guide lines through all rows -->
+<line x1="250" y1="90" x2="250" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+<line x1="329" y1="90" x2="329" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+<line x1="408" y1="90" x2="408" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+<line x1="487" y1="90" x2="487" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+<line x1="566" y1="90" x2="566" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+<line x1="645" y1="90" x2="645" y2="340" stroke="#D3D1C7" stroke-width="0.4" stroke-dasharray="3,3"/>
+
+<!-- Ledger -->
+<rect x="215" y="14" width="70" height="72" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#2C2C2A" x="250" y="38" text-anchor="middle" dominant-baseline="central">Ledger</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="250" y="55" text-anchor="middle" dominant-baseline="central">channel</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="250" y="70" text-anchor="middle" dominant-baseline="central">config</text>
+
+<!-- Fabric CA — light red tint (most critical vulnerability anchor) -->
+<rect x="294" y="14" width="70" height="72" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#791F1F" x="329" y="38" text-anchor="middle" dominant-baseline="central">CA</text>
+<text font-family="sans-serif" font-size="9" fill="#A32D2D" x="329" y="55" text-anchor="middle" dominant-baseline="central">Fabric CA</text>
+<text font-family="sans-serif" font-size="9" fill="#A32D2D" x="329" y="70" text-anchor="middle" dominant-baseline="central">ECDSA root</text>
+
+<!-- BCCSP -->
+<rect x="373" y="14" width="70" height="72" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#2C2C2A" x="408" y="38" text-anchor="middle" dominant-baseline="central">BCCSP</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="408" y="55" text-anchor="middle" dominant-baseline="central">signing</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="408" y="70" text-anchor="middle" dominant-baseline="central">layer</text>
+
+<!-- Orderer -->
+<rect x="452" y="14" width="70" height="72" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#2C2C2A" x="487" y="38" text-anchor="middle" dominant-baseline="central">Orderer</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="487" y="55" text-anchor="middle" dominant-baseline="central">ordering</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="487" y="70" text-anchor="middle" dominant-baseline="central">service</text>
+
+<!-- TLS -->
+<rect x="531" y="14" width="70" height="72" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#2C2C2A" x="566" y="38" text-anchor="middle" dominant-baseline="central">TLS</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="566" y="55" text-anchor="middle" dominant-baseline="central">inter-node</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="566" y="70" text-anchor="middle" dominant-baseline="central">channels</text>
+
+<!-- Gossip -->
+<rect x="610" y="14" width="70" height="72" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="11.5" font-weight="bold" fill="#2C2C2A" x="645" y="38" text-anchor="middle" dominant-baseline="central">Gossip</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="645" y="55" text-anchor="middle" dominant-baseline="central">peer-to-peer</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="645" y="70" text-anchor="middle" dominant-baseline="central">protocol</text>
+
+<!-- Column header labels -->
+<text font-family="sans-serif" font-size="9" fill="#888780" x="8" y="38" dominant-baseline="central">Severity</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="80" y="38" dominant-baseline="central">Threat scenario</text>
+<line x1="4" y1="90" x2="676" y2="90" stroke="#D3D1C7" stroke-width="0.5"/>
+<line x1="214" y1="14" x2="214" y2="340" stroke="#D3D1C7" stroke-width="0.4"/>
+
+<!-- ── ROW 1: TS1 — Critical ── y=100..140, cy=120 ──────────────────────── -->
+<!-- Severity badge -->
+<rect x="6" y="106" width="64" height="20" rx="10" fill="#E24B4A" stroke="#791F1F" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" font-weight="bold" fill="white" x="38" y="116" text-anchor="middle" dominant-baseline="central">Critical</text>
+<!-- TS label -->
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="78" y="112" dominant-baseline="central">TS1</text>
+<text font-family="sans-serif" font-size="9.5" fill="#2C2C2A" x="78" y="126" dominant-baseline="central">Identity impersonation</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="78" y="140" dominant-baseline="central">via certificate forgery</text>
+<!-- Entry arrow: CA (cx=329) → TS1 row -->
+<line x1="329" y1="86" x2="329" y2="112" stroke="#E24B4A" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Impact dots: Ledger, BCCSP -->
+<circle cx="250" cy="120" r="7" fill="#E24B4A" opacity="0.75"/>
+<circle cx="408" cy="120" r="7" fill="#E24B4A" opacity="0.75"/>
+
+<line x1="4" y1="148" x2="676" y2="148" stroke="#D3D1C7" stroke-width="0.3"/>
+
+<!-- ── ROW 2: TS2 — High ── cy=170 ────────────────────────────────────────── -->
+<rect x="6" y="156" width="64" height="20" rx="10" fill="#F7C1C1" stroke="#A32D2D" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#791F1F" x="38" y="166" text-anchor="middle" dominant-baseline="central">High</text>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="78" y="162" dominant-baseline="central">TS2</text>
+<text font-family="sans-serif" font-size="9.5" fill="#2C2C2A" x="78" y="176" dominant-baseline="central">Transaction signature</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="78" y="190" dominant-baseline="central">forgery</text>
+<!-- Entry arrow: BCCSP (cx=408) -->
+<line x1="408" y1="86" x2="408" y2="162" stroke="#F09595" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Impact dots: Ledger, Orderer -->
+<circle cx="250" cy="170" r="7" fill="#F09595" opacity="0.85"/>
+<circle cx="487" cy="170" r="7" fill="#F09595" opacity="0.85"/>
+
+<line x1="4" y1="198" x2="676" y2="198" stroke="#D3D1C7" stroke-width="0.3"/>
+
+<!-- ── ROW 3: TS3 — Critical ── cy=220 ───────────────────────────────────── -->
+<rect x="6" y="206" width="64" height="20" rx="10" fill="#E24B4A" stroke="#791F1F" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" font-weight="bold" fill="white" x="38" y="216" text-anchor="middle" dominant-baseline="central">Critical</text>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="78" y="212" dominant-baseline="central">TS3</text>
+<text font-family="sans-serif" font-size="9.5" fill="#2C2C2A" x="78" y="226" dominant-baseline="central">Block integrity</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="78" y="240" dominant-baseline="central">compromise</text>
+<!-- Entry arrow: Orderer (cx=487) -->
+<line x1="487" y1="86" x2="487" y2="212" stroke="#E24B4A" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Impact dot: Ledger -->
+<circle cx="250" cy="220" r="7" fill="#E24B4A" opacity="0.75"/>
+
+<line x1="4" y1="248" x2="676" y2="248" stroke="#D3D1C7" stroke-width="0.3"/>
+
+<!-- ── ROW 4: TS4 — Medium ── cy=270 ─────────────────────────────────────── -->
+<rect x="6" y="256" width="64" height="20" rx="10" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#633806" x="38" y="266" text-anchor="middle" dominant-baseline="central">Medium</text>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="78" y="262" dominant-baseline="central">TS4</text>
+<text font-family="sans-serif" font-size="9.5" fill="#2C2C2A" x="78" y="276" dominant-baseline="central">TLS session decryption</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="78" y="290" dominant-baseline="central">harvest-now-decrypt-later</text>
+<!-- Entry arrow: TLS (cx=566) -->
+<line x1="566" y1="86" x2="566" y2="262" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<line x1="4" y1="298" x2="676" y2="298" stroke="#D3D1C7" stroke-width="0.3"/>
+
+<!-- ── ROW 5: TS5 — Medium ── cy=320 ─────────────────────────────────────── -->
+<rect x="6" y="306" width="64" height="20" rx="10" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#633806" x="38" y="316" text-anchor="middle" dominant-baseline="central">Medium</text>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2C2A" x="78" y="312" dominant-baseline="central">TS5</text>
+<text font-family="sans-serif" font-size="9.5" fill="#2C2C2A" x="78" y="326" dominant-baseline="central">Gossip protocol</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="78" y="340" dominant-baseline="central">manipulation</text>
+<!-- Entry arrow: Gossip (cx=645) -->
+<line x1="645" y1="86" x2="645" y2="312" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Impact dot: TLS -->
+<circle cx="566" cy="320" r="7" fill="#EF9F27" opacity="0.85"/>
+
+<line x1="4" y1="348" x2="676" y2="348" stroke="#D3D1C7" stroke-width="0.5"/>
+
+<!-- Legend -->
+<line x1="8" y1="358" x2="24" y2="358" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="28" y="358" dominant-baseline="central">entry point (attack vector)</text>
+<circle cx="180" cy="358" r="6" fill="#A32D2D" opacity="0.75"/>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="190" y="358" dominant-baseline="central">impacted component</text>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="350" y="358" dominant-baseline="central">Arrows coloured by severity:  red = Critical/High  ·  amber = Medium</text>
+</svg>

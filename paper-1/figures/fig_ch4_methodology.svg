@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 680 431" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,0.957207,0,-4.657658)">
+        <path d="M672,18.447L672,441.553C672,447.319 667.519,452 662,452L18,452C12.481,452 8,447.319 8,441.553L8,18.447C8,12.681 12.481,8 18,8L662,8C667.519,8 672,12.681 672,18.447Z" style="fill:rgb(241,239,232);stroke:rgb(211,209,199);stroke-width:0.6px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1.05618,0,-18.685393)">
+        <path d="M200,37.574L200,200.426C200,204.606 196.415,208 192,208L28,208C23.585,208 20,204.606 20,200.426L20,37.574C20,33.394 23.585,30 28,30L192,30C196.415,30 200,33.394 200,37.574Z" style="fill:rgb(244,236,236);stroke:rgb(163,45,45);stroke-width:0.6px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,110,33)">
+        <text x="-33.612px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(163,45,45);">Out of scope</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <clipPath id="_clip1">
+            <rect x="32" y="61.8" width="156" height="0.4"/>
+        </clipPath>
+        <g clip-path="url(#_clip1)">
+            <g transform="matrix(1,-0,-0,1,-0,17)">
+                <use xlink:href="#_Image2" x="32" y="44.8" width="156px" height="1px"/>
+            </g>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,32,61)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">Grover-af<tspan x="39.953px 42.592px " y="0px 0px ">fe</tspan>cted primitives:</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,75)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">• SHA-256 / SHA-3 hashing</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,88)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">• <tspan x="5.159px 11.162px " y="0px 0px ">AE</tspan>S-256 key storage</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,108)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">Rationale (NIST<tspan x="67.414px 70.053px 76.39px 82.559px 85.198px " y="0px 0px 0px 0px 0px "> SP 8</tspan>00-57):</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,122)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">128-bit residual quantum</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,134)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">security remains acceptable;</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,146)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">no immediate replacement</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,158)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">required.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,178)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:9px;fill:rgb(94,26,26);">Focus: asymmetric ECDLP</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,188)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:9px;fill:rgb(94,26,26);">operations only<tspan x="60.376px " y="0px ">.</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-7)">
+        <path d="M200,230L200,384C200,388.415 196.415,392 192,392L28,392C23.585,392 20,388.415 20,384L20,230C20,225.585 23.585,222 28,222L192,222C196.415,222 200,225.585 200,230Z" style="fill:rgb(244,236,236);stroke:rgb(163,45,45);stroke-width:0.6px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,110,235)">
+        <text x="-55.027px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(163,45,45);">Frameworks rejected</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-7)">
+        <clipPath id="_clip3">
+            <rect x="32" y="253.8" width="156" height="0.4"/>
+        </clipPath>
+        <g clip-path="url(#_clip3)">
+            <g transform="matrix(1,-0,-0,1,-0,7)">
+                <use xlink:href="#_Image2" x="32" y="246.8" width="156px" height="1px"/>
+            </g>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,32,263)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">• CVE / OW<tspan x="49.425px 55.761px 62.098px 68.267px 70.907px " y="0px 0px 0px 0px 0px ">ASP —</tspan> focused on</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,275)">
+        <g transform="matrix(9,0,0,9,63.531738,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,66.032227,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">implementation ﬂaws, not</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,287)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">structural algorithm failure.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,305)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">• NIST<tspan x="27.438px 30.077px 36.414px 42.583px 45.222px " y="0px 0px 0px 0px 0px "> SP 8</tspan>00-57 — classical</text>
+    </g>
+    <g transform="matrix(1,0,0,1,40,317)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">adversary model.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,335)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">Adopted: Shostack-style</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,347)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">structured threat modelling</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,359)">
+        <g transform="matrix(9.5,0,0,9.5,81.844727,0)">
+        </g>
+        <g transform="matrix(9.5,0,0,9.5,84.484131,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">with quantum-speciﬁc</text>
+    </g>
+    <g transform="matrix(1,0,0,1,32,371)">
+        <g transform="matrix(9.5,0,0,9.5,76.556641,0)">
+        </g>
+        <g transform="matrix(9.5,0,0,9.5,79.196045,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9.5px;fill:rgb(94,26,26);">vulnerability classiﬁcation.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <path d="M460,54L460,106C460,109.311 457.311,112 454,112L226,112C222.689,112 220,109.311 220,106L220,54C220,50.689 222.689,48 226,48L454,48C457.311,48 460,50.689 460,54Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.7px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,340,30)">
+        <text x="-84.731px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(15,110,86);">Stage 1 — Component enumeration</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,46)">
+        <text x="-81.042px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">Identify every architectural component of</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,58)">
+        <text x="-95.306px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">Fabric v2.5.12 and the cryptographic operations</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,70)">
+        <text x="-75.281px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">it performs in the transaction lifecycle.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <g transform="matrix(2,0,0,0.85,-339,16.8)">
+            <rect x="339" y="112" width="1" height="20" style="fill:rgb(15,110,86);"/>
+        </g>
+        <g transform="matrix(-1,-0.000409,0.000409,-1,680.946813,260.139427)">
+            <path d="M341,128L345,132L337,132L341,128Z" style="fill:rgb(15,110,86);"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,0,134)">
+        <g transform="matrix(2,0,0,0.85,-339,16.8)">
+            <rect x="339" y="112" width="1" height="20" style="fill:rgb(15,110,86);"/>
+        </g>
+        <g transform="matrix(-1,-0.000409,0.000409,-1,680.946813,260.139427)">
+            <path d="M341,128L345,132L337,132L341,128Z" style="fill:rgb(15,110,86);"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,0,214)">
+        <g transform="matrix(2,0,0,0.85,-339,16.8)">
+            <rect x="339" y="112" width="1" height="20" style="fill:rgb(15,110,86);"/>
+        </g>
+        <g transform="matrix(-1,-0.000409,0.000409,-1,680.946813,260.139427)">
+            <path d="M341,128L345,132L337,132L341,128Z" style="fill:rgb(15,110,86);"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,0,50)">
+        <g transform="matrix(2,0,0,0.85,-339,16.8)">
+            <rect x="339" y="112" width="1" height="20" style="fill:rgb(15,110,86);"/>
+        </g>
+        <g transform="matrix(-1,-0.000409,0.000409,-1,680.946813,260.139427)">
+            <path d="M341,128L345,132L337,132L341,128Z" style="fill:rgb(15,110,86);"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <path d="M460,138L460,190C460,193.311 457.311,196 454,196L226,196C222.689,196 220,193.311 220,190L220,138C220,134.689 222.689,132 226,132L454,132C457.311,132 460,134.689 460,138Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.7px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,340,114)">
+        <text x="-91.221px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(15,110,86);">Stage 2 — <tspan x="-40.459px -33.237px " y="0px 0px ">Al</tspan>gorithm and key mapping</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,130)">
+        <g transform="matrix(9,0,0,9,36.777832,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,39.27832,0)">
+        </g>
+        <text x="-87.794px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">Map each operation to its speciﬁc algorithm,</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,142)">
+        <text x="-84.799px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">key type, key size, and operational context</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,154)">
+        <text x="-103.047px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">(signing vs key exchange, long-term vs ephemeral).</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <path d="M460,222L460,274C460,277.311 457.311,280 454,280L226,280C222.689,280 220,277.311 220,274L220,222C220,218.689 222.689,216 226,216L454,216C457.311,216 460,218.689 460,222Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.7px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,340,198)">
+        <g transform="matrix(10,0,0,10,52.900391,0)">
+        </g>
+        <g transform="matrix(10,0,0,10,56.230469,0)">
+        </g>
+        <text x="-88.457px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(15,110,86);">Stage 3 — V<tspan x="-31.025px -24.917px " y="0px 0px ">ul</tspan>nerability classiﬁcation</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,214)">
+        <text x="-86.55px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">Classify each operation as Shor-threatened</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,226)">
+        <text x="-85.7px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">(ECDSA<tspan x="-52.187px -49.687px " y="0px 0px "> /</tspan> ECDH P-256) or Grover-af<tspan x="61.183px 63.683px " y="0px 0px ">fe</tspan>cted</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,238)">
+        <text x="-98.534px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(15,110,86);">(symmetric / hash); exclude the latter from scope.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <path d="M460,306L460,358C460,361.311 457.311,364 454,364L226,364C222.689,364 220,361.311 220,358L220,306C220,302.689 222.689,300 226,300L454,300C457.311,300 460,302.689 460,306Z" style="fill:rgb(225,245,238);stroke:rgb(15,110,86);stroke-width:0.7px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,340,282)">
+        <text x="-81.973px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(15,110,86);">Stage 4 — Severity &amp; exploitability</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,298)">
+        <text x="-89.308px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">Assess each Shor-threatened operation on a</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,310)">
+        <text x="-81.789px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">four-level severity scale and a three-level</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,322)">
+        <text x="-59.025px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(8,80,65);">exploitability scale (see right).</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-34)">
+        <path d="M460,386L460,430C460,433.311 457.311,436 454,436L226,436C222.689,436 220,433.311 220,430L220,386C220,382.689 222.689,380 226,380L454,380C457.311,380 460,382.689 460,386Z" style="fill:rgb(250,238,218);stroke:rgb(186,117,23);stroke-width:0.6px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,340,362)">
+        <text x="-56.665px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(122,77,15);">Outputs feed forward to</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,378)">
+        <text x="-77.785px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">Section 4.3 threat model (TS1–TS5)</text>
+        <text x="68.785px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:9px;fill:rgb(94,61,12);">→</text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,390)">
+        <text x="-116.55px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">Section 4.4 risk matrix</text>
+        <text x="-25.521px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:9px;fill:rgb(94,61,12);">→</text>
+        <text x="-14.021px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">Section 4.5 requirements R1–R8</text>
+    </g>
+    <g transform="matrix(1,0,0,1.024862,0,-17.745856)">
+        <path d="M660,37.806L660,384.194C660,388.502 656.415,392 652,392L488,392C483.585,392 480,388.502 480,384.194L480,37.806C480,33.498 483.585,30 488,30L652,30C656.415,30 660,33.498 660,37.806Z" style="fill:white;stroke:rgb(136,135,128);stroke-width:0.6px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,570,33)">
+        <text x="-61.451px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(44,44,42);">Severity scale (Stage 4)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <clipPath id="_clip4">
+            <rect x="492" y="61.8" width="156" height="0.4"/>
+        </clipPath>
+        <g clip-path="url(#_clip4)">
+            <g transform="matrix(1,-0,-0,1,-0,17)">
+                <use xlink:href="#_Image5" x="492" y="44.8" width="156px" height="1px"/>
+            </g>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <path d="M506,77L506,85C506,86.656 504.656,88 503,88L495,88C493.344,88 492,86.656 492,85L492,77C492,75.344 493.344,74 495,74L503,74C504.656,74 506,75.344 506,77Z" style="fill:rgb(252,235,235);stroke:rgb(163,45,45);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,512,67)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(163,45,45);">Critical</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,83)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">Network-wide integrity or</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,95)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">authenticity compromise;</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,107)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">propagates from one</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,119)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,26,26);">recovered trust anchor<tspan x="89.552px " y="0px ">.</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <path d="M506,155L506,163C506,164.656 504.656,166 503,166L495,166C493.344,166 492,164.656 492,163L492,155C492,153.344 493.344,152 495,152L503,152C504.656,152 506,153.344 506,155Z" style="fill:rgb(250,238,218);stroke:rgb(186,117,23);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,512,145)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(122,77,15);">High</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,161)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">Per-identity forgery or</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,173)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">impersonation within a</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,185)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">channel; bounded by</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,197)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(94,61,12);">endorsement policy<tspan x="77.379px " y="0px ">.</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <path d="M506,233L506,241C506,242.656 504.656,244 503,244L495,244C493.344,244 492,242.656 492,241L492,233C492,231.344 493.344,230 495,230L503,230C504.656,230 506,231.344 506,233Z" style="fill:rgb(230,241,251);stroke:rgb(24,95,165);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,512,223)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(24,95,165);">Medium</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,239)">
+        <g transform="matrix(9,0,0,9,16.510254,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,19.010742,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(12,68,124);">Conﬁdentiality breach</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,251)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(12,68,124);">via HNDL<tspan x="38.18px 40.68px " y="0px 0px "> d</tspan>ecryption of</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,263)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(12,68,124);">recorded <tspan x="37.863px 43.361px " y="0px 0px ">TL</tspan>S or gossip</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,275)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(12,68,124);">sessions.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-17)">
+        <path d="M506,311L506,319C506,320.656 504.656,322 503,322L495,322C493.344,322 492,320.656 492,319L492,311C492,309.344 493.344,308 495,308L503,308C504.656,308 506,309.344 506,311Z" style="fill:rgb(239,239,236);stroke:rgb(95,94,90);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,512,301)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(95,94,90);">Low</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,317)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(61,61,58);">Partial information or</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,329)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(61,61,58);">marginal capability; not</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,341)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:9px;fill:rgb(61,61,58);">directly forgery-enabling.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,357)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:9px;fill:rgb(95,94,90);">(No operation in this audit</text>
+    </g>
+    <g transform="matrix(1,0,0,1,492,367)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:9px;fill:rgb(95,94,90);">was rated Low<tspan x="57.538px 60.038px " y="0px 0px ">.)</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,340,418)">
+        <text x="-178.573px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:8.5px;fill:rgb(95,94,90);">Exploitability uses a parallel three-level scale (High / Medium / Low) per Section 4.4 risk matrix.</text>
+    </g>
+    <defs>
+        <image id="_Image2" width="156px" height="1px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAABCAYAAAArQMfQAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAE0lEQVQokWNcrKtbzzAKRgGdAAChSwF+PDy5LwAAAABJRU5ErkJggg=="/>
+        <image id="_Image5" width="156px" height="1px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAABCAYAAAArQMfQAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAE0lEQVQokWPsaG+oZxgFo4BOAAAESQIQ3UjQzAAAAABJRU5ErkJggg=="/>
+    </defs>
+</svg>

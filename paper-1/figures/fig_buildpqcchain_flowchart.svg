@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 596" width="680" height="596">
+<title>buildPQCChain() certificate chain validator logic</title>
+<desc>Flowchart of buildPQCChain() in msp/pqc.go. Reads the AlgorithmIdentifier OID, dispatches classical chains to x509.Verify and post-quantum chains to CIRCL or go-fn-dsa, performs validity checks, then loops up the chain until the trusted root is reached.</desc>
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ── COLUMN GUIDES (invisible): main=340cx, left=148cx, right=540cx ─── -->
+
+<!-- START -->
+<rect x="200" y="12" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="28" text-anchor="middle" dominant-baseline="central">buildPQCChain() called</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="46" text-anchor="middle" dominant-baseline="central">end-entity cert + MSP trusted roots</text>
+
+<line x1="340" y1="58" x2="340" y2="74" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- STEP 1: Read OID -->
+<rect x="200" y="76" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="92" text-anchor="middle" dominant-baseline="central">Read SignatureAlgorithm OID</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="110" text-anchor="middle" dominant-baseline="central">from AlgorithmIdentifier field</text>
+
+<line x1="340" y1="122" x2="340" y2="138" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- DECISION 1: OID known? -->
+<polygon points="340,140 460,172 340,204 220,172" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806" x="340" y="167" text-anchor="middle" dominant-baseline="central">OID known?</text>
+<text font-family="sans-serif" font-size="9" fill="#854F0B" x="340" y="184" text-anchor="middle" dominant-baseline="central">PQC registry lookup</text>
+
+<!-- No → error (right) -->
+<line x1="460" y1="172" x2="516" y2="172" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#A32D2D" x="488" y="164" text-anchor="middle">No</text>
+<rect x="518" y="150" width="146" height="44" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F" x="591" y="167" text-anchor="middle" dominant-baseline="central">Return error</text>
+<text font-family="sans-serif" font-size="9" fill="#A32D2D" x="591" y="183" text-anchor="middle" dominant-baseline="central">unknown OID</text>
+
+<!-- Yes → down -->
+<line x1="340" y1="204" x2="340" y2="220" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#888780" x="352" y="213">Yes</text>
+
+<!-- DECISION 2: Classical OID? -->
+<polygon points="340,222 460,254 340,286 220,254" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="249" text-anchor="middle" dominant-baseline="central">Classical OID?</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="266" text-anchor="middle" dominant-baseline="central">e.g. ECDSA / RSA</text>
+
+<!-- Yes → x509.Verify (right) -->
+<line x1="460" y1="254" x2="516" y2="254" stroke="#185FA5" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#185FA5" x="488" y="246" text-anchor="middle">Yes</text>
+<rect x="518" y="232" width="146" height="44" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#042C53" x="591" y="249" text-anchor="middle" dominant-baseline="central">x509.Verify()</text>
+<text font-family="sans-serif" font-size="9" fill="#185FA5" x="591" y="265" text-anchor="middle" dominant-baseline="central">stdlib path</text>
+
+<!-- No (PQC) → down -->
+<line x1="340" y1="286" x2="340" y2="302" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#888780" x="352" y="295">No (PQC)</text>
+
+<!-- STEP 2: Extract public key -->
+<rect x="200" y="304" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="320" text-anchor="middle" dominant-baseline="central">Extract issuer public key</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="338" text-anchor="middle" dominant-baseline="central">from SubjectPublicKeyInfo</text>
+
+<line x1="340" y1="350" x2="340" y2="366" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- DECISION 3: Algorithm dispatch -->
+<polygon points="340,368 460,400 340,432 220,400" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="340" y="395" text-anchor="middle" dominant-baseline="central">Algorithm?</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="340" y="412" text-anchor="middle" dominant-baseline="central">dispatch by OID</text>
+
+<!-- ML-DSA → CIRCL (left) -->
+<line x1="220" y1="400" x2="170" y2="400" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="194" y="392" text-anchor="middle">ML-DSA</text>
+<rect x="92" y="378" width="76" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="130" y="394" text-anchor="middle" dominant-baseline="central">CIRCL</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="130" y="410" text-anchor="middle" dominant-baseline="central">ML-DSA verify</text>
+
+<!-- FN-DSA → go-fn-dsa (right) -->
+<line x1="460" y1="400" x2="510" y2="400" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="485" y="392" text-anchor="middle">FN-DSA</text>
+<rect x="512" y="378" width="86" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="555" y="394" text-anchor="middle" dominant-baseline="central">go-fn-dsa</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="555" y="410" text-anchor="middle" dominant-baseline="central">FN-DSA verify</text>
+
+<!-- Both branches merge back to center -->
+<line x1="130" y1="422" x2="130" y2="460" stroke="#0F6E56" stroke-width="0.9"/>
+<line x1="130" y1="460" x2="326" y2="460" stroke="#0F6E56" stroke-width="0.9" marker-end="url(#arr)"/>
+<line x1="555" y1="422" x2="555" y2="460" stroke="#0F6E56" stroke-width="0.9"/>
+<line x1="555" y1="460" x2="354" y2="460" stroke="#0F6E56" stroke-width="0.9" marker-end="url(#arr)"/>
+
+<!-- STEP 3: Validity checks -->
+<rect x="200" y="450" width="280" height="58" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="466" text-anchor="middle" dominant-baseline="central">Validity checks</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="482" text-anchor="middle" dominant-baseline="central">validity period · keyCertSign</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="498" text-anchor="middle" dominant-baseline="central">SKID / AKID issuer match</text>
+
+<line x1="340" y1="508" x2="340" y2="524" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- DECISION 4: More certs? -->
+<polygon points="340,526 460,558 340,590 220,558" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806" x="340" y="553" text-anchor="middle" dominant-baseline="central">More certs?</text>
+<text font-family="sans-serif" font-size="9" fill="#854F0B" x="340" y="570" text-anchor="middle" dominant-baseline="central">not yet at trusted root</text>
+
+<!-- Yes → loop back (left side) -->
+<line x1="220" y1="558" x2="60" y2="558" stroke="#BA7517" stroke-width="1.0"/>
+<line x1="60" y1="558" x2="60" y2="99" stroke="#BA7517" stroke-width="1.0"/>
+<line x1="60" y1="99" x2="198" y2="99" stroke="#BA7517" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#BA7517" x="136" y="550" text-anchor="middle">Yes — next cert</text>
+
+<!-- No → terminal -->
+<line x1="460" y1="558" x2="544" y2="558" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="502" y="550" text-anchor="middle">No (root)</text>
+<rect x="546" y="536" width="120" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="606" y="553" text-anchor="middle" dominant-baseline="central">Return nil</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="606" y="569" text-anchor="middle" dominant-baseline="central">chain valid</text>
+
+</svg>
