@@ -1,117 +1,257 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 596" width="680" height="596">
-<title>buildPQCChain() certificate chain validator logic</title>
-<desc>Flowchart of buildPQCChain() in msp/pqc.go. Reads the AlgorithmIdentifier OID, dispatches classical chains to x509.Verify and post-quantum chains to CIRCL or go-fn-dsa, performs validity checks, then loops up the chain until the trusted root is reached.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1180" width="720" height="1180">
+<title>buildPQCChain() certificate chain validator control flow</title>
+<desc>Single combined flowchart of buildPQCChain() in msp/pqc.go. The outer chain-walking loop and the per-link verifyChainLink validation are merged into one top-to-bottom flow. Each iteration tests the depth limit, the self-signed root terminator, performs findIssuerFor, runs the ordered structural checks (validity period, IsCA, conditional keyCertSign, conditional AKID/SKID match), executes dual-key algorithm dispatch keyed on the child signatureAlgorithm OID and issuer SubjectPublicKeyInfo OID, dispatches to either x509.CheckSignatureFrom for classical links or pqclib.Verify for post-quantum links, and falls back to SHA-256 pre-hash for legacy post-quantum credentials before looping to the next link.</desc>
+
 <defs>
-  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 2L9 5L2 8" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
 </defs>
 
-<!-- ── COLUMN GUIDES (invisible): main=340cx, left=148cx, right=540cx ─── -->
+<!-- ==== Title ==== -->
+<text font-family="sans-serif" font-size="13" font-weight="bold" fill="#2C2C2A" x="360" y="22" text-anchor="middle">Control flow of buildPQCChain() in msp/pqc.go</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="360" y="38" text-anchor="middle">main flow down the centre · error termini on the right · loop-back on the left</text>
 
-<!-- START -->
-<rect x="200" y="12" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="28" text-anchor="middle" dominant-baseline="central">buildPQCChain() called</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="46" text-anchor="middle" dominant-baseline="central">end-entity cert + MSP trusted roots</text>
+<!-- ====================================================================
+     1. START
+     ==================================================================== -->
+<rect x="280" y="52" width="200" height="38" rx="19" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="11" font-weight="bold" fill="#2C2C2A" x="380" y="69" text-anchor="middle">buildPQCChain(cert)</text>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="380" y="83" text-anchor="middle">end-entity cert + MSP trust anchors</text>
 
-<line x1="340" y1="58" x2="340" y2="74" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<line x1="380" y1="90" x2="380" y2="102" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
 
-<!-- STEP 1: Read OID -->
-<rect x="200" y="76" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="92" text-anchor="middle" dominant-baseline="central">Read SignatureAlgorithm OID</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="110" text-anchor="middle" dominant-baseline="central">from AlgorithmIdentifier field</text>
+<!-- 2. INIT -->
+<rect x="280" y="104" width="200" height="40" rx="5" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#2C2C2A" x="380" y="120" text-anchor="middle">Initialise loop state</text>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="380" y="135" text-anchor="middle">chain ← [cert] · current ← cert · i ← 0</text>
 
-<line x1="340" y1="122" x2="340" y2="138" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<line x1="380" y1="144" x2="380" y2="156" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
 
-<!-- DECISION 1: OID known? -->
-<polygon points="340,140 460,172 340,204 220,172" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806" x="340" y="167" text-anchor="middle" dominant-baseline="central">OID known?</text>
-<text font-family="sans-serif" font-size="9" fill="#854F0B" x="340" y="184" text-anchor="middle" dominant-baseline="central">PQC registry lookup</text>
+<!-- 3. Depth check -->
+<polygon points="380,158 478,184 380,210 282,184" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="180" text-anchor="middle">i &lt; maxChainDepth (10) ?</text>
+<text font-family="sans-serif" font-size="8.5" fill="#854F0B" x="380" y="194" text-anchor="middle">depth guard</text>
 
-<!-- No → error (right) -->
-<line x1="460" y1="172" x2="516" y2="172" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#A32D2D" x="488" y="164" text-anchor="middle">No</text>
-<rect x="518" y="150" width="146" height="44" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#791F1F" x="591" y="167" text-anchor="middle" dominant-baseline="central">Return error</text>
-<text font-family="sans-serif" font-size="9" fill="#A32D2D" x="591" y="183" text-anchor="middle" dominant-baseline="central">unknown OID</text>
+<!-- depth No → error -->
+<line x1="478" y1="184" x2="540" y2="184" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="510" y="178" text-anchor="middle">No</text>
+<rect x="542" y="166" width="78" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="581" y="182" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="8" fill="#A32D2D" x="581" y="195" text-anchor="middle">chain depth ≥ 10</text>
 
-<!-- Yes → down -->
-<line x1="340" y1="204" x2="340" y2="220" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#888780" x="352" y="213">Yes</text>
+<!-- depth Yes → down -->
+<line x1="380" y1="210" x2="380" y2="222" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#888780" x="392" y="219">Yes</text>
 
-<!-- DECISION 2: Classical OID? -->
-<polygon points="340,222 460,254 340,286 220,254" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="249" text-anchor="middle" dominant-baseline="central">Classical OID?</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="266" text-anchor="middle" dominant-baseline="central">e.g. ECDSA / RSA</text>
+<!-- 4. Self-signed check -->
+<polygon points="380,224 478,250 380,276 282,250" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="246" text-anchor="middle">RawIssuer == RawSubject ?</text>
+<text font-family="sans-serif" font-size="8.5" fill="#854F0B" x="380" y="260" text-anchor="middle">self-signed terminator</text>
 
-<!-- Yes → x509.Verify (right) -->
-<line x1="460" y1="254" x2="516" y2="254" stroke="#185FA5" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#185FA5" x="488" y="246" text-anchor="middle">Yes</text>
-<rect x="518" y="232" width="146" height="44" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#042C53" x="591" y="249" text-anchor="middle" dominant-baseline="central">x509.Verify()</text>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="591" y="265" text-anchor="middle" dominant-baseline="central">stdlib path</text>
+<!-- self-signed Yes → right: configured root sub-check -->
+<line x1="478" y1="250" x2="498" y2="250" stroke="#BA7517" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#BA7517" x="487" y="244" text-anchor="middle">Yes</text>
+<polygon points="556,224 636,250 556,276 476,250" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="556" y="247" text-anchor="middle">isConfiguredRoot ?</text>
 
-<!-- No (PQC) → down -->
-<line x1="340" y1="286" x2="340" y2="302" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#888780" x="352" y="295">No (PQC)</text>
+<!-- isConfiguredRoot No → error (right) -->
+<line x1="636" y1="250" x2="666" y2="250" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="651" y="244" text-anchor="middle">No</text>
+<rect x="668" y="232" width="46" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="691" y="248" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="7.5" fill="#A32D2D" x="691" y="260" text-anchor="middle">not a root</text>
 
-<!-- STEP 2: Extract public key -->
-<rect x="200" y="304" width="280" height="46" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="320" text-anchor="middle" dominant-baseline="central">Extract issuer public key</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="338" text-anchor="middle" dominant-baseline="central">from SubjectPublicKeyInfo</text>
+<!-- isConfiguredRoot Yes → down: verifyChainLink(self,self) → return chain -->
+<line x1="556" y1="276" x2="556" y2="288" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="568" y="284">Yes</text>
+<rect x="476" y="290" width="160" height="36" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="1.0"/>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#085041" x="556" y="306" text-anchor="middle">verifyChainLink(self, self)</text>
+<text font-family="sans-serif" font-size="8.5" fill="#0F6E56" x="556" y="319" text-anchor="middle">root self-verification</text>
+<line x1="556" y1="326" x2="556" y2="338" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<rect x="492" y="340" width="128" height="34" rx="17" fill="#C8EFE0" stroke="#0F6E56" stroke-width="1.1"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="556" y="358" text-anchor="middle">return chain · success</text>
 
-<line x1="340" y1="350" x2="340" y2="366" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<!-- self-signed No → down to findIssuerFor -->
+<line x1="380" y1="276" x2="380" y2="290" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#888780" x="392" y="287">No</text>
 
-<!-- DECISION 3: Algorithm dispatch -->
-<polygon points="340,368 460,400 340,432 220,400" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="340" y="395" text-anchor="middle" dominant-baseline="central">Algorithm?</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="340" y="412" text-anchor="middle" dominant-baseline="central">dispatch by OID</text>
+<!-- 5. findIssuerFor -->
+<rect x="280" y="292" width="200" height="40" rx="5" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#2C2C2A" x="380" y="308" text-anchor="middle">findIssuerFor(current)</text>
+<text font-family="sans-serif" font-size="8.5" fill="#888780" x="380" y="323" text-anchor="middle">match RawIssuer against intermediates then roots</text>
 
-<!-- ML-DSA → CIRCL (left) -->
-<line x1="220" y1="400" x2="170" y2="400" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="194" y="392" text-anchor="middle">ML-DSA</text>
-<rect x="92" y="378" width="76" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="130" y="394" text-anchor="middle" dominant-baseline="central">CIRCL</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="130" y="410" text-anchor="middle" dominant-baseline="central">ML-DSA verify</text>
+<line x1="380" y1="332" x2="380" y2="344" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
 
-<!-- FN-DSA → go-fn-dsa (right) -->
-<line x1="460" y1="400" x2="510" y2="400" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="485" y="392" text-anchor="middle">FN-DSA</text>
-<rect x="512" y="378" width="86" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="555" y="394" text-anchor="middle" dominant-baseline="central">go-fn-dsa</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="555" y="410" text-anchor="middle" dominant-baseline="central">FN-DSA verify</text>
+<!-- 6. Issuer found? -->
+<polygon points="380,346 470,370 380,394 290,370" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="374" text-anchor="middle">issuer found ?</text>
 
-<!-- Both branches merge back to center -->
-<line x1="130" y1="422" x2="130" y2="460" stroke="#0F6E56" stroke-width="0.9"/>
-<line x1="130" y1="460" x2="326" y2="460" stroke="#0F6E56" stroke-width="0.9" marker-end="url(#arr)"/>
-<line x1="555" y1="422" x2="555" y2="460" stroke="#0F6E56" stroke-width="0.9"/>
-<line x1="555" y1="460" x2="354" y2="460" stroke="#0F6E56" stroke-width="0.9" marker-end="url(#arr)"/>
+<line x1="470" y1="370" x2="540" y2="370" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="505" y="364" text-anchor="middle">No</text>
+<rect x="542" y="352" width="100" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="592" y="368" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="8" fill="#A32D2D" x="592" y="381" text-anchor="middle">UnknownAuthority</text>
 
-<!-- STEP 3: Validity checks -->
-<rect x="200" y="450" width="280" height="58" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="466" text-anchor="middle" dominant-baseline="central">Validity checks</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="482" text-anchor="middle" dominant-baseline="central">validity period · keyCertSign</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="498" text-anchor="middle" dominant-baseline="central">SKID / AKID issuer match</text>
+<line x1="380" y1="394" x2="380" y2="406" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#888780" x="392" y="403">Yes</text>
 
-<line x1="340" y1="508" x2="340" y2="524" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<!-- ====================================================================
+     verifyChainLink expanded inline
+     ==================================================================== -->
 
-<!-- DECISION 4: More certs? -->
-<polygon points="340,526 460,558 340,590 220,558" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#633806" x="340" y="553" text-anchor="middle" dominant-baseline="central">More certs?</text>
-<text font-family="sans-serif" font-size="9" fill="#854F0B" x="340" y="570" text-anchor="middle" dominant-baseline="central">not yet at trusted root</text>
+<!-- Section divider: verifyChainLink starts -->
+<line x1="100" y1="416" x2="660" y2="416" stroke="#0F6E56" stroke-width="0.6" stroke-dasharray="3,3"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#0F6E56" x="110" y="413">verifyChainLink(child = current, issuer)</text>
 
-<!-- Yes → loop back (left side) -->
-<line x1="220" y1="558" x2="60" y2="558" stroke="#BA7517" stroke-width="1.0"/>
-<line x1="60" y1="558" x2="60" y2="99" stroke="#BA7517" stroke-width="1.0"/>
-<line x1="60" y1="99" x2="198" y2="99" stroke="#BA7517" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#BA7517" x="136" y="550" text-anchor="middle">Yes — next cert</text>
+<!-- 7. Structural checks block -->
+<rect x="240" y="424" width="280" height="86" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="380" y="442" text-anchor="middle">Structural checks (in order)</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="252" y="458">·</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="263" y="458">issuer notBefore / notAfter</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="252" y="471">·</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="263" y="471">child notBefore / notAfter  (if child ≠ issuer)</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="252" y="484">·</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="263" y="484">issuer.IsCA  (BasicConstraints)</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="252" y="497">·</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="263" y="497">issuer.KeyUsage &amp; keyCertSign  (if KeyUsage ≠ 0)</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="252" y="506">·</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="263" y="506">AKID(child) == SKID(issuer)  (if both present)</text>
 
-<!-- No → terminal -->
-<line x1="460" y1="558" x2="544" y2="558" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
-<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="502" y="550" text-anchor="middle">No (root)</text>
-<rect x="546" y="536" width="120" height="44" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="606" y="553" text-anchor="middle" dominant-baseline="central">Return nil</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="606" y="569" text-anchor="middle" dominant-baseline="central">chain valid</text>
+<line x1="380" y1="510" x2="380" y2="522" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
 
+<polygon points="380,524 470,548 380,572 290,548" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="552" text-anchor="middle">all checks pass ?</text>
+
+<line x1="470" y1="548" x2="540" y2="548" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="505" y="542" text-anchor="middle">No</text>
+<rect x="542" y="530" width="100" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="592" y="546" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="8" fill="#A32D2D" x="592" y="559" text-anchor="middle">structural check failed</text>
+
+<line x1="380" y1="572" x2="380" y2="584" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#888780" x="392" y="581">Yes</text>
+
+<!-- 8. Dual-key algorithm dispatch -->
+<rect x="240" y="586" width="280" height="68" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="380" y="604" text-anchor="middle">Dual-key algorithm dispatch</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="380" y="620" text-anchor="middle">algo ← pqcAlgoFromOID(child.signatureAlgorithm)</text>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="380" y="633" text-anchor="middle">issuerAlgo, issuerRawPub ← pqcSPKIInfo(issuer)</text>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="380" y="648" text-anchor="middle">legacy fallback: if algo == "" and issuerAlgo ≠ "", algo ← issuerAlgo</text>
+
+<line x1="380" y1="654" x2="380" y2="666" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- 9. algo == "" ? -->
+<polygon points="380,668 478,694 380,720 282,694" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="691" text-anchor="middle">algo == "" ?</text>
+<text font-family="sans-serif" font-size="8.5" fill="#854F0B" x="380" y="704" text-anchor="middle">i.e. classical link</text>
+
+<!-- algo == "" Yes → left: classical path -->
+<line x1="282" y1="694" x2="262" y2="694" stroke="#185FA5" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#185FA5" x="271" y="688" text-anchor="middle">Yes</text>
+<rect x="120" y="676" width="140" height="36" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#042C53" x="190" y="692" text-anchor="middle">child.CheckSignatureFrom</text>
+<text font-family="sans-serif" font-size="8.5" fill="#185FA5" x="190" y="705" text-anchor="middle">Go stdlib classical path</text>
+<line x1="190" y1="712" x2="190" y2="894" stroke="#185FA5" stroke-width="1.0" stroke-dasharray="3,3"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#185FA5" x="200" y="800">returns the stdlib result</text>
+
+<!-- algo == "" No → down: PQ path -->
+<line x1="380" y1="720" x2="380" y2="732" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="392" y="729">No (PQ)</text>
+
+<!-- 10. Cross-algorithm consistency -->
+<polygon points="380,734 488,760 380,786 272,760" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="755" text-anchor="middle">issuerAlgo ≠ ""  and</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#633806" x="380" y="768" text-anchor="middle">issuerAlgo == algo ?</text>
+
+<line x1="488" y1="760" x2="540" y2="760" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="514" y="754" text-anchor="middle">No</text>
+<rect x="542" y="742" width="118" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="601" y="758" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="8" fill="#A32D2D" x="601" y="771" text-anchor="middle">algorithm mismatch</text>
+
+<line x1="380" y1="786" x2="380" y2="798" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="392" y="795">Yes</text>
+
+<!-- 11. pqclib.Verify(raw TBS) -->
+<rect x="240" y="800" width="280" height="40" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="380" y="816" text-anchor="middle">pqclib.Verify(pub, sig, child.RawTBSCertificate)</text>
+<text font-family="sans-serif" font-size="8.5" fill="#0F6E56" x="380" y="831" text-anchor="middle">CIRCL for ML-DSA · go-fn-dsa for FN-DSA · no caller-side pre-hash</text>
+
+<line x1="380" y1="840" x2="380" y2="852" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<polygon points="380,854 470,878 380,902 290,878" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="380" y="882" text-anchor="middle">valid ?</text>
+
+<!-- valid Yes → down to link verified -->
+<line x1="380" y1="902" x2="380" y2="996" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="392" y="918">Yes</text>
+
+<!-- valid No → right to SHA-256 retry -->
+<line x1="470" y1="878" x2="498" y2="878" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#888780" x="484" y="872" text-anchor="middle">No</text>
+<rect x="500" y="860" width="142" height="40" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#085041" x="571" y="876" text-anchor="middle">Legacy retry</text>
+<text font-family="sans-serif" font-size="8.5" fill="#0F6E56" x="571" y="889" text-anchor="middle">verify sha256(RawTBS)</text>
+
+<line x1="571" y1="900" x2="571" y2="912" stroke="#888780" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<polygon points="571,914 651,938 571,962 491,938" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="571" y="942" text-anchor="middle">valid ?</text>
+
+<line x1="491" y1="938" x2="466" y2="938" stroke="#0F6E56" stroke-width="1.0"/>
+<line x1="466" y1="938" x2="466" y2="976" stroke="#0F6E56" stroke-width="1.0"/>
+<line x1="466" y1="976" x2="380" y2="976" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#0F6E56" x="476" y="952" text-anchor="middle">Yes</text>
+
+<line x1="651" y1="938" x2="676" y2="938" stroke="#A32D2D" stroke-width="1.0" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#A32D2D" x="662" y="932" text-anchor="middle">No</text>
+<rect x="612" y="976" width="100" height="36" rx="4" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<line x1="676" y1="938" x2="676" y2="978" stroke="#A32D2D" stroke-width="1.0"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#791F1F" x="662" y="992" text-anchor="middle">error</text>
+<text font-family="sans-serif" font-size="8" fill="#A32D2D" x="662" y="1004" text-anchor="middle">signature invalid</text>
+
+<!-- Link verified converging point -->
+<rect x="280" y="998" width="200" height="40" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="380" y="1014" text-anchor="middle">Link verified</text>
+<text font-family="sans-serif" font-size="8.5" fill="#0F6E56" x="380" y="1029" text-anchor="middle">chain.append(issuer) · current ← issuer · i ← i + 1</text>
+
+<line x1="380" y1="1038" x2="380" y2="1050" stroke="#0F6E56" stroke-width="1.0" marker-end="url(#arr)"/>
+
+<!-- Loop-back instruction -->
+<text font-family="sans-serif" font-size="10" font-style="italic" fill="#5F5E5A" x="380" y="1066" text-anchor="middle">loop back to depth guard</text>
+
+<!-- Loop-back arrow (left side) -->
+<line x1="280" y1="1018" x2="60" y2="1018" stroke="#5F5E5A" stroke-width="1.1"/>
+<line x1="60" y1="1018" x2="60" y2="184" stroke="#5F5E5A" stroke-width="1.1"/>
+<line x1="60" y1="184" x2="282" y2="184" stroke="#5F5E5A" stroke-width="1.1" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#5F5E5A" x="42" y="600" text-anchor="middle" transform="rotate(-90 42 600)">loop to next link</text>
+
+<!-- Classical branch loop arrow (left bottom join) -->
+<line x1="190" y1="894" x2="190" y2="1018" stroke="#185FA5" stroke-width="1.0" stroke-dasharray="3,3"/>
+<line x1="190" y1="1018" x2="278" y2="1018" stroke="#185FA5" stroke-width="1.0" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#185FA5" x="232" y="1011" text-anchor="middle">classical success</text>
+
+<!-- Legend -->
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#5F5E5A" x="30" y="1100">Legend</text>
+<rect x="30" y="1108" width="16" height="12" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="52" y="1118">process / structural check</text>
+<polygon points="226,1108 250,1114 226,1120 202,1114" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="258" y="1118">decision</text>
+<rect x="310" y="1108" width="16" height="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="332" y="1118">post-quantum operation</text>
+<rect x="466" y="1108" width="16" height="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="488" y="1118">classical operation</text>
+<rect x="586" y="1108" width="16" height="12" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.6"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="608" y="1118">error terminator</text>
+
+<rect x="30" y="1132" width="16" height="12" rx="6" fill="#C8EFE0" stroke="#0F6E56" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="52" y="1142">success terminator</text>
+<line x1="206" y1="1138" x2="246" y2="1138" stroke="#5F5E5A" stroke-width="1.1"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="254" y="1142">flow</text>
+<line x1="310" y1="1138" x2="350" y2="1138" stroke="#185FA5" stroke-width="1.0" stroke-dasharray="3,3"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="358" y="1142">classical branch</text>
+<line x1="466" y1="1138" x2="506" y2="1138" stroke="#5F5E5A" stroke-width="1.1" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="9" fill="#5F5E5A" x="514" y="1142">loop-back</text>
 </svg>

@@ -1,80 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 382" width="680" height="382">
-<title>M²Fabric dual-CA architecture</title>
-<desc>Post-quantum CA issues MSP identity certificates. Classical ECDSA CA issues TLS certificates. Routing box dispatches enrolment requests. Bottom panels show certificate types and threat surfaces.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 780" width="720" height="780">
+<title>M²Fabric post-quantum MSP identity certificate lifecycle</title>
+<desc>Four-phase lifecycle of a Hyperledger Fabric MSP identity certificate inside M²Fabric. Phases 1-3 occur once per identity at enrolment time; phase 4 runs at every endorsement and commit. Phase 1: the modified Fabric CA process. Phase 2: the issuance pipeline through CFSSL local.Signer and the PQCCertCreator hook into CreatePQCCertificate. Phase 3: the post-quantum-signed MSP identity certificate committed to the ledger. Phase 4: runtime validation via buildPQCChain called from getUniqueValidationChain.</desc>
+
 <defs>
-  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Chevron-style arrow for phase-to-phase flow -->
+  <marker id="arrow-pq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 1L9 5L1 9" fill="none" stroke="#0F6E56" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
+  <marker id="arrow-thin" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 2L9 5L2 8" fill="none" stroke="#0F6E56" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <!-- Subtle drop shadow for the certificate document -->
+  <filter id="soft-shadow" x="-5%" y="-5%" width="110%" height="110%">
+    <feGaussianBlur stdDeviation="1.2" />
+    <feOffset dx="0" dy="1" result="offsetblur" />
+    <feFlood flood-color="#0F6E56" flood-opacity="0.18"/>
+    <feComposite in2="offsetblur" operator="in" />
+    <feMerge>
+      <feMergeNode />
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
 </defs>
 
-<!-- PQC-CA container -->
-<rect x="18" y="12" width="238" height="118" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="137" y="30" text-anchor="middle" dominant-baseline="central">Post-quantum CA  (PQC-CA)</text>
-<line x1="28" y1="40" x2="246" y2="40" stroke="#0F6E56" stroke-width="0.5" opacity="0.4"/>
-<!-- PQCSigner inner box -->
-<rect x="28" y="50" width="100" height="68" rx="5" fill="#C8EFE0" stroke="#0F6E56" stroke-width="0.5"/>
-<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="78" y="70" text-anchor="middle" dominant-baseline="central">PQCSigner</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="78" y="88" text-anchor="middle" dominant-baseline="central">crypto.Signer</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="78" y="104" text-anchor="middle" dominant-baseline="central">interface</text>
-<!-- buildPQCCert inner box -->
-<rect x="138" y="50" width="108" height="68" rx="5" fill="#C8EFE0" stroke="#0F6E56" stroke-width="0.5"/>
-<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="192" y="70" text-anchor="middle" dominant-baseline="central">buildPQCCert()</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="192" y="88" text-anchor="middle" dominant-baseline="central">custom ASN.1</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="192" y="104" text-anchor="middle" dominant-baseline="central">bypass</text>
+<!-- ==== Background bands: enrolment-time (top) vs runtime (bottom) ==== -->
+<rect x="0" y="0" width="720" height="540" fill="#FFFFFF"/>
+<rect x="0" y="540" width="720" height="240" fill="#F7FBF9"/>
+<line x1="0" y1="540" x2="720" y2="540" stroke="#CFE5DC" stroke-width="0.8" stroke-dasharray="4,3"/>
 
-<!-- ECDSA-CA container -->
-<rect x="424" y="12" width="238" height="118" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#042C53" x="543" y="30" text-anchor="middle" dominant-baseline="central">Classical CA  (ECDSA-CA)</text>
-<line x1="434" y1="40" x2="652" y2="40" stroke="#185FA5" stroke-width="0.5" opacity="0.4"/>
-<!-- ECDSA signer inner box -->
-<rect x="434" y="50" width="100" height="68" rx="5" fill="#C5D8F0" stroke="#185FA5" stroke-width="0.5"/>
-<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#042C53" x="484" y="70" text-anchor="middle" dominant-baseline="central">ECDSA signer</text>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="484" y="88" text-anchor="middle" dominant-baseline="central">crypto/x509</text>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="484" y="104" text-anchor="middle" dominant-baseline="central">stdlib</text>
-<!-- x509.CreateCertificate inner box -->
-<rect x="544" y="50" width="108" height="68" rx="5" fill="#C5D8F0" stroke="#185FA5" stroke-width="0.5"/>
-<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#042C53" x="598" y="66" text-anchor="middle" dominant-baseline="central">x509.Create-</text>
-<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#042C53" x="598" y="82" text-anchor="middle" dominant-baseline="central">Certificate()</text>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="598" y="100" text-anchor="middle" dominant-baseline="central">standard Go TLS</text>
+<!-- Right-edge temporal annotations -->
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#7A8983" x="708" y="34" text-anchor="end">ENROLMENT TIME</text>
+<text font-family="sans-serif" font-size="8.5" fill="#7A8983" x="708" y="46" text-anchor="end">once per identity</text>
 
-<!-- Routing box -->
-<rect x="240" y="42" width="200" height="58" rx="6" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#2C2C2A" x="340" y="62" text-anchor="middle" dominant-baseline="central">Certificate routing</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="340" y="80" text-anchor="middle" dominant-baseline="central">enrolment request type</text>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#7A8983" x="708" y="560" text-anchor="end">RUNTIME</text>
+<text font-family="sans-serif" font-size="8.5" fill="#7A8983" x="708" y="572" text-anchor="end">every endorsement and commit</text>
 
-<!-- Routing arrows to CAs -->
-<line x1="240" y1="71" x2="258" y2="71" stroke="#0F6E56" stroke-width="1.2" marker-end="url(#arrow)"/>
-<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#085041" x="248" y="62" text-anchor="middle" dominant-baseline="central">MSP req.</text>
-<line x1="440" y1="71" x2="422" y2="71" stroke="#185FA5" stroke-width="1.2" marker-end="url(#arrow)"/>
-<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#042C53" x="432" y="62" text-anchor="middle" dominant-baseline="central">TLS req.</text>
+<!-- ==== Title ==== -->
+<text font-family="sans-serif" font-size="13" font-weight="bold" fill="#2C2C2A" x="32" y="34">Post-quantum MSP identity certificate lifecycle</text>
+<text font-family="sans-serif" font-size="9.5" fill="#5F5E5A" x="32" y="50">from enrolment request to runtime chain validation</text>
 
-<!-- Downward arrows: CAs → cert type panels -->
-<line x1="137" y1="130" x2="137" y2="218" stroke="#0F6E56" stroke-width="1.2" marker-end="url(#arrow)"/>
-<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#085041" x="148" y="178" dominant-baseline="central">issues</text>
-<line x1="543" y1="130" x2="543" y2="218" stroke="#185FA5" stroke-width="1.2" marker-end="url(#arrow)"/>
-<text font-family="sans-serif" font-size="8.5" font-style="italic" fill="#042C53" x="554" y="178" dominant-baseline="central">issues</text>
+<!-- ==========================================================
+     PHASE LABELS — left column (numbered circles + label)
+     ========================================================== -->
+<!-- Phase 1 -->
+<circle cx="38" cy="110" r="12" fill="#0F6E56"/>
+<text font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" x="38" y="114" text-anchor="middle">1</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="138" text-anchor="middle">CA</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="150" text-anchor="middle">process</text>
 
-<!-- MSP identity certificates panel -->
-<rect x="18" y="220" width="298" height="106" rx="7" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="167" y="238" text-anchor="middle" dominant-baseline="central">MSP identity certificates</text>
-<line x1="28" y1="248" x2="306" y2="248" stroke="#0F6E56" stroke-width="0.4" opacity="0.4"/>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="167" y="263" text-anchor="middle" dominant-baseline="central">ML-DSA / FN-DSA public key  ·  PQC signed</text>
-<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="167" y="279" text-anchor="middle" dominant-baseline="central">Used by: peers, orderers, clients</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="167" y="295" text-anchor="middle" dominant-baseline="central">Appears in ledger — harvest surface for TS1–TS3</text>
-<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#085041" x="167" y="315" text-anchor="middle" dominant-baseline="central">Closes TS1 · TS2 · TS3</text>
+<!-- Phase 2 -->
+<circle cx="38" cy="246" r="12" fill="#0F6E56"/>
+<text font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" x="38" y="250" text-anchor="middle">2</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="274" text-anchor="middle">Issuance</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="286" text-anchor="middle">pipeline</text>
 
-<!-- TLS certificates panel -->
-<rect x="364" y="220" width="298" height="106" rx="7" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
-<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#042C53" x="513" y="238" text-anchor="middle" dominant-baseline="central">TLS certificates</text>
-<line x1="374" y1="248" x2="652" y2="248" stroke="#185FA5" stroke-width="0.4" opacity="0.4"/>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="513" y="263" text-anchor="middle" dominant-baseline="central">ECDSA P-256 public key  ·  classical signed</text>
-<text font-family="sans-serif" font-size="9" fill="#185FA5" x="513" y="279" text-anchor="middle" dominant-baseline="central">Used by: TLS sessions only</text>
-<text font-family="sans-serif" font-size="9" fill="#888780" x="513" y="295" text-anchor="middle" dominant-baseline="central">Not committed to ledger  ·  required by Go crypto/tls</text>
-<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#042C53" x="513" y="315" text-anchor="middle" dominant-baseline="central">Addresses TS4  ·  via X25519MLKEM768 key exchange</text>
+<!-- Phase 3 -->
+<circle cx="38" cy="450" r="12" fill="#0F6E56"/>
+<text font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" x="38" y="454" text-anchor="middle">3</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="478" text-anchor="middle">Certificate</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="490" text-anchor="middle">artefact</text>
 
-<!-- Future state note -->
-<rect x="170" y="340" width="340" height="34" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.6"/>
-<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#633806" x="340" y="352" text-anchor="middle" dominant-baseline="central">Future state</text>
-<text font-family="sans-serif" font-size="8.5" fill="#633806" x="340" y="367" text-anchor="middle" dominant-baseline="central">Unified PQC CA once Go crypto/tls supports post-quantum OIDs</text>
+<!-- Phase 4 -->
+<circle cx="38" cy="640" r="12" fill="#0F6E56"/>
+<text font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" x="38" y="644" text-anchor="middle">4</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="668" text-anchor="middle">Runtime</text>
+<text font-family="sans-serif" font-size="10" font-weight="bold" fill="#085041" x="38" y="680" text-anchor="middle">validation</text>
+
+<!-- Vertical connecting line through phase markers -->
+<line x1="38" y1="124" x2="38" y2="234" stroke="#CFE5DC" stroke-width="2"/>
+<line x1="38" y1="260" x2="38" y2="438" stroke="#CFE5DC" stroke-width="2"/>
+<line x1="38" y1="464" x2="38" y2="628" stroke="#CFE5DC" stroke-width="2"/>
+
+<!-- ==========================================================
+     PHASE 1 — CA process
+     ========================================================== -->
+<rect x="105" y="80" width="540" height="76" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text font-family="sans-serif" font-size="12" font-weight="bold" fill="#085041" x="375" y="106" text-anchor="middle">M²Fabric Fabric CA</text>
+<text font-family="sans-serif" font-size="9.5" fill="#0F6E56" x="375" y="122" text-anchor="middle">Fabric CA v1.5.12 patched in util/pqcsigner.go, lib/ca.go, lib/serverenroll.go</text>
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#085041" x="375" y="140" text-anchor="middle">configured with csr.key.algo = ml-dsa-44 (or ml-dsa-65, or fn-dsa-512)</text>
+
+<!-- Enrolment request arrow into Phase 2 -->
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="375" y="174" text-anchor="middle">enrolment request from peer, orderer, or client</text>
+<line x1="375" y1="180" x2="375" y2="200" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow-pq)"/>
+
+<!-- ==========================================================
+     PHASE 2 — Issuance pipeline (4 sequential steps)
+     ========================================================== -->
+
+<!-- 2a /enroll handler -->
+<rect x="105" y="204" width="540" height="46" rx="6" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#5F5E5A" x="116" y="220">2a</text>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="375" y="222" text-anchor="middle">/enroll handler  ·  lib/serverenroll.go</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="238" text-anchor="middle">ExtractCNFromCSR reads the subject CN from raw ASN.1 when x509.ParseCertificateRequest</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="248" text-anchor="middle">fails on an unknown post-quantum OID</text>
+
+<line x1="375" y1="252" x2="375" y2="270" stroke="#0F6E56" stroke-width="1.3" marker-end="url(#arrow-thin)"/>
+
+<!-- 2b enrollSigner.Sign -->
+<rect x="105" y="274" width="540" height="42" rx="6" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#5F5E5A" x="116" y="290">2b</text>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="375" y="292" text-anchor="middle">ca.enrollSigner.Sign(req.SignRequest)</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="307" text-anchor="middle">forked CFSSL local.Signer — single signing pipeline for every enrolment</text>
+
+<line x1="375" y1="316" x2="375" y2="334" stroke="#0F6E56" stroke-width="1.3" marker-end="url(#arrow-thin)"/>
+
+<!-- 2c PQCCertCreator hook -->
+<rect x="105" y="338" width="540" height="50" rx="6" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#5F5E5A" x="116" y="354">2c</text>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="375" y="356" text-anchor="middle">local.SetPQCCertCreator hook  ·  registered at init() in util/pqcsigner.go</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="370" text-anchor="middle">fires when template.PublicKey is *PQCPublicKey or *PQCPublicKeyRaw;</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="380" text-anchor="middle">classical keys continue to the standard x509.CreateCertificate path</text>
+
+<line x1="375" y1="388" x2="375" y2="406" stroke="#0F6E56" stroke-width="1.3" marker-end="url(#arrow-thin)"/>
+
+<!-- 2d CreatePQCCertificate -->
+<rect x="105" y="410" width="540" height="46" rx="6" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.9"/>
+<text font-family="sans-serif" font-size="9" font-weight="bold" fill="#5F5E5A" x="116" y="426">2d</text>
+<text font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#085041" x="375" y="428" text-anchor="middle">CreatePQCCertificate(template, parent, pub, priv)</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="442" text-anchor="middle">manual ASN.1 DER construction  ·  signTBS() over raw TBS bytes</text>
+<text font-family="sans-serif" font-size="9" fill="#0F6E56" x="375" y="452" text-anchor="middle">using the configured PQ algorithm  ·  PQ signatureAlgorithm OID emitted</text>
+
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="375" y="478" text-anchor="middle">issues</text>
+<line x1="375" y1="458" x2="375" y2="498" stroke="#0F6E56" stroke-width="1.6" marker-end="url(#arrow-pq)"/>
+
+<!-- ==========================================================
+     PHASE 3 — Certificate artefact (document shape with corner fold)
+     ========================================================== -->
+<g filter="url(#soft-shadow)">
+  <!-- Document body with corner fold -->
+  <path d="M 105 502 L 605 502 L 645 522 L 645 596 Q 645 604 637 604 L 113 604 Q 105 604 105 596 L 105 510 Q 105 502 113 502 Z"
+        fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.1"/>
+  <!-- Folded corner triangle -->
+  <path d="M 605 502 L 605 522 L 645 522 Z" fill="#C8EFE0" stroke="#0F6E56" stroke-width="0.9"/>
+</g>
+
+<text font-family="sans-serif" font-size="12" font-weight="bold" fill="#085041" x="375" y="524" text-anchor="middle">MSP Identity Certificate</text>
+<text font-family="sans-serif" font-size="9.5" fill="#0F6E56" x="375" y="540" text-anchor="middle">ML-DSA-44 / ML-DSA-65 / FN-DSA-512 public key in SubjectPublicKeyInfo</text>
+<text font-family="sans-serif" font-size="9.5" fill="#0F6E56" x="375" y="554" text-anchor="middle">PQ signatureAlgorithm OID  ·  signature over raw TBS bytes</text>
+<text font-family="sans-serif" font-size="9.5" fill="#0F6E56" x="375" y="568" text-anchor="middle">committed to the ledger, channel configuration, transaction records</text>
+<text font-family="sans-serif" font-size="9" fill="#888780" font-style="italic" x="375" y="586" text-anchor="middle">harvest surface for TS1 (CA forgery), TS2 (transaction forgery), TS3 (block-integrity compromise)</text>
+
+<!-- Validated by arrow into Phase 4 -->
+<text font-family="sans-serif" font-size="9" font-style="italic" fill="#0F6E56" x="375" y="624" text-anchor="middle">validated by</text>
+<line x1="375" y1="606" x2="375" y2="634" stroke="#0F6E56" stroke-width="1.6" marker-end="url(#arrow-pq)"/>
+
+<!-- ==========================================================
+     PHASE 4 — Runtime validation (thick-border box on the runtime band)
+     ========================================================== -->
+<rect x="105" y="638" width="540" height="106" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="12.5" font-weight="bold" fill="#085041" x="375" y="664" text-anchor="middle">buildPQCChain()  ·  msp/pqc.go</text>
+<text font-family="sans-serif" font-size="9.5" fill="#0F6E56" x="375" y="682" text-anchor="middle">invoked by getUniqueValidationChain in mspimpl.go</text>
+<text font-family="sans-serif" font-size="9.5" fill="#444" x="375" y="700" text-anchor="middle">walks end-entity → root with bounded depth limit; dispatches on each child's signatureAlgorithm OID</text>
+<text font-family="sans-serif" font-size="9.5" fill="#444" x="375" y="715" text-anchor="middle">routes ML-DSA-44/-65 to CIRCL; routes FN-DSA-512 to go-fn-dsa</text>
+<text font-family="sans-serif" font-size="9.5" fill="#444" x="375" y="730" text-anchor="middle">structural checks: validity period, AKID/SKID match, keyCertSign bit, depth limit</text>
+
 </svg>
