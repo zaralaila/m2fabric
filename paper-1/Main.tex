@@ -57,8 +57,7 @@ rosyzie.apong@ubd.edu.bn}
 Cryptographically relevant quantum computers (CRQCs) threaten every system whose security rests on the elliptic curve discrete logarithm problem (ECDLP). Hyperledger Fabric, the dominant enterprise permissioned blockchain, depends uniformly on ECDSA and ECDH over P-256 across its entire transaction lifecycle and identity infrastructure. This paper presents the first component-level quantum vulnerability audit and formal threat model for Hyperledger Fabric. Auditing v2.5.12, we identify twenty-five distinct quantum-vulnerable operations across five lifecycle phases, the Fabric CA and MSP identity subsystems, the gossip protocol, and the key management layer, confirming that the vulnerability is complete and uniform: every public-key operation is simultaneously broken by Shor's algorithm. From this inventory we derive five formal threat scenarios with explicit adversarial assumptions and prioritise them in a severity--exploitability risk matrix. We show that the append-only ledger permanently amplifies the harvest-now-decrypt-later (HNDL) threat, and we adapt Mosca's inequality to this setting across five deployment scenarios. The analysis identifies root-CA self-signing and orderer block-signing as the highest-priority migration targets and exposes a partial migration vulnerability in which post-quantum transaction signing gives no protection while the CA remains classical. We conclude with eight formal integration requirements, traceable to the identified threats, that specify a quantum-resistant Fabric architecture, including the requirement that the live CA itself issue post-quantum certificates at runtime.
 \end{abstract}
 
-\begin{IEEEkeywords}
-post-quantum cryptography, Hyperledger Fabric, permissioned blockchain, quantum threat model, harvest-now-decrypt-later
+\begin{IEEEkeywords}post-quantum cryptography, Hyperledger Fabric, permissioned blockchain, quantum threat model, harvest-now-decrypt-later
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -122,9 +121,11 @@ literature~\cite{nist_ir8105, bernstein2017pqc}.
 
 \subsection{Four-Stage Audit Process and Severity Rubric}
 \label{sec:tm_severity}
-The audit: (1) enumerates lifecycle cryptographic operations; (2) maps each to
-its algorithm and key type; (3) classifies operations as Shor-threatened or
-Grover-affected; and (4) assesses severity and exploitability.
+The audit, summarised in Figure~\ref{fig:ch4_methodology}, proceeds in
+four stages: (1) enumerates lifecycle cryptographic operations;
+(2) maps each to its algorithm and key type; (3) classifies operations
+as Shor-threatened or Grover-affected; and (4) assesses severity and
+exploitability.
 Severity is based on compromise scope. \textbf{Critical} applies to compromise
 of network-wide trust or trust anchors; \textbf{High} to transaction or
 identity-level compromise; \textbf{Medium} to confidentiality breaches such as
@@ -133,9 +134,8 @@ operations in this audit fall into that category.
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.90\linewidth]{figures/fig_ch4_methodology.png}
-    \caption{Four-stage quantum vulnerability audit methodology for
-Hyperledger Fabric v2.5.12}
+    \includegraphics[width=\linewidth]{figures/fig_auditability_methodology.png}
+    \caption{Hyperledger Fabric Quantum Vulnerability Audit Methodology}
     \label{fig:ch4_methodology}
 \end{figure*}
 
