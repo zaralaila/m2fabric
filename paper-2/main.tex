@@ -944,30 +944,41 @@ bottleneck: empirically $\tau_{\mathrm{cert}}\propto|\mathit{pk}|^{\beta}$
 with $\beta\approx 2.30$, so doubling the public-key size quintuples
 per-certificate validation time.
 
-Ledger storage (Table~\ref{tab:storage_results}) confirms signature size
-as a second-order contributor: all three post-quantum algorithms produce
-write-heavy ledgers within 4\% of the 1{,}690~MB ECDSA baseline. The
-mixed-workload figures are cumulative across sequential runs without
-intervening reset; the 0.86$\times$ ML-DSA-44 multiplier reflects fewer
-committed blocks at reduced throughput, not a per-transaction saving.
+Ledger storage (Table~\ref{tab:storage_results}) confirms signature
+size as a second-order contributor: all three post-quantum algorithms
+produce write-heavy ledgers within 4\% of the 1{,}690~MB ECDSA
+baseline, with per-write on-disk overhead of 1{,}706--1{,}756~bytes
+across all four algorithms despite signatures ranging from 72 to
+3{,}309 bytes. The mechanism is Fabric's block-level identity model:
+endorsement certificates are stored by reference in the peer identity
+store rather than embedded in every block, so signature size affects
+transmission and verification cost but not ledger footprint. For the
+mixed workload the physically meaningful metric is per-run ledger
+growth (the increment added by one benchmark run), which isolates a
+single run's contribution independently of the network's prior
+state; the three post-quantum values agree to within two percent and
+the 0.74--0.75$\times$ multipliers relative to the ECDSA baseline
+quantify a throughput-mediated reduction (fewer committed
+transactions per unit time), not a per-transaction storage saving.
+
 \begin{table}[ht]
 \centering
-\caption{Ledger storage per peer at benchmark conclusion.}
+\caption{Ledger storage: write-heavy 3-run mean and mixed per-run growth.}
 \label{tab:storage_results}
 \footnotesize
 
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lrrrr@{}}
 \toprule
 \textbf{Algorithm} &
-\multicolumn{2}{c}{\textbf{Write-heavy}} &
-\multicolumn{2}{c}{\textbf{Mixed}} \\
+\multicolumn{2}{c}{\textbf{Write-heavy (3-run mean)}} &
+\multicolumn{2}{c}{\textbf{Mixed (per-run growth)}} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
-& \textbf{MB} & \textbf{Ratio} & \textbf{MB} & \textbf{Ratio} \\
+& \textbf{MB} & \textbf{Ratio} & \textbf{MB/run} & \textbf{Ratio} \\
 \midrule
-ECDSA P-256 & 1,690 & ref.        & 3,266 & ref. \\
-FN-DSA-512  & 1,669 & 0.99$\times$ & 4,477 & 1.37$\times$ \\
-ML-DSA-44   & 1,633 & 0.97$\times$ & 2,822 & 0.86$\times$ \\
-ML-DSA-65   & 1,679 & 0.99$\times$ & 4,391 & 1.34$\times$ \\
+ECDSA P-256 & 1,690 & ref.        & 1,875 & ref.         \\
+FN-DSA-512  & 1,669 & 0.99$\times$ & 1,408 & 0.75$\times$ \\
+ML-DSA-44   & 1,633 & 0.97$\times$ & 1,410 & 0.75$\times$ \\
+ML-DSA-65   & 1,679 & 0.99$\times$ & 1,386 & 0.74$\times$ \\
 \bottomrule
 \end{tabular*}
 \end{table}
