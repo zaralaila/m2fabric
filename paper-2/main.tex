@@ -80,7 +80,7 @@ with zero failures. An empirical evaluation on a two-organisation Caliper
 network ($n=27$ runs per workload plus a six-run ECDSA baseline) shows the
 Phase~3 deployment reduces maximum sustainable write-heavy throughput
 from the 275.3~TPS ECDSA baseline by 3.5\% for FN-DSA-512, 10.9\% for
-ML-DSA-44, and 18.0\% for ML-DSA-65, with bootstrap and Cohen's-$d$
+ML-DSA-44, and 18.0\% for ML-DSA-65, with bootstrap and Cohen's $d$
 checks supporting the ordering. The results establish per-endorsement
 payload size, not signing speed, as the dominant throughput determinant.}
 \end{abstract}
@@ -96,51 +96,62 @@ key exchange.}
 %=====================================================================
 \section{INTRODUCTION} \label{sec:intro}
 %=====================================================================
-\IEEEPARstart{H}{yperledger} Fabric's quantum vulnerability is complete
-and uniform across the twenty-five cryptographic operations of its
-transaction lifecycle and identity-management infrastructure. Replacing
-all four live cryptographic layers — the BCCSP signing layer, the X.509
-certificate-infrastructure layer, the MSP identity-validation layer, and
-the TLS inter-node communication layer — with NIST-standardised
-post-quantum equivalents while preserving compatibility with the Fabric
-component ecosystem is the central engineering challenge. Prior work has
-addressed subsets in
-isolation~\cite{holcomb2021, hu2025prototype, abbas2025, kasula2025, razdan2025postquantum},
-but no published implementation addresses all four simultaneously, and
-partial integration creates a structural vulnerability in which the
-unaddressed layers remain quantum-exploitable regardless of the
-post-quantum strength of the addressed layers.
+\IEEEPARstart{P}{rior} post-quantum integrations of Hyperledger Fabric
+remain \emph{partial}: each replaces only a subset of the platform's
+cryptographic layers, leaving the remainder
+quantum-exploitable~\cite{holcomb2021, hu2025prototype, abbas2025, kasula2025, razdan2025postquantum}.
+The recurring cause is a single implementation barrier --- Go's
+\textit{crypto/x509} stack cannot parse or validate certificates
+carrying post-quantum object identifiers --- which has confined prior
+work to \emph{offline} certificate generation and left the live Fabric
+CA's classical signing key active. Because trust in Fabric propagates
+from that CA, a migration that leaves it classical is not a transitional
+state but a structural vulnerability: a quantum adversary who recovers
+the classical root key can forge post-quantum certificates that even a
+post-quantum validator accepts. Migrating all four live cryptographic
+layers --- BCCSP signing, X.509 certificate issuance, MSP identity
+validation, and TLS transport --- simultaneously, at runtime, and
+without modifying the Go standard library is therefore the open problem
+this article addresses.
 
-The implementation presented here, \mfabric{}, provides a post-quantum
-BCCSP plugin supporting ML-DSA-44, ML-DSA-65, and FN-DSA-512 through
-constant-time pure-Go libraries; extends the live Fabric CA to issue
-X.509 certificates carrying post-quantum public keys; implements a
-custom OID-aware certificate-chain validator in the MSP without
-modifying the Go standard library; and activates ML-KEM-768 hybrid key
-exchange at the TLS layer. The contributions beyond existing literature
-are: (i) the first runtime implementation addressing the four primary
-cryptographic layers of Fabric v2.5.x simultaneously under
-FIPS-standardised algorithms (FIPS~203, 204, FIPS~206 Initial Public
-Draft) in unmodified Go; (ii) the \textit{buildPQCChain()} OID-dispatched
-validator that solves the Go standard-library X.509 barrier that has
-prevented live CA integration in prior
-work~\cite{holcomb2021, hu2025prototype, abbas2025}; (iii) the first
-end-to-end performance characterisation of a four-layer FIPS-standardised
-integration on Fabric v2.5.12 ($n=27$ benchmark runs per workload across
-nine algorithm-phase combinations plus a six-run ECDSA baseline),
-establishing per-endorsement payload size as the dominant throughput
-determinant; and (iv) resolution of practical engineering barriers
-(certificate-generation and chain-validation bypasses for post-quantum
-OIDs, variable-length FN-DSA signature handling, and CFSSL hook-based
-integration).
+We frame three research questions. \textbf{RQ1:} can all four live
+cryptographic layers of Fabric v2.5.x be migrated to NIST-standardised
+post-quantum algorithms simultaneously while preserving compatibility
+with the Fabric component ecosystem? \textbf{RQ2:} can a live CA issue,
+and a runtime MSP validate, post-quantum X.509 certificates without
+modifying Go's \textit{crypto/x509}? \textbf{RQ3:} what is the
+throughput, latency, and storage cost of the resulting deployment, and
+which algorithm should an operator choose?
 
-The rest of this paper is organized as follows.
-Section~\ref{sec:litreview} reviews the existing literature.
-Section~\ref{sec:methodology} presents the methodology. Section~\ref{sec:experimental} describes the
-experimental setup, test network, verification procedure, and benchmark
-methodology, and reports the verification and performance results. Section~\ref{sec:discussion} discusses completeness,
-generalisability, alignment with national PQC migration strategies, and
-limitations, while Section~\ref{sec:conclusion} concludes the paper.
+The central artefact of \mfabric{} is \textit{buildPQCChain()}, an
+OID-dispatched certificate-chain validator that resolves the
+\textit{crypto/x509} barrier of RQ2 and thereby makes a live
+post-quantum CA --- and hence full four-layer coverage --- attainable.
+Around it, \mfabric{} provides a post-quantum BCCSP plugin (ML-DSA-44,
+ML-DSA-65, and FN-DSA-512 through constant-time pure-Go libraries), a
+Fabric CA extended to issue post-quantum X.509 certificates, and
+ML-KEM-768 hybrid key exchange at the TLS layer. Its contributions,
+to the best of our knowledge, are:
+(i)~\textit{buildPQCChain()}, the first OID-dispatched runtime validator
+to lift the Go standard-library X.509 barrier that had prevented
+live-CA integration in prior
+work~\cite{holcomb2021, hu2025prototype, abbas2025};
+(ii)~the first runtime integration of all four primary cryptographic
+layers of Fabric v2.5.x under FIPS-standardised algorithms (FIPS~203,
+204, and the FIPS~206 Initial Public Draft) in unmodified Go;
+(iii)~an end-to-end performance characterisation ($n=27$ runs per
+workload across nine algorithm-phase combinations, plus a six-run ECDSA
+baseline) establishing per-endorsement payload size, not signing speed,
+as the dominant throughput determinant; and (iv)~resolution of the
+practical engineering barriers (post-quantum-OID certificate generation
+and chain validation, variable-length FN-DSA signatures, and CFSSL
+hook-based integration).
+
+\S\ref{sec:litreview} reviews related work,
+\S\ref{sec:methodology} the methodology, and \S\ref{sec:experimental}
+the experimental setup and results; \S\ref{sec:discussion} discusses
+completeness, generalisability, and limitations, and
+\S\ref{sec:conclusion} concludes.
 
 %=====================================================================
 \section{LITERATURE REVIEW} \label{sec:litreview}
@@ -148,7 +159,7 @@ limitations, while Section~\ref{sec:conclusion} concludes the paper.
 
 This section reviews post-quantum standardisation, post-quantum TLS
 performance, and prior Fabric integrations. The recurring gap is that
-prior Fabric work has each replaced only a strict subset of the
+each prior Fabric integration has replaced only a strict subset of the
 platform's cryptographic layers, leaving the unaddressed layers
 quantum-exploitable irrespective of the strength of those replaced.
 
@@ -187,8 +198,8 @@ Hyperledger Fabric~\cite{androulaki2018} is a permissioned blockchain whose
 transaction throughput under classical cryptography has been characterised by
 Baliga et al.~\cite{baliga2018performance}, Kuzlu et
 al.~\cite{kuzlu2021performance}, Nasir et al.~\cite{nasir2018}, and Thakkar et
-al.~\cite{thakkar2018}, whose analyses identify endorsement-signature
-verification at the committing peer as a principal scaling bottleneck. 
+al.~\cite{thakkar2018}. These analyses identify endorsement-signature
+verification at the committing peer as a principal scaling bottleneck.
 
 Prior post-quantum work on Hyperledger Fabric falls into four categories.
 \emph{Algorithm benchmarks without Fabric integration}
@@ -218,20 +229,19 @@ certificate generation to the offline Cryptogen tool but did not address
 the live CA, TLS, or MSP chain validation; Hu targeted Fabric~3.0 but
 required a non-standard Go compiler fork.
 
-The common limitation across all four infrastructure-layer integrations
-is the incompatibility between post-quantum OIDs and Go's
-\textit{crypto/x509}, which confined prior work to offline certificate
-generation and left the live CA's classical signing key active.
-\mfabric{} resolves this barrier and is, to the authors' knowledge, the
-first integration to address all four live cryptographic layers of the
-current Fabric LTS simultaneously using FIPS-standardised algorithms in
-unmodified Go. Table~\ref{tab:prior_work_comparison} consolidates the
-coverage, with checkmarks for runtime layers, ``offline'' for
-offline-only addressing, ``app.'' for application-layer-only primitives,
-and ``proxy'' for endorsement-policy mechanisms rather than
-cryptographic replacements. PQFabric and Hu use pre-FIPS lattice
+Across all four categories, no prior integration overcomes the
+\emph{runtime} certificate-validation barrier: Go's \textit{crypto/x509}
+cannot validate a chain carrying post-quantum object identifiers, which
+confined every infrastructure-layer effort to offline certificate
+generation and left the live CA's classical signing key active --- the
+gap that keeps the highest-severity threat (TS1) open regardless of what
+else is migrated. \mfabric{} is, to the best of our knowledge, the
+first integration to overcome this barrier and address all four live
+cryptographic layers of the current Fabric LTS simultaneously using
+FIPS-standardised algorithms in unmodified Go. Table~\ref{tab:prior_work_comparison} consolidates the
+coverage. PQFabric and Hu use pre-FIPS lattice
 parameters; Kasula et al.'s primary SM2 algorithm is elliptic-curve-based
-and is therefore equally vulnerable to Shor's algorithm despite the
+and therefore equally vulnerable to Shor's algorithm despite the
 ``post-quantum'' framing.
 
 \begin{table}[ht]
@@ -283,41 +293,40 @@ modifying existing functions wherever feasible.
 \subsection{DESIGN REQUIREMENTS AND PRINCIPLES}
 \label{sec:method_principles}
 
-The implementation is governed by the eight formal integration
-requirements (R1--R8) derived from the companion quantum threat
-analysis for Hyperledger Fabric~\cite{cheong2026threat}, which
-enumerates twenty-five quantum-vulnerable lifecycle operations and
-consolidates them into five threat scenarios: identity impersonation
-via certificate forgery (TS1), transaction-signature forgery (TS2),
-block-integrity compromise via orderer key recovery (TS3), TLS session
-decryption via harvest-now-decrypt-later (TS4), and gossip-protocol
-manipulation (TS5). Table~\ref{tab:req_traceability} lists the eight
-requirements, their targets, and their category (functional,
-architectural, or quality/security/operational). R1--R3 are functional
-requirements that map directly to the threat scenarios; R4--R8 are
-non-functional requirements that a deployable, maintainable,
-side-channel-resistant, and incrementally deployable implementation
-must satisfy.
+The implementation is governed by eight formal integration
+requirements (R1--R8) derived from a component-level quantum threat
+analysis of Hyperledger Fabric. The analysis enumerates twenty-five
+quantum-vulnerable lifecycle operations (Op-01 through Op-25) and
+consolidates them into the five threat scenarios of
+Table~\ref{tab:threats}. Three \emph{functional} requirements close
+these scenarios --- R1 (PQC signing at every signing point), R2 (PQC
+key encapsulation in TLS), and R3 (runtime PQC certificate issuance by
+the live CA) --- supported by five \emph{non-functional} requirements:
+R4 (preserve the BCCSP interface), R5 (crypto-agility via
+configuration), R6 (functional correctness), R7 (constant-time
+operations), and R8 (phased migration). TS1 and TS3 carry the
+joint-highest priority (Critical severity, High exploitability)
+because the root-CA and orderer signing keys are recoverable directly
+from public ledger content.
 
 \begin{table}[ht]
 \centering
-\caption{Formal integration requirements traceability
-(after~\cite{cheong2026threat}).}
-\label{tab:req_traceability}
+\caption{Threat scenarios: the lifecycle operations each targets, its
+severity and exploitability, and the functional requirement that
+closes it.}
+\label{tab:threats}
 \setlength{\tabcolsep}{3pt}
 \footnotesize
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}c>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.2cm}l@{}}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}c>{\raggedright\arraybackslash}p{2.35cm}>{\raggedright\arraybackslash}p{2.55cm}cc@{}}
 \toprule
-\textbf{Req.} & \textbf{Description} & \textbf{Threat scenario addressed} & \textbf{Type} \\
+\textbf{TS} & \textbf{Scenario} & \textbf{Affected operations} &
+\textbf{Sev./Expl.} & \textbf{Closed by} \\
 \midrule
-R1 & PQC signing at all signing points   & TS2 transaction-signature forgery; TS3 orderer-key recovery & Functional \\
-R2 & PQC key encapsulation in TLS        & TS4 TLS session decryption (HNDL); TS5 gossip-protocol manipulation & Functional \\
-R3 & PQC certificates from live CA       & TS1 identity impersonation via certificate forgery & Functional \\
-R4 & Preserve BCCSP interface            & Quality constraint & Architectural \\
-R5 & Crypto-agility via configuration    & Quality constraint & Architectural \\
-R6 & Functional correctness              & Quality constraint & Quality       \\
-R7 & Constant-time operations            & Side-channel exposure & Security   \\
-R8 & Phased migration pathway            & Operational constraint & Operational \\
+TS1 & Identity impersonation (cert.\ forgery) & Op-04, 16, 17, 18, 19, 21, 22 & Crit./High & R3 \\
+TS2 & Transaction-signature forgery & Op-01, 03, 05, 07, 09, 14 & High/High & R1 \\
+TS3 & Block integrity (orderer-key recovery) & Op-10, 12, 13, 15 & Crit./High & R1 \\
+TS4 & TLS session decryption (HNDL) & Op-02, 06, 08, 11, 13, 20, 24 & Med./Med. & R2 \\
+TS5 & Gossip-protocol manipulation & Op-23, 24 & Med./Low & R2 \\
 \bottomrule
 \end{tabular*}
 \end{table}
@@ -329,53 +338,29 @@ post-quantum keys, making the \textit{buildPQCChain()} validator
 issues post-quantum certificates requires a live validator that can
 verify them.
 
-The multilayer coverage objective can be stated formally. Let
-$\mathcal{L}=\{\ell_1,\dots,\ell_4\}$ be the set of quantum-vulnerable
-cryptographic layers and let $x_{\ell}\in\{0,1\}$ indicate whether layer
-$\ell$ is migrated to a post-quantum primitive. The requirements jointly
-demand the coverage constraint
-
-\begin{equation}
-\sum_{\ell\in\mathcal{L}} x_{\ell} = |\mathcal{L}| = 4 ,
-\label{eq:coverage_constraint}
-\end{equation}
-
-where $x_{\ell}$ is the binary migration indicator for layer $\ell$ and
-$|\mathcal{L}|$ is the number of vulnerable layers. Any solution with
-$\sum_{\ell} x_{\ell}<4$ leaves at least one layer quantum-exploitable; the
-multilayer design exists precisely to satisfy~(\ref{eq:coverage_constraint})
-with equality, distinguishing \mfabric{} from the partial integrations of prior
-work.
+The requirements are jointly satisfied only under \emph{full} coverage:
+migrating any strict subset of the four layers leaves at least one
+quantum-exploitable, so \mfabric{} migrates all four --- the property
+that distinguishes it from the partial integrations of prior work and
+that \S\ref{sec:disc_completeness} quantifies through the coverage
+identity~(\ref{eq:integration_coverage}).
 
 \subsection{POST-QUANTUM ALGORITHM SELECTION}
 \label{sec:method_alg}
 
-Having fixed the design principles, the next step is to select the concrete
+With the design principles fixed, the next step is to select the
 algorithms that instantiate them. The selection is constrained by R1 to
-NIST-standardised algorithms from FIPS~203, 204, 205, or 206, and is then guided
-by four criteria: security-level appropriateness, anticipated blockchain
-performance, availability of production-quality pure-Go implementations, and
-compatibility with Go's certificate and TLS infrastructure.
-
-\subsubsection{SELECTION COST MODEL}
-
-For a candidate signature algorithm $a$, define the deployment cost
-
-\begin{equation}
-C(a) \;=\; w_{p}\,\Pi(a) \,+\, w_{s}/\kappa(a) \,-\, w_{c}\,\mathbb{1}_{\mathrm{Go}}(a),
-\label{eq:selection_cost}
-\end{equation}
-
-where $\Pi(a)=|\sigma_a|+|\mathit{cert}_a|$ is the per-endorsement payload
-(signature plus DER-encoded X.509 certificate),
-$\kappa(a)\in\{1,2,3,5\}$ is the NIST security category,
-$\mathbb{1}_{\mathrm{Go}}(a)$ is unity when a production pure-Go
-implementation exists, and $w_p, w_s, w_c\ge 0$ are deployment-specific
-weights. The blockchain context drives $w_p$ high because $\Pi(a)$ is
-paid on every endorsement in every block while signing latency is
-amortised; this is the formal reason that signature size, not signing
-speed, dominates selection, as the empirical results
-(\S\ref{sec:res_consolidated}) confirm.
+NIST-standardised algorithms from FIPS~203, 204, 205, or 206, and is
+then guided by four criteria: security-level appropriateness,
+anticipated blockchain performance, availability of production-quality
+pure-Go implementations, and compatibility with Go's certificate and
+TLS infrastructure. The decisive criterion is the per-endorsement
+payload $\Pi(a)=|\sigma_a|+|\mathit{cert}_a|$ (signature plus
+DER-encoded certificate): because $\Pi(a)$ is paid on every endorsement
+in every block whereas signing latency is amortised across a block,
+payload rather than signing speed should govern the choice --- a
+selection rule the empirical results (\S\ref{sec:res_consolidated})
+confirm and quantify.
 
 \subsubsection{DIGITAL SIGNATURE ALGORITHM SELECTION}
 
@@ -386,10 +371,11 @@ provides Category~3 (3{,}309 bytes), both deterministic and
 $33.6\times$--$46.0\times$ larger than ECDSA P-256 (71--72~bytes).
 \textbf{FN-DSA-512} (FIPS~206 IPD) is based on NTRU/SIS
 lattices~\cite{pornin2019, prest2020falcon} and provides Category~1
-security with a compact variable-length Gaussian signature averaging
-$\approx 652$~bytes (666-byte padded, 809-byte maximum), roughly
+security with a compact variable-length Gaussian signature of
+$\approx 666$~bytes (809-byte maximum), roughly
 $3.6\times$ smaller than ML-DSA-44; the trade-off is signing
-$\approx 53\%$ slower than ML-DSA-44 in microbenchmarks — a relationship
+$\approx 53\%$ slower than ML-DSA-44 ($\approx698$ versus
+$\approx458$~\textmu s), a relationship
 that inverts when output size dominates, as in the blockchain context.
 \textbf{SLH-DSA} (FIPS~205)~\cite{nist_fips205} offers hash-based
 algorithmic diversity but its 7{,}856--49{,}856-byte signatures would
@@ -401,7 +387,7 @@ consolidates the size parameters.
 
 \begin{table}[ht]
 \centering
-\caption{Evaluation of Digital Singature Algorithms}
+\caption{Digital signature algorithms evaluated for \mfabric{}.}
 \label{tab:alg_comparison}
 \setlength{\tabcolsep}{3pt}
 \footnotesize
@@ -419,53 +405,38 @@ SLH-DSA-128s & FIPS~205 & Cat.~1  & 32 B    & 64 B    & 7856 B   \\
 \end{tabular}
 \end{table}
 
-The certificate (DER-encoded) carries three algorithm-scaling
+The DER-encoded certificate carries three algorithm-scaling
 components: the holder's SubjectPublicKeyInfo, the issuing CA's
-signature over the TBS structure, and a fixed $\sim$440~byte
-RFC~5280~\cite{rfc5280} envelope. Measured cert sizes (\mfabric{}
+signature over the TBS structure, and a fixed $\sim$440-byte
+RFC~5280~\cite{rfc5280} envelope. Measured certificate sizes (\mfabric{}
 Fabric CA, Fabric-realistic DNs) are 570, 1{,}945, 4{,}126, and 5{,}655
 bytes for ECDSA P-256, FN-DSA-512, ML-DSA-44, and ML-DSA-65
-respectively. Figure~\ref{fig:endorsement_overhead} translates these
-sizes into the per-endorsement payload Fabric commits to the ledger. The combined
-overhead $\Pi(a) = |\sigma_a| + |\mathit{cert}_a|$ is the sum of the
-endorser's signature and the endorser's serialised identity certificate;
-both are transmitted in every endorsement and recorded on every block.
-For a single-endorser policy and a 500-transaction block, every block
-carries $500\,\Pi(a)$ of additional payload over the chaincode-level
-read-write sets. With a post-quantum CA, the certificate's issuer
-signature uses the same algorithm as the endorser's signature, so a
-single endorsement effectively pays the cost of two post-quantum
-signatures plus one post-quantum public key plus the fixed envelope.
-Measured values are $\Pi=641$~bytes for ECDSA P-256 (71-byte signature
-plus 570-byte certificate), $2{,}611$~bytes for FN-DSA-512
-($4.07\times$), $6{,}546$~bytes for ML-DSA-44 ($10.21\times$), and
-$8{,}964$~bytes for ML-DSA-65 ($13.98\times$); the additional overhead
-each post-quantum algorithm imposes over the ECDSA baseline is therefore
-$1{,}970$, $5{,}905$, and $8{,}323$~bytes per endorsement, respectively,
-and Figure~\ref{fig:endorsement_overhead} decomposes each bar into the
-shared 641-byte baseline and this excess. The Falcon-derived
-FN-DSA-512 keeps both the signature ($\sim$666~bytes average) and the
-public key (897~bytes) compact relative to the ML-DSA family; the
-Dilithium-derived ML-DSA family pays for its faster signing and constant
-verification time with larger output sizes, and the Category-3 variant
-ML-DSA-65 adds approximately 37~percent over ML-DSA-44. These multipliers
-predict the relative ordering observed in \S\ref{sec:res_consolidated}
-and confirm that certificate-and-signature size, not signing or
-verification time, is the primary throughput determinant.
+respectively. Because a post-quantum CA signs each certificate with the
+same algorithm as the endorser, a single endorsement effectively pays
+for two post-quantum signatures plus one public key plus the envelope;
+under a single-endorser policy, a 500-transaction block therefore
+carries $500\,\Pi(a)$ of this payload over the chaincode read-write
+sets. The resulting per-endorsement payloads are $\Pi=641$~bytes for
+ECDSA P-256 (71-byte signature plus 570-byte certificate),
+$2{,}611$~bytes for FN-DSA-512 ($4.07\times$), $6{,}546$~bytes for
+ML-DSA-44 ($10.21\times$), and $8{,}964$~bytes for ML-DSA-65
+($13.98\times$) --- an excess of $1{,}970$, $5{,}905$, and $8{,}323$
+bytes over the ECDSA baseline, which
+Figure~\ref{fig:endorsement_overhead} decomposes into the shared
+641-byte baseline and this excess. The Falcon-derived FN-DSA-512 keeps
+both signature ($\approx$666~bytes) and public key (897~bytes) compact,
+whereas the Dilithium-derived ML-DSA family trades larger outputs for
+faster signing, with ML-DSA-65 adding roughly 37\% to the signature
+size over ML-DSA-44. These multipliers predict the throughput ordering
+of \S\ref{sec:res_consolidated}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_endorsement_overhead.png}
-\caption{Per-endorsement block overhead.}
+\caption{Per-endorsement ledger payload $\Pi(a)$ by algorithm; each bar
+splits the 641-byte ECDSA baseline from the post-quantum excess.}
 \label{fig:endorsement_overhead}
 \end{figure}
-
-Microbenchmarks confirm the trade-off: ML-DSA-44 signs in
-$\approx458$~\textmu s and FN-DSA-512 in $\approx698$~\textmu s (53\%
-slower), with similar verification times — but FN-DSA-512's
-$3.6\times$-smaller signature reverses the ranking when block size
-dominates. ML-DSA-65 is retained for Category-3-mandated deployments at
-a $\approx37\%$ signature-size premium over ML-DSA-44.
 
 \subsubsection{KEY ENCAPSULATION MECHANISM SELECTION}
 
@@ -516,10 +487,8 @@ algorithm OIDs in the detection table match the certificate generator's.
 
 The implementation is structured in three phases that progressively activate the
 four layers, satisfying R8 and enabling per-layer empirical attribution
-(\textit{Baseline And Per-Phase Throughput Results} subsection of the
-\textit{Experimental Setup And Results} section). We can express the
-residual quantum-attack
-surface after phase $\phi$ as
+(\S\ref{sec:exp_results}). The residual quantum-attack
+surface after phase $\phi$ is
 
 \begin{equation}
 R(\phi) \;=\; \sum_{i=1}^{5} s_i\,\bigl(1 - c_i(\phi)\bigr),
@@ -553,7 +522,7 @@ are fully addressed. This is the most operationally significant
 step, requiring re-enrolment of all nodes, clients, and administrators
 under the \mfabric{} extension.
 
-\textbf{Phase 3} includes the addition of the hybrid TLS key
+\textbf{Phase 3} adds hybrid TLS key
 exchange (\textit{X25519MLKEM768}) for all inter-node connections,
 closing TS4 and the TLS component of TS5 and yielding $R(3)=0$.
 
@@ -587,7 +556,8 @@ signing and verification. Algorithm dispatch is table-driven (a map keyed
 by algorithm name): adding a new algorithm requires only a new entry, not
 new code paths. Private keys are serialised with their algorithm
 identifier and type-checked at load to prevent cross-algorithm misuse.
-The integration spans approximately 1{,}800 new or modified lines of Go,
+The integration spans approximately 1{,}550 new or modified
+implementation lines of Go (excluding test code),
 distributed across the BCCSP layer (\textit{bccsp/sw/pqckey.go} and
 \textit{bccsp/factory/pqcfactory.go}, 296~LOC), the MSP layer
 (\textit{msp/pqc.go} validator, 358~LOC, with a 14-LOC dispatch hook
@@ -600,15 +570,14 @@ both the signing backend and the chain validator's dispatch table.
 \subsection{CERTIFICATE INFRASTRUCTURE IMPLEMENTATION}
 \label{sec:method_ca}
 
-The most significant implementation challenge is the incompatibility between
+The central implementation challenge is the incompatibility between
 post-quantum OIDs and Go's \textit{crypto/x509} package, which (through
 Go~1.24, the version targeted by this work) supports only RSA and ECDSA
-signature algorithms and no post-quantum algorithm. Calling \textit{x509.CreateCertificate} with a
+signature algorithms. Calling \textit{x509.CreateCertificate} with a
 post-quantum key, or \textit{x509.Certificate.Verify} on a post-quantum
-signature, returns an unsupported-algorithm error. This barrier is why prior
-post-quantum Fabric implementations have relied on offline certificate
-generation, leaving the live CA's ECDSA signing key active. This is
-precisely the gap that creates the TS1 vulnerability. \mfabric{} resolves the barrier through a
+signature, returns an unsupported-algorithm error --- the barrier that,
+as noted in \S\ref{sec:litreview}, confined prior work to offline
+generation and left the TS1 gap open. \mfabric{} resolves it through a
 custom certificate construction function in Fabric CA and the custom
 \textit{buildPQCChain()} validator in the MSP.
 
@@ -681,11 +650,24 @@ phased migrations.
 signature verification: issuer validity window; child validity window
 (skipped at self-signed roots); \textit{BasicConstraints.IsCA};
 \textit{keyCertSign} when KeyUsage is set; and AKID/SKID matching when
-both are present per RFC~5280~\cite{rfc5280}. The validator is invoked
-from \textit{getUniqueValidationChain} whenever a post-quantum
-certificate is present; classical-only deployments take the unchanged
-Go path. Overhead beyond OID lookup is one post-quantum verification per
-identity per block at Op-16.
+both are present per RFC~5280~\cite{rfc5280}.
+
+The OID dispatch is what makes runtime validation possible where Go's
+own path fails. \textit{x509.Certificate.Verify} selects its
+verification routine from a fixed table of RSA/ECDSA identifiers and
+rejects an unrecognised OID \emph{before} signature checking, so a
+post-quantum chain never reaches verification. \textit{buildPQCChain()}
+instead keys dispatch on the \emph{issuer's} SubjectPublicKeyInfo OID
+--- the one field that authoritatively records which primitive signed
+the child --- and routes each link to CIRCL, \textit{go-fn-dsa}, or
+Go's classical path accordingly. It is invoked from
+\textit{getUniqueValidationChain} only when a post-quantum certificate
+is present; classical-only deployments take the unchanged Go path. The
+chain walk is $O(d)$ in chain depth $d$ (bounded at ten), performing one
+issuer lookup and one signature verification per link, so the marginal
+cost over the classical validator is a single post-quantum verification
+per identity per block at Op-16 --- the operation
+\S\ref{sec:res_consolidated} identifies as the Phase-2 bottleneck.
 
 \subsection{TLS LAYER IMPLEMENTATION}
 \label{sec:method_tls}
@@ -715,20 +697,15 @@ component of TS5 independently of the certificate-infrastructure layer.
 \label{sec:exp_testnet}
 
 The test network is two organisations (one peer each) and a single Raft
-orderer on a single physical host, isolating cryptographic overhead from
-network latency. The same \mfabric{} binary is used for all phases:
-Phase~1 enables the PQC BCCSP with bootstrap ECDSA certificates from a
-modified Cryptogen; Phase~2 adds Fabric~CA with the post-quantum extensions
-and re-enrols all identities to post-quantum certificates; Phase~3 adds
-\textit{X25519MLKEM768} to the TLS preference list and restarts all nodes.
-The standard Fabric asset-transfer-basic chaincode is deployed without
-modification. This topology is the smallest deployable network that
-exercises the full transaction lifecycle, the endorsement-policy mechanism
-(both organisations signing), and the Raft consensus path, while keeping
-the cryptographic signal uncontaminated by WAN latency, since loopback
-transport fully exercises ML-KEM-768 encapsulation and decapsulation. The resulting
-throughput is an upper bound for the same configuration on a distributed
-network.
+orderer on a single physical host. The same \mfabric{} binary is used
+for all phases: Phase~1 enables the PQC BCCSP with bootstrap ECDSA
+certificates from a modified Cryptogen; Phase~2 adds Fabric~CA with the
+post-quantum extensions and re-enrols all identities to post-quantum
+certificates; Phase~3 adds \textit{X25519MLKEM768} to the TLS preference
+list and restarts all nodes. The standard Fabric asset-transfer-basic
+chaincode is deployed without modification. The topology exercises the
+full transaction lifecycle, the endorsement-policy mechanism (both
+organisations signing), and the Raft consensus path.
 
 \subsection{BENCHMARK METHODOLOGY}
 \label{sec:exp_benchmethod}
@@ -744,20 +721,13 @@ send rates (25--1{,}000~TPS) for three independent runs in both
 write-heavy (90\%) and mixed (50\%) profiles, with a clean genesis
 reset before each write-heavy run.
 
-Maximum sustainable throughput is identified as the plateau-region mean
-
-\begin{equation}
-\Gamma_{\max} \;=\; |\mathcal{P}|^{-1}\sum_{\rho\in\mathcal{P}}\Gamma_{\mathrm{ach}}(\rho),
-\quad
-\mathcal{P}=\{\rho:|d\Gamma_{\mathrm{ach}}/d\rho|\le\varepsilon\},
-\label{eq:plateau}
-\end{equation}
-
-with $\Gamma_{\mathrm{ach}}(\rho)$ the achieved throughput at send rate
-$\rho$ and $\varepsilon$ the plateau tolerance. Four metrics are
-reported: $\Gamma_{\max}$ (TPS), saturation latency, ledger storage
-(MB/peer, measured directly after each run), and block propagation rate
-(blocks/s from Prometheus over a 30-minute window).
+Maximum sustainable throughput $\Gamma_{\max}$ is the mean achieved
+throughput over the plateau region --- the contiguous range of send
+rates across which achieved throughput no longer rises with the target
+rate. Four metrics are reported: $\Gamma_{\max}$ (TPS), saturation
+latency, ledger storage (MB/peer, measured directly after each run), and
+block propagation rate (blocks/s from Prometheus over a 30-minute
+window).
 
 \subsection{VERIFICATION AND CORRECTNESS ASSURANCE}
 \label{sec:exp_verify}
@@ -772,7 +742,7 @@ through unmodified call sites in peer, orderer, and client SDK; the
 table-driven test suite sweeps all three PQ algorithms and confirms
 error-path semantics (tampered signatures, expired certificates, unknown
 issuers, untrusted self-signed). End-to-end execution covers the five
-lifecycle phases in each of the three deployment phases for all three
+lifecycle stages in each of the three deployment phases for all three
 algorithms with zero failures. With $n=27$ benchmark runs per workload
 and $\approx 1.7\times 10^{5}$ committed post-quantum transactions, the
 Clopper-Pearson 95\% upper bound on the per-transaction failure
@@ -818,10 +788,10 @@ certificates and TLS unchanged, isolating the signature-algorithm impact.
 All three algorithms follow the same sub-knee saturation profile as ECDSA;
 above the knee each plateau sits below the ECDSA ceiling in proportion to
 signature size, with FN-DSA-512 incurring the smallest reduction
-($-1.7\%$ both workloads), ML-DSA-44 next ($-4.2\%$ write, $-1.4\%$
-mixed), and ML-DSA-65 close behind ($-3.5\%$ write, $-4.1\%$ mixed). The
-write-heavy ML-DSA-65/ML-DSA-44 gap is within ML-DSA-65's standard
-deviation (6.55~TPS, the study's largest). Plateau latencies are
+($-1.7\%$ both workloads), then ML-DSA-44 ($-4.2\%$ write, $-1.4\%$
+mixed) and ML-DSA-65 ($-3.5\%$ write, $-4.1\%$ mixed) comparable at this
+phase --- the write-heavy ML-DSA-65/ML-DSA-44 gap lies within
+ML-DSA-65's standard deviation (6.55~TPS, the study's largest). Plateau latencies are
 0.18--0.20~s, indistinguishable from baseline. Per-phase numbers are
 consolidated in Table~\ref{tab:phase_attribution}.
 
@@ -873,15 +843,18 @@ across many transactions per TLS session.
 \subsection{CONSOLIDATED ANALYSIS AND PERFORMANCE MODELS}
 \label{sec:res_consolidated}
 
+The central finding of the evaluation is that per-endorsement payload
+size, not signing speed, determines throughput.
 Figures~\ref{fig:phase_progression_write} and~\ref{fig:phase_progression_mixed}
-trace the per-phase throughput for each algorithm; Table~\ref{tab:phase_attribution} attributes the reductions. For
+trace the per-phase throughput for each algorithm and
+Table~\ref{tab:phase_attribution} attributes the reductions: for
 FN-DSA-512 the 3.5\% write-heavy total splits roughly evenly between
-Phases~1 and~2; for ML-DSA-44 and ML-DSA-65 the certificate layer dominates
-(5.7 and 14.6 percentage points respectively), while Phase~3 TLS
-contributes under 0.2~percentage points in every case. The dominant determinant is the
-per-endorsement payload (2{,}611/6{,}546/8{,}964 bytes for
-FN-DSA-512/ML-DSA-44/ML-DSA-65 versus 641 bytes for the ECDSA P-256
-baseline), applied to every endorsement in every block, independently
+Phases~1 and~2, whereas for ML-DSA-44 and ML-DSA-65 the certificate
+layer dominates (5.7 and 14.6 percentage points respectively) and
+Phase~3 TLS contributes under 0.2~percentage points in every case. Every
+reduction tracks the per-endorsement payload (2{,}611/6{,}546/8{,}964
+bytes for FN-DSA-512/ML-DSA-44/ML-DSA-65 versus 641 for ECDSA P-256),
+applied to every endorsement in every block --- independently
 corroborating the PQFabric finding~\cite{holcomb2021}. The attribution table reports absolute TPS
 together with the contribution of each phase to the total reduction from
 the ECDSA P-256 baseline; the Phase~3 column reports the change from
@@ -914,16 +887,16 @@ Phase~2 to Phase~3, which isolates the hybrid TLS overhead.
 \textbf{Phase 3} & \textbf{Total $\Delta$} \\
 \midrule
 \multirow{2}{*}{FN-DSA-512}
-  & Write & 275.3 & 270.7 ($-1.7\%$) & 266.1 ($-1.6\%$) & 265.5 ($-0.2\%$) & $-3.5\%$ \\
-  & Mixed & 344.2 & 338.2 ($-1.7\%$) & 333.2 ($-1.5\%$) & 332.7 ($-0.2\%$) & $-3.3\%$ \\
+  & Write & 275.3 & 270.7 ($-1.7\%$) & 266.1 ($-1.6$pp) & 265.5 ($-0.2$pp) & $-3.5\%$ \\
+  & Mixed & 344.2 & 338.2 ($-1.7\%$) & 333.2 ($-1.5$pp) & 332.7 ($-0.2$pp) & $-3.3\%$ \\
 \addlinespace
 \multirow{2}{*}{ML-DSA-44}
-  & Write & 275.3 & 263.8 ($-4.2\%$) & 247.9 ($-5.7\%$) & 245.2 ($-1.0\%$) & $-10.9\%$ \\
-  & Mixed & 344.2 & 339.2 ($-1.4\%$) & 313.5 ($-7.5\%$) & 317.0 ($+1.1\%$) & $-7.9\%$ \\
+  & Write & 275.3 & 263.8 ($-4.2\%$) & 247.9 ($-5.7$pp) & 245.2 ($-1.0$pp) & $-10.9\%$ \\
+  & Mixed & 344.2 & 339.2 ($-1.4\%$) & 313.5 ($-7.5$pp) & 317.0 ($+1.1$pp) & $-7.9\%$ \\
 \addlinespace
 \multirow{2}{*}{ML-DSA-65}
-  & Write & 275.3 & 265.6 ($-3.5\%$) & 225.4 ($-14.6\%$) & 225.8 ($+0.2\%$) & $-18.0\%$ \\
-  & Mixed & 344.2 & 330.0 ($-4.1\%$) & 299.5 ($-8.9\%$) & 301.1 ($+0.5\%$) & $-12.5\%$ \\
+  & Write & 275.3 & 265.6 ($-3.5\%$) & 225.4 ($-14.6$pp) & 225.8 ($+0.2$pp) & $-18.0\%$ \\
+  & Mixed & 344.2 & 330.0 ($-4.1\%$) & 299.5 ($-8.9$pp) & 301.1 ($+0.5$pp) & $-12.5\%$ \\
 \bottomrule
 \end{tabular}%
 }
@@ -993,20 +966,19 @@ propagation or orderer latency.
 \subsection{ALGORITHM SELECTION GUIDANCE}
 \label{sec:res_selection}
 
-The phase attribution confirms the cost-model prediction
-(Eq.~\ref{eq:selection_cost}): per-endorsement payload size, not signing
-speed, is the dominant determinant. FN-DSA-512 delivers the highest
+The phase attribution confirms the selection rule of
+\S\ref{sec:method_alg}: per-endorsement payload size, not signing
+speed, is the dominant determinant, since FN-DSA-512 delivers the highest
 end-to-end throughput despite signing $\sim$53\% more slowly than
-ML-DSA-44 in microbenchmarks, because its smaller signature and public
-key give a far smaller per-endorsement payload. Phase~3 deployment
-guidance follows from the throughput--latency trade-off:
-\emph{FN-DSA-512} (Category 1, $-3.5\%/-3.3\%$ write/mixed,
-$10\times$ latency) is the primary choice for throughput-sensitive
-deployments and early-transition pilots; \emph{ML-DSA-44} (Category 2,
-$-10.9\%/-7.9\%$, $30\times$ latency) is the balanced option and NIST's
-first-choice signature; \emph{ML-DSA-65} (Category 3, $-18.0\%/-12.5\%$,
-$58\times$ latency) is reserved for high-assurance deployments where
-Category 3 is regulatorily mandated.
+ML-DSA-44. The Phase~3 figures of
+Table~\ref{tab:phase_attribution} translate directly into deployment
+guidance along the throughput--latency trade-off: \emph{FN-DSA-512}
+(Category~1) is the primary choice for throughput-sensitive deployments
+and early-transition pilots; \emph{ML-DSA-44} (Category~2) is the
+balanced option and NIST's first-choice signature; and
+\emph{ML-DSA-65} (Category~3) is reserved for high-assurance deployments
+where Category~3 is regulatorily mandated, at a certificate-validation
+latency of $57\times$ the ECDSA baseline.
 
 \subsection{SECURITY ANALYSIS OF THE IMPLEMENTATION}
 \label{sec:res_security}
@@ -1015,31 +987,36 @@ The security rests on three foundations: the security of the post-quantum
 algorithms (established by NIST's six-year standardisation
 process~\cite{alagic2022nist}; no polynomial-time quantum algorithm is known for
 the underlying Module LWE or NTRU/SIS problems), the correctness of the
-implementation (established by the verification reported in the
-\textit{Verification And Correctness Assurance} subsection of the
-\textit{Experimental Setup And Results} section), and the integrity of
-the integration design (which preserves the existing Fabric
+implementation (established by the verification of
+\S\ref{sec:exp_verify}), and the integrity of
+the integration design, which preserves the existing Fabric
 security model: the BCCSP contract is satisfied exactly, MSP policy evaluation is
 unchanged, the TLS configuration is a subset of Go's option space, and CA-issued
-certificates follow the RFC~5280 structure).
+certificates follow the RFC~5280 structure.
 
-The custom code paths added above the primitive layer are not covered by upstream
-review and warrant explicit identification of residual attack surface. Four
-classes of concern apply. \textit{Malformed-certificate handling}: the custom
-ASN.1 parser in \textit{buildPQCChain()} operates on attacker-controlled input;
-it rejects parsing failures by error-return rather than panic, but
-positive evidence of robustness requires coverage-guided fuzz testing, which
-is not yet conducted. \textit{Algorithm-OID spoofing}: the dispatch table checks
-issuer-SPKI/child consistency, so a substituted classical-for-post-quantum
-signature fails; however, certificates presenting a known PQC OID with
-wrong-length key bytes have not been tested under adversarial corpora.
-\textit{Downgrade resistance}: the legacy SHA-256-prehash fallback introduces a
-second acceptance path; a strict-mode toggle disabling it after a cutover date is
-recommended for production. \textit{Out-of-scope coverage}: the
-post-quantum certificate-infrastructure layer of \mfabric{} is scoped to
-Fabric's MSP identity model; transport-layer endpoint infrastructure is
-outside the Fabric cryptographic security model and is not part of the
-contribution.
+The custom code paths added above the primitive layer are not covered by
+upstream review; Table~\ref{tab:residual_risk} identifies their residual
+attack surface, the mitigation already in place, and the risk that
+remains.
+
+\begin{table}[ht]
+\centering
+\caption{Residual attack surface of the custom code paths: mitigation in
+place and remaining risk.}
+\label{tab:residual_risk}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{2.7cm}@{}}
+\toprule
+\textbf{Concern} & \textbf{Mitigation in place} & \textbf{Residual risk} \\
+\midrule
+Malformed certificates & ASN.1 parser rejects failures by error-return, not panic & Robustness unproven without coverage-guided fuzzing \\
+Algorithm-OID spoofing & Dispatch enforces issuer-SPKI/child consistency; classical-for-PQ substitution fails & Known-OID, wrong-length key bytes untested under adversarial corpora \\
+Downgrade path & Legacy SHA-256-prehash fallback isolated to one retry & Fallback should be disabled post-cutover via a strict-mode toggle \\
+Transport endpoint & Layer scoped to Fabric's MSP identity model & TLS endpoint infrastructure outside the Fabric crypto model; not addressed \\
+\bottomrule
+\end{tabular*}
+\end{table}
 
 A four-stage adversarial evaluation is scheduled as immediate follow-up:
 \textit{go-fuzz} coverage-guided fuzzing of the
@@ -1058,7 +1035,7 @@ limitations consolidated in \S\ref{sec:disc_limits}.
 %=====================================================================
 
 This section consolidates the implications of the results of
-Section~\ref{sec:experimental} along four dimensions: the completeness of
+\S\ref{sec:experimental} along four dimensions: the completeness of
 the multilayer approach relative to prior partial integrations, the
 amplification of the harvest-now-decrypt-later threat by ledger
 immutability, the generalisability of the architecture to other permissioned
@@ -1068,24 +1045,19 @@ and international post-quantum migration strategies.
 \subsection{COMPLETENESS OF THE MULTILAYER APPROACH}
 \label{sec:disc_completeness}
 
-The integration-coverage identity~(\ref{eq:integration_coverage}) gives
-$\delta_{\mfabric{}}=4/4=1$ with respect to the four ECDLP-vulnerable
-layers. Any integration that leaves a strict subset classical maintains
-a strictly positive residual surface
-$R(\phi)$~(\ref{eq:residual_surface}); a BCCSP-only integration (the
-shape of several prior proposals) leaves TS1 entirely open because a
-quantum adversary who recovers the classical CA's private key can issue
-fraudulent \emph{post-quantum} certificates that the post-quantum MSP
-accepts. The empirical phase progression in
-Table~\ref{tab:phase_attribution} confirms each successive phase
-contributes a measurable but bounded throughput cost: the coverage gain
-is not paid for by performance collapse, and \emph{partial migration is
-a security anti-pattern, not a transitional state} since Phase 1 alone
-provides no protection against the highest-severity threat (TS1) while
-paying most of the throughput cost. The per-endorsement-payload finding
-extends the PQFabric~\cite{holcomb2021} observation to the
-FIPS-finalised algorithm generation, and the pure-Go choice distinguishes
-\mfabric{} from CGo-bound prior work~\cite{stebila2016oqs}.
+The coverage identity~(\ref{eq:integration_coverage}) gives
+$\delta_{\mfabric{}}=4/4=1$: every ECDLP-vulnerable layer is migrated.
+Any integration that leaves a strict subset classical retains a positive
+residual surface $R(\phi)$~(\ref{eq:residual_surface}) --- a BCCSP-only
+migration, the shape of several prior proposals, leaves TS1 fully open,
+because a quantum adversary who recovers the classical CA key can mint
+\emph{post-quantum} certificates that the post-quantum MSP accepts.
+Partial migration is therefore \emph{a security anti-pattern, not a
+transitional state}: Phase~1 alone pays most of the throughput cost for
+no protection against the highest-severity threat. This extends the
+PQFabric~\cite{holcomb2021} payload observation to the FIPS-finalised
+generation, while the pure-Go choice distinguishes \mfabric{} from
+CGo-bound prior work~\cite{stebila2016oqs}.
 
 A second implication is that permissioned blockchains amplify the
 harvest-now-decrypt-later threat structurally: the append-only ledger
@@ -1132,12 +1104,13 @@ and \emph{when}.
 \label{sec:disc_limits}
 
 Four limitations bound the results.
-\emph{(i)~Single-host benchmark with $n=3$}: the topology isolates
-cryptographic overhead from network latency; multi-host deployments will
-be additionally bounded by gossip-propagation costs scaling with
-signature size, and a multi-host re-run with $n\geq 5$ and ANOVA is
-required to characterise that regime and to detect small effects
-(notably hybrid TLS) that the present design is underpowered for.
+\emph{(i)~Single-host, single-workload benchmark}: all measurements come
+from one physical host running a two-organisation network with a single
+chaincode, endorsement policy, and block size. Multi-host,
+multi-organisation, and WAN behaviour is not evaluated; a multi-host
+re-run with $n\geq 5$ and ANOVA remains future work. Each post-quantum
+cell averages $n=3$ runs ($n=27$ per workload across the nine
+algorithm-phase cells), and the ECDSA baseline comprises $n=6$.
 \emph{(ii)~Functional rather than adversarial verification}: the
 fuzz-testing, adversarial-corpus, and downgrade-resistance gaps are
 addressed by the planned four-stage workstream
@@ -1148,40 +1121,47 @@ change but requires a transition-window dispatch entry.
 inherit from CIRCL and \textit{go-fn-dsa}; HSM deployment and
 EM/fault-injection characterisation~\cite{ravi2024sidechannel} remain
 open. External validity is bounded by the single chaincode workload;
-construct validity rests on the plateau-mean
-operationalisation~(\ref{eq:plateau}).
+construct validity rests on the plateau-mean operationalisation of
+maximum sustainable throughput.
 
 %=====================================================================
 \section{CONCLUSION} \label{sec:conclusion}
 %=====================================================================
 
-This article presented \mfabric{}, the first published runtime
-integration replacing all four live cryptographic layers of the current
-Hyperledger Fabric LTS with FIPS-standardised post-quantum algorithms in
-unmodified Go: BCCSP signing (ML-DSA-44/65, FN-DSA-512), MSP certificate
-infrastructure (post-quantum Fabric CA with custom ASN.1 DER
-construction), MSP identity validation (the \textit{buildPQCChain()}
-validator), and TLS transport (\textit{X25519MLKEM768} hybrid key
-exchange). The three-phase migration drives the residual quantum-attack
-surface monotonically to zero. Empirically, $n=27$ Caliper runs per
-workload show the complete Phase~3 deployment reduces maximum
-sustainable write-heavy throughput by 3.5\%, 10.9\%, and 18.0\% for
-FN-DSA-512, ML-DSA-44, and ML-DSA-65 relative to the 275.3~TPS ECDSA
-baseline; per-endorsement payload size, not signing speed, dominates,
-and the certificate layer is the dominant cost driver while hybrid TLS
-is effectively free per-transaction.
+This article presented \mfabric{}, a runtime integration replacing all
+four live cryptographic layers of the current Hyperledger Fabric LTS
+with FIPS-standardised post-quantum algorithms in unmodified Go. Its
+enabling artefact is \textit{buildPQCChain()}, the OID-dispatched
+validator that lifts the Go \textit{crypto/x509} barrier and makes a
+live post-quantum CA possible; the empirical evaluation then answers
+RQ3, showing per-endorsement payload size --- not signing speed --- as
+the dominant throughput determinant, with the certificate layer driving
+the cost and hybrid TLS effectively free per transaction.
 
-Three implications follow: partial migration is a security anti-pattern
-(an operator deploying only the signing layer pays most of the
-throughput cost for no protection against TS1); the
-dispatch-on-\textit{signatureAlgorithm} chain-validation pattern
-transfers directly to any Go-based permissioned blockchain that imports
-\textit{crypto/x509}; and the design aligns with the deprecation
-timelines of NIST~IR~8547, the NSA CNSA~2.0 suite, and emerging national
-migration frameworks. The follow-up agenda comprises a multi-host
-benchmark at $n\geq 5$ with ANOVA, the four-stage adversarial-evaluation
-workstream, HQC integration as a diversity backup KEM once
-FIPS-standardised, and HSM characterisation.
+Three implications follow: partial migration is a security anti-pattern,
+since an operator deploying only the signing layer pays most of the
+throughput cost for no protection against TS1; the
+dispatch-on-\textit{signatureAlgorithm} pattern transfers to any
+Go-based permissioned blockchain that imports \textit{crypto/x509}; and
+the design aligns with the deprecation timelines of NIST~IR~8547, the
+NSA CNSA~2.0 suite, and emerging national migration frameworks. The
+follow-up agenda comprises a multi-host benchmark at $n\geq 5$ with
+ANOVA, a CPU/latency-breakdown profile localising the Op-16 cost, the
+four-stage adversarial-evaluation workstream, and HSM characterisation.
+By removing the runtime certificate-validation barrier that Go's
+\textit{crypto/x509} imposed, \mfabric{} shows that complete
+post-quantum migration of an enterprise permissioned blockchain is now
+technically feasible at modest and well-characterised cost.
+
+\section*{Artifact Availability}
+The \mfabric{} source (the post-quantum BCCSP plugin, the
+\textit{buildPQCChain()} validator, and the Fabric~CA extension as
+patches against Fabric v2.5.12 commit \textit{af0b647} and Fabric~CA
+v1.5.12), together with the Caliper benchmark configurations, the
+network topology, and the raw measurement data underlying every figure
+and table, are openly available in the project repository
+(\textit{[repository URL to be inserted on publication]}) to support
+independent reproduction.
 
 \bibliographystyle{ieeetr}
 \bibliography{references}

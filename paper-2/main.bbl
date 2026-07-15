@@ -1,0 +1,244 @@
+\begin{thebibliography}{10}
+
+\bibitem{holcomb2021}
+A.~Holcomb, G.~Pereira, B.~Das, and M.~Mosca, ``{PQFabric}: A permissioned
+  blockchain secure from both classical and quantum attacks,'' in {\em
+  Proceedings of the {IEEE} International Conference on Blockchain and
+  Cryptocurrency ({ICBC})}, pp.~1--9, {IEEE}, 2021.
+\newblock arXiv:2010.06571.
+
+\bibitem{hu2025prototype}
+J.-W. Hu, ``A prototype for post-quantum cryptographic migration in hyperledger
+  fabric,'' in {\em Proceedings of the {IEEE} International Conference on
+  Blockchain and Cryptocurrency ({ICBC})}, pp.~1--2, {IEEE}, 2025.
+
+\bibitem{abbas2025}
+S.~Abbas, A.~Sultana, and G.~Kaddoum, ``Quantum-safe blockchain in hyperledger
+  fabric,'' {\em {IEEE} Networking Letters}, vol.~7, no.~1, pp.~61--65, 2025.
+
+\bibitem{kasula2025}
+V.~K. Kasula, S.~B. Rakki, and R.~Banoth, ``Enhancing hyperledger fabric
+  security with lightweight post-quantum cryptography and national
+  cryptographic algorithms,'' in {\em Proceedings of the 37th Conference of the
+  {FRUCT} Association}, pp.~93--99, 2025.
+
+\bibitem{razdan2025postquantum}
+R.~Razdan and M.~J. Nene, ``Post quantum signature for blockchain,'' in {\em
+  2025 1st International Conference on Advancement in Futuristic Technologies
+  ({ICAFT})}, (Belagavi, India), pp.~1--5, {IEEE}, 2025.
+
+\bibitem{alagic2022nist}
+G.~Alagic, D.~Apon, D.~Cooper, Q.~Dang, T.~Dang, J.~Kelsey, J.~Lichtinger,
+  Y.-K. Liu, C.~Miller, D.~Moody, R.~Peralta, R.~Perlner, A.~Robinson, and
+  D.~Smith-Tone, ``Status report on the third round of the {NIST} post-quantum
+  cryptography standardization process,'' {NIST} Interagency Report 8413,
+  National Institute of Standards and Technology, Gaithersburg, MD, 2022.
+
+\bibitem{nist_fips203}
+{National Institute of Standards and Technology}, ``Module-lattice-based
+  key-encapsulation mechanism standard,'' Federal Information Processing
+  Standard 203, National Institute of Standards and Technology, Gaithersburg,
+  MD, 2024.
+
+\bibitem{nist_fips204}
+{National Institute of Standards and Technology}, ``Module-lattice-based
+  digital signature standard,'' Federal Information Processing Standard 204,
+  National Institute of Standards and Technology, Gaithersburg, MD, 2024.
+
+\bibitem{nist_fips205}
+{National Institute of Standards and Technology}, ``Stateless hash-based
+  digital signature standard,'' Federal Information Processing Standard 205,
+  National Institute of Standards and Technology, Gaithersburg, MD, 2024.
+
+\bibitem{nist_fips206}
+{National Institute of Standards and Technology}, ``{FN-DSA}: {FALCON}-based
+  digital signature standard (initial public draft),'' Federal Information
+  Processing Standard 206 (IPD), National Institute of Standards and
+  Technology, Gaithersburg, MD, August 2025.
+\newblock Initial Public Draft, submitted for approval 28~August~2025; final
+  standard expected late~2026 or early~2027.
+
+\bibitem{ducas2018dilithium}
+L.~Ducas, E.~Kiltz, T.~Lepoint, V.~Lyubashevsky, P.~Schwabe, G.~Seiler, and
+  D.~Stehl{\'{e}}, ``{CRYSTALS-Dilithium}: A lattice-based digital signature
+  scheme,'' {\em {IACR} Transactions on Cryptographic Hardware and Embedded
+  Systems}, vol.~2018, no.~1, pp.~238--268, 2018.
+
+\bibitem{pornin2019}
+T.~Pornin and T.~Prest, ``More efficient algorithms for the {NTRU} key
+  generation using the field norm,'' in {\em Public-Key Cryptography --- {PKC}
+  2019}, vol.~11443 of {\em Lecture Notes in Computer Science}, pp.~504--533,
+  Springer, 2019.
+
+\bibitem{prest2020falcon}
+P.-A. Fouque, J.~Hoffstein, P.~Kirchner, V.~Lyubashevsky, T.~Pornin, T.~Prest,
+  T.~Ricosset, G.~Seiler, W.~Whyte, and Z.~Zhang, ``{Falcon}: Fast-{Fourier}
+  lattice-based compact signatures over {NTRU} --- specification.'' {NIST}
+  Post-Quantum Cryptography Standardization Submission, 2020.
+\newblock Version 1.2, \url{https://falcon-sign.info/}.
+
+\bibitem{barker2020transition}
+E.~Barker and A.~Roginsky, ``Transitioning the use of cryptographic algorithms
+  and key lengths,'' {\em {NIST} Special Publication 800-131{A}}, 2019.
+\newblock Revision 2.
+
+\bibitem{bindel2017}
+N.~Bindel, U.~Herath, M.~McKague, and D.~Stebila, ``Transitioning to a
+  quantum-resistant public key infrastructure,'' in {\em Post-Quantum
+  Cryptography ({PQCrypto} 2017)}, vol.~10346 of {\em Lecture Notes in Computer
+  Science}, (Cham), pp.~384--405, Springer, 2017.
+
+\bibitem{ietf_hybrid_tls}
+D.~Stebila, S.~Fluhrer, and S.~Gueron, ``Hybrid key exchange in {TLS} 1.3,''
+  {Internet Draft} draft-ietf-tls-hybrid-design, Internet Engineering Task
+  Force, 2023.
+\newblock Work in progress, \url{https://datatracker.ietf.org/doc/
+  draft-ietf-tls-hybrid-design/}.
+
+\bibitem{ietf_x25519mlkem768}
+K.~Kwiatkowski, P.~Kampanakis, B.~Westerbaan, and D.~Stebila, ``Post-quantum
+  hybrid {ECDHE-MLKEM} key agreement for {TLSv1.3},'' {Internet Draft}
+  draft-kwiatkowski-tls-ecdhe-mlkem, Internet Engineering Task Force, 2024.
+\newblock Work in progress; defines the \texttt{X25519MLKEM768} TLS named-group
+  codepoint (\texttt{0x11EC}). \url{https://datatracker.ietf.org/doc/
+  draft-kwiatkowski-tls-ecdhe-mlkem/}.
+
+\bibitem{ravi2024sidechannel}
+P.~Ravi, A.~Chattopadhyay, J.~Howe, A.~Baksi, and S.~Bhasin, ``Side-channel and
+  fault-injection attacks over lattice-based post-quantum schemes
+  ({CRYSTALS}-dilithium and {Falcon}): Survey and new results,'' {\em {ACM}
+  Transactions on Embedded Computing Systems}, vol.~23, no.~2, pp.~1--54, 2024.
+
+\bibitem{pessl2019}
+P.~Pessl, L.~G. Bruinderink, and Y.~Yarom, ``To {BLISS-B} or not to be:
+  Attacking strong{SWAN}'s implementation of {BLISS-B},'' {\em {IACR}
+  Transactions on Cryptographic Hardware and Embedded Systems}, vol.~2019,
+  no.~3, pp.~178--204, 2019.
+
+\bibitem{paquin2020benchmark}
+C.~Paquin, D.~Stebila, and G.~Tamvada, ``Benchmarking post-quantum cryptography
+  in {TLS},'' in {\em Post-Quantum Cryptography ({PQCrypto} 2020)}, vol.~12100
+  of {\em Lecture Notes in Computer Science}, (Cham), pp.~72--91, Springer,
+  2020.
+
+\bibitem{sikeridis2020}
+D.~Sikeridis, P.~Kampanakis, and M.~Devetsikiotis, ``Post-quantum
+  authentication in {TLS} 1.3: A performance study,'' in {\em 27th Annual
+  Network and Distributed System Security Symposium ({NDSS} 2020)}, (San Diego,
+  CA, USA), The Internet Society, 2020.
+
+\bibitem{stebila2016oqs}
+D.~Stebila and M.~Mosca, ``Post-quantum key exchange for the internet and the
+  open quantum safe project,'' in {\em Selected Areas in Cryptography ({SAC}
+  2016)}, vol.~10532 of {\em Lecture Notes in Computer Science}, (Cham),
+  pp.~14--37, Springer, 2017.
+
+\bibitem{androulaki2018}
+E.~Androulaki, A.~Barger, V.~Bortnikov, C.~Cachin, K.~Christidis, A.~{De Caro},
+  D.~Enyeart, C.~Ferris, G.~Laventman, Y.~Manevich, S.~Muralidharan, C.~Murthy,
+  B.~Nguyen, M.~Sethi, G.~Singh, K.~Smith, A.~Sorniotti, C.~Stathakopoulou,
+  M.~Vukoli{\'{c}}, S.~W. Cocco, and J.~Yellick, ``Hyperledger fabric: A
+  distributed operating system for permissioned blockchains,'' in {\em
+  Proceedings of the Thirteenth {EuroSys} Conference}, (Porto, Portugal),
+  pp.~1--15, {ACM}, 2018.
+
+\bibitem{baliga2018performance}
+A.~Baliga, N.~Solanki, S.~Verekar, A.~Pednekar, P.~Kamat, and S.~Chatterjee,
+  ``Performance characterization of hyperledger fabric,'' in {\em 2018 Crypto
+  Valley Conference on Blockchain Technology ({CVCBT})}, (Zug, Switzerland),
+  pp.~65--74, {IEEE}, 2018.
+
+\bibitem{kuzlu2021performance}
+M.~Kuzlu, M.~Pipattanasomporn, L.~Gurses, and S.~Rahman, ``Performance analysis
+  of a hyperledger fabric blockchain framework: Throughput, latency and
+  scalability,'' {\em {IEEE} Access}, vol.~9, pp.~30887--30894, 2021.
+
+\bibitem{nasir2018}
+Q.~Nasir, I.~A. Qureshi, and A.~N. Jabbar, ``Performance analysis of
+  hyperledger fabric platforms,'' in {\em Proceedings of the International
+  Conference on Security and Management ({SAM})}, CSREA Press, 2018.
+
+\bibitem{thakkar2018}
+P.~Thakkar, S.~Nathan, and B.~Viswanathan, ``Performance benchmarking and
+  optimizing hyperledger fabric blockchain platform,'' in {\em Proceedings of
+  the 26th International Symposium on Modeling, Analysis, and Simulation of
+  Computer and Telecommunication Systems ({MASCOTS})}, pp.~264--276, {IEEE},
+  2018.
+
+\bibitem{campbell2019}
+R.~E. Campbell, ``Transitioning to a hyperledger fabric hybrid quantum
+  resistant-classical public key infrastructure,'' {\em The Journal of The
+  British Blockchain Association}, vol.~2, no.~2, pp.~1--11, 2019.
+
+\bibitem{campbell2019eval}
+R.~E. Campbell, ``Evaluation of post-quantum distributed ledger cryptography,''
+  {\em The Journal of The British Blockchain Association}, vol.~2, no.~1,
+  pp.~17--24, 2019.
+
+\bibitem{brotsis2020}
+S.~Brotsis, N.~Kolokotronis, K.~Limniotis, G.~Bendiab, and S.~Shiaeles, ``On
+  the security and privacy of {Hyperledger Fabric}: Challenges and open
+  issues,'' in {\em Proceedings of the {IEEE} World Congress on Services
+  ({SERVICES})}, (Beijing, China), pp.~197--204, {IEEE}, 2020.
+
+\bibitem{lee2025}
+J.~Lee, ``Towards quantum-safe smart contracts on {Hyperledger Fabric},''
+  master's thesis, Delft University of Technology, August 2025.
+
+\bibitem{das2025genomic}
+P.~Das, C.~Jain, A.~M. AlShahrani, M.~Singh, M.~Zeyaullah, and H.~Hummad,
+  ``Quantum-resilient blockchain framework for privacy-preserving genomic data
+  sharing and analysis,'' {\em Journal of Information Security and
+  Applications}, vol.~95, p.~104245, 2025.
+
+\bibitem{revathi2025}
+K.~Revathi and K.~Suganthi, ``Enhancing blockchain security against quantum
+  threats through integration of post-quantum cryptographic algorithms,'' {\em
+  Computers and Electrical Engineering}, vol.~127, p.~110610, 2025.
+
+\bibitem{rfc5280}
+D.~Cooper, S.~Santesson, S.~Farrell, S.~Boeyen, R.~Housley, and T.~Polk,
+  ``Internet {X.509} public key infrastructure certificate and certificate
+  revocation list ({CRL}) profile,'' {RFC} 5280, Internet Engineering Task
+  Force, 2008.
+
+\bibitem{ounsworth2024composite}
+M.~Ounsworth, J.~Gray, M.~Pala, and J.~Klaussner, ``Composite {ML-DSA} for use
+  in {X.509} public key infrastructure,'' Internet Draft
+  draft-ietf-lamps-pq-composite-sigs, Internet Engineering Task Force, 2024.
+\newblock Work in progress, \url{https://datatracker.ietf.org/doc/
+  draft-ietf-lamps-pq-composite-sigs/}.
+
+\bibitem{caliper2023}
+{Hyperledger Caliper Contributors}, ``Hyperledger caliper: A blockchain
+  performance benchmark framework.''
+  \url{https://github.com/hyperledger/caliper}, 2023.
+\newblock Version 0.6.0.
+
+\bibitem{mosca2018}
+M.~Mosca, ``Cybersecurity in an era with quantum computers: Will we be
+  ready?,'' {\em {IEEE} Security \& Privacy}, vol.~16, no.~5, pp.~38--41, 2018.
+
+\bibitem{nist_ir8547}
+D.~Moody, R.~Perlner, A.~Regenscheid, A.~Robinson, and D.~Cooper, ``{Transition
+  to Post-Quantum Cryptography Standards},'' Tech. Rep. {NIST IR 8547 (Initial
+  Public Draft)}, National Institute of Standards and Technology, Gaithersburg,
+  MD, Nov. 2024.
+
+\bibitem{nsa_cnsa2}
+{National Security Agency}, ``{Commercial National Security Algorithm Suite 2.0
+  (CNSA 2.0): Cybersecurity Advisory}.'' U.S.\ National Security Agency,
+  Cybersecurity Advisory CSA-CNSA-2.0, 2022.
+\newblock Updated 2024; mandates full transition to quantum-resistant
+  algorithms across U.S.\ national security systems by 2035.
+
+\bibitem{csb_brunei2026}
+{Cyber Security Brunei}, ``{Brunei Post-Quantum Cryptography Migration
+  Framework}.'' Draft Version 0.1, Cyber Security Brunei, BruCERT, National
+  Digital Forensics Laboratory, and Cyberwatch Centre, June 2026.
+\newblock National framework adopting NIST FIPS 203/204/205 with FN-DSA (FIPS
+  206 draft) and HQC for code-based diversity; targets RSA/ECC deprecation by
+  2030 and full migration by 2035; specifies a five-phase
+  Assess--Select--Validate--Deploy--Monitor strategy.
+
+\end{thebibliography}
