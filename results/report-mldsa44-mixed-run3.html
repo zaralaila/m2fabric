@@ -1,0 +1,630 @@
+<!doctype html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+    function plotChart(divId, chartData) {
+        // Convert from stringified html, to valid JSON
+        const chartDetails = JSON.parse(chartData.replace(/&quot;/g,'"'));
+        new Chart(document.getElementById(divId), {
+            type: chartDetails.type,
+            data: {
+                labels: chartDetails.labels,
+                datasets: chartDetails.datasets
+            },
+            options: {
+                legend: { display: chartDetails.legend },
+                title: {
+                    display: true,
+                    text: chartDetails.title
+                }
+            }
+        });
+    }
+</script>
+<html>
+<head>
+    <title>Hyperledger Caliper Report</title>
+    <meta charset="UTF-8"/>
+    <style type="text/css">
+        .left-column {
+            position: fixed;
+            width:20%;
+        }
+        .left-column ul {
+            display: block;
+            padding: 0;
+            list-style: none;
+            border-bottom: 1px solid #d9d9d9;
+            font-size: 14px;
+        }
+        .left-column h2{
+            font-size: 24px;
+            font-weight: 400;
+            margin-block-end: 0.5em;
+        }
+        .left-column h3{
+            font-size: 18px;
+            font-weight: 400;
+            margin-block-end: 0.5em;
+        }
+        .left-column li{
+            margin-left: 10px;
+            margin-bottom: 5px;
+            color: #5e6b73;
+        }
+        .right-column {
+            margin-left: 22%;
+            width:60%;
+        }
+        .right-column table {
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .right-column h2{
+            font-weight: 400;
+        }
+        .right-column h3{
+            font-weight: 400;
+        }
+        .right-column h4 {
+            font-weight: 400;
+            margin-block-end: 0;
+        }
+        .right-column th {
+            border-width: 1px;
+            font-size: small;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #f2f2f2;
+        }
+        .right-column td {
+            border-width: 1px;
+            font-size: small;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+            font-weight: 400;
+        }
+        .tag {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+        }
+        pre {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -khtml-border-radius: 5px;
+            overflow:auto;
+            max-height:300px;
+            font-size:12px;
+        }
+        .charting {
+            display:flex;
+            flex-direction:row;
+            flex-wrap: wrap;
+            page-break-inside: auto;
+        }
+        .chart {
+            display:flex;
+            flex:1;
+            max-width: 50%;
+        }
+    </style>
+</head>
+<body style="font-family: IBM Plex Sans; font-weight: 200;">
+    <main>
+        <div class="left-column">
+            <img src="https://hyperledger.github.io/caliper/assets/img/hyperledger_caliper_logo_color.png" style="width:95%;" alt="">
+            <ul>
+                <h3>&nbspBasic information</h3>
+                <li>DLT: &nbsp<span style="font-weight: 500;">fabric</span></li>
+                <li>Name: &nbsp<span style="font-weight: 500;">fabric-baseline-ecdsa-mixed</span></li>
+                <li>Description: &nbsp<span style="font-weight: 500;">Mixed workload baseline benchmark for Hyperledger Fabric v2.5.12 using default ECDSA-P256 cryptography. 70% asset creation and 30% asset query. Establishes the classical mixed-workload performance reference for comparison against PQC algorithm configurations.
+</span></li>
+                <li>Benchmark Rounds: &nbsp<span style="font-weight: 500;">13</span></li>
+                <li><a href="#benchmarkInfo">Details</a></li>
+            </ul>
+            <ul>
+                <h3>&nbspBenchmark results</h3>
+                <li><a href="#benchmarksummary">Summary</a></li>
+                    <li><a href="#mixed-25tps">mixed-25tps</a></li>
+                    <li><a href="#mixed-50tps">mixed-50tps</a></li>
+                    <li><a href="#mixed-100tps">mixed-100tps</a></li>
+                    <li><a href="#mixed-150tps">mixed-150tps</a></li>
+                    <li><a href="#mixed-200tps">mixed-200tps</a></li>
+                    <li><a href="#mixed-300tps">mixed-300tps</a></li>
+                    <li><a href="#mixed-400tps">mixed-400tps</a></li>
+                    <li><a href="#mixed-500tps">mixed-500tps</a></li>
+                    <li><a href="#mixed-600tps">mixed-600tps</a></li>
+                    <li><a href="#mixed-700tps">mixed-700tps</a></li>
+                    <li><a href="#mixed-800tps">mixed-800tps</a></li>
+                    <li><a href="#mixed-900tps">mixed-900tps</a></li>
+                    <li><a href="#mixed-1000tps">mixed-1000tps</a></li>
+            </ul>
+            <ul>
+                <h3>&nbspSystem under test</h3>
+                <li><a href="#sutdetails">Details</a></li>
+            </ul>
+        </div>
+
+        <div class="right-column">
+            <h1 style="padding-top: 3em; font-weight: 500;">Caliper report</h1>
+            <div style="border-bottom: 1px solid #d9d9d9; margin-bottom: 10px;" id="benchmarksummary">
+                <table style="min-width: 100%;">
+                    <h3>Summary of performance metrics</h3>
+                    <tr>
+                         <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                    </tr>
+
+                    <tr>
+                         <td>mixed-25tps</td> <td>3004</td> <td>0</td> <td>25.0</td> <td>0.84</td> <td>0.01</td> <td>0.21</td> <td>25.0</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-50tps</td> <td>6004</td> <td>0</td> <td>50.0</td> <td>2.04</td> <td>0.01</td> <td>0.12</td> <td>49.2</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-100tps</td> <td>12004</td> <td>0</td> <td>100.0</td> <td>2.05</td> <td>0.01</td> <td>0.08</td> <td>98.4</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-150tps</td> <td>18004</td> <td>0</td> <td>150.0</td> <td>2.04</td> <td>0.01</td> <td>0.07</td> <td>147.6</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-200tps</td> <td>24004</td> <td>0</td> <td>200.0</td> <td>2.05</td> <td>0.01</td> <td>0.07</td> <td>196.7</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-300tps</td> <td>36001</td> <td>0</td> <td>300.0</td> <td>2.06</td> <td>0.01</td> <td>0.09</td> <td>295.0</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-400tps</td> <td>41132</td> <td>0</td> <td>342.7</td> <td>2.10</td> <td>0.01</td> <td>0.12</td> <td>336.9</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-500tps</td> <td>41343</td> <td>0</td> <td>344.5</td> <td>2.06</td> <td>0.01</td> <td>0.12</td> <td>338.7</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-600tps</td> <td>41281</td> <td>0</td> <td>344.0</td> <td>2.06</td> <td>0.01</td> <td>0.11</td> <td>338.2</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-700tps</td> <td>41310</td> <td>0</td> <td>344.2</td> <td>2.11</td> <td>0.01</td> <td>0.11</td> <td>338.6</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-800tps</td> <td>41255</td> <td>0</td> <td>343.8</td> <td>2.09</td> <td>0.01</td> <td>0.12</td> <td>338.0</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-900tps</td> <td>41003</td> <td>0</td> <td>341.6</td> <td>2.13</td> <td>0.01</td> <td>0.12</td> <td>335.9</td>
+                    </tr>
+                    <tr>
+                         <td>mixed-1000tps</td> <td>41047</td> <td>0</td> <td>342.0</td> <td>2.14</td> <td>0.01</td> <td>0.11</td> <td>336.2</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-25tps">
+                <h2>Benchmark round: mixed-25tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 25
+</pre>
+                        <h3>Performance metrics for mixed-25tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-25tps</td> <td>3004</td> <td>0</td> <td>25.0</td> <td>0.84</td> <td>0.01</td> <td>0.21</td> <td>25.0</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-25tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-50tps">
+                <h2>Benchmark round: mixed-50tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 50
+</pre>
+                        <h3>Performance metrics for mixed-50tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-50tps</td> <td>6004</td> <td>0</td> <td>50.0</td> <td>2.04</td> <td>0.01</td> <td>0.12</td> <td>49.2</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-50tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-100tps">
+                <h2>Benchmark round: mixed-100tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 100
+</pre>
+                        <h3>Performance metrics for mixed-100tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-100tps</td> <td>12004</td> <td>0</td> <td>100.0</td> <td>2.05</td> <td>0.01</td> <td>0.08</td> <td>98.4</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-100tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-150tps">
+                <h2>Benchmark round: mixed-150tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 150
+</pre>
+                        <h3>Performance metrics for mixed-150tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-150tps</td> <td>18004</td> <td>0</td> <td>150.0</td> <td>2.04</td> <td>0.01</td> <td>0.07</td> <td>147.6</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-150tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-200tps">
+                <h2>Benchmark round: mixed-200tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 200
+</pre>
+                        <h3>Performance metrics for mixed-200tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-200tps</td> <td>24004</td> <td>0</td> <td>200.0</td> <td>2.05</td> <td>0.01</td> <td>0.07</td> <td>196.7</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-200tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-300tps">
+                <h2>Benchmark round: mixed-300tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 300
+</pre>
+                        <h3>Performance metrics for mixed-300tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-300tps</td> <td>36001</td> <td>0</td> <td>300.0</td> <td>2.06</td> <td>0.01</td> <td>0.09</td> <td>295.0</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-300tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-400tps">
+                <h2>Benchmark round: mixed-400tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 400
+</pre>
+                        <h3>Performance metrics for mixed-400tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-400tps</td> <td>41132</td> <td>0</td> <td>342.7</td> <td>2.10</td> <td>0.01</td> <td>0.12</td> <td>336.9</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-400tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-500tps">
+                <h2>Benchmark round: mixed-500tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 500
+</pre>
+                        <h3>Performance metrics for mixed-500tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-500tps</td> <td>41343</td> <td>0</td> <td>344.5</td> <td>2.06</td> <td>0.01</td> <td>0.12</td> <td>338.7</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-500tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-600tps">
+                <h2>Benchmark round: mixed-600tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 600
+</pre>
+                        <h3>Performance metrics for mixed-600tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-600tps</td> <td>41281</td> <td>0</td> <td>344.0</td> <td>2.06</td> <td>0.01</td> <td>0.11</td> <td>338.2</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-600tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-700tps">
+                <h2>Benchmark round: mixed-700tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 700
+</pre>
+                        <h3>Performance metrics for mixed-700tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-700tps</td> <td>41310</td> <td>0</td> <td>344.2</td> <td>2.11</td> <td>0.01</td> <td>0.11</td> <td>338.6</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-700tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-800tps">
+                <h2>Benchmark round: mixed-800tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 800
+</pre>
+                        <h3>Performance metrics for mixed-800tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-800tps</td> <td>41255</td> <td>0</td> <td>343.8</td> <td>2.09</td> <td>0.01</td> <td>0.12</td> <td>338.0</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-800tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-900tps">
+                <h2>Benchmark round: mixed-900tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 900
+</pre>
+                        <h3>Performance metrics for mixed-900tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-900tps</td> <td>41003</td> <td>0</td> <td>341.6</td> <td>2.13</td> <td>0.01</td> <td>0.12</td> <td>335.9</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-900tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="mixed-1000tps">
+                <h2>Benchmark round: mixed-1000tps</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">txDuration: 120
+rateControl:
+  type: fixed-rate
+  opts:
+    tps: 1000
+</pre>
+                        <h3>Performance metrics for mixed-1000tps</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>mixed-1000tps</td> <td>41047</td> <td>0</td> <td>342.0</td> <td>2.14</td> <td>0.01</td> <td>0.11</td> <td>336.2</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for mixed-1000tps</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;">
+                <h2>Test Environment</h2>
+                <h3>benchmark config</h3>
+                <pre id="benchmarkInfo" style="overflow: visible;white-space: pre-wrap;max-height:100%;">name: fabric-baseline-ecdsa-mixed
+description: &gt;
+  Mixed workload baseline benchmark for Hyperledger Fabric v2.5.12 using default
+  ECDSA-P256 cryptography. 70% asset creation and 30% asset query. Establishes
+  the classical mixed-workload performance reference for comparison against PQC
+  algorithm configurations.
+workers:
+  number: 4
+rounds:
+  - label: mixed-25tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 25
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-50tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 50
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-100tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 100
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-150tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 150
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-200tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 200
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-300tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 300
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-400tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 400
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-500tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 500
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-600tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 600
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-700tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 700
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-800tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 800
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-900tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 900
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+  - label: mixed-1000tps
+    txDuration: 120
+    rateControl:
+      type: fixed-rate
+      opts:
+        tps: 1000
+    workload:
+      module: workload&#x2F;mixedAsset.js
+      arguments:
+        contractId: basic
+</pre>
+                <h3>SUT</h3>
+                <pre id="sutdetails">not provided</pre>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
