@@ -30,6 +30,7 @@ See chapter 4 of the thesis for the full quantum threat model and chapter 5 for 
 ├── fabric-ca/           # Hyperledger Fabric CA 1.5.x fork with PQC certificate issuance
 ├── fabric-samples/      # test-network with PQC-aware registerEnroll.sh + dual-CA setup
 ├── caliper-workspace/   # Caliper benchmarks (workload, network config, baseline yamls)
+├── results/             # Archived per-run benchmark data behind the papers/thesis — see results/README.md
 ├── prometheus/          # Prometheus scrape config for runtime metrics
 ├── Dockerfile.pqc-{ca,peer,orderer}   # Overlay PQC binaries onto stock hyperledger:* images
 └── install-fabric.sh    # Fabric/CA version installer (2.5.15 / 1.5.17)
@@ -43,7 +44,12 @@ The `fabric-source/` and `fabric-ca/` directories are forks of upstream Hyperled
 - **Go 1.26+** (for building host binaries)
 - **Docker** + Docker Compose
 - **Node.js 18+** and **npm** (for Caliper)
-- **OpenSSL** (for cert inspection / TLS handshake verification)
+- **OpenSSL 3.x** — must be first on `PATH` when generating network crypto
+  material. macOS's bundled LibreSSL emits the `caliper-ca` certificate
+  without X509v3 extensions (no `CA:TRUE`, no Subject Key Identifier), which
+  later fails MSP chain validation at `createChannel`. On macOS:
+  `brew install openssl@3` and `export PATH="$(brew --prefix openssl@3)/bin:$PATH"`.
+  Also used for cert inspection / TLS handshake verification.
 
 ## Setup
 
@@ -66,12 +72,21 @@ cp fabric-source/build/bin/peer pqc-peer-linux
 (cd fabric-source && GOOS=linux GOARCH=amd64 make orderer FABRIC_VER=latest)
 cp fabric-source/build/bin/orderer pqc-orderer-linux
 
-# Build the PQC fabric-ca server + client for linux/amd64
-(cd fabric-ca && GOOS=linux GOARCH=amd64 make fabric-ca-server BASE_VERSION=1.5.12)
-(cd fabric-ca && GOOS=linux GOARCH=amd64 make fabric-ca-client BASE_VERSION=1.5.12)
-cp fabric-ca/bin/fabric-ca-server fabric-ca/fabric-ca-server-linux
-cp fabric-ca/bin/fabric-ca-client fabric-ca/fabric-ca-client-linux
+# Build the PQC fabric-ca server + client for linux/amd64.
+# These CANNOT be cross-compiled from macOS: the Makefile's pkcs11 tag and the
+# vendored go-sqlite3 require cgo. A glibc build from a current golang image
+# also fails at runtime inside the fabric-ca:1.5.12 base image (older glibc).
+# Build them STATIC with musl inside a Linux container instead:
+docker run --rm -v "$PWD/fabric-ca":/src -w /src \
+  -e CGO_CFLAGS=-D_LARGEFILE64_SOURCE golang:1.26-alpine sh -c '
+  apk add --no-cache gcc musl-dev >/dev/null
+  LD="-X github.com/hyperledger/fabric-ca/lib/metadata.Version=1.5.12 -linkmode external -extldflags -static"
+  CGO_ENABLED=1 go build -o fabric-ca-server-linux -tags pkcs11 -ldflags "$LD" ./cmd/fabric-ca-server &&
+  CGO_ENABLED=1 go build -o fabric-ca-client-linux -tags pkcs11 -ldflags "$LD" ./cmd/fabric-ca-client'
 ```
+
+> `CGO_CFLAGS=-D_LARGEFILE64_SOURCE` is required because musl ≥ 1.2.4 removed
+> `off64_t`, which the vendored go-sqlite3 still references.
 
 ### 3. Build the host binaries (used by `network.sh`, Caliper, etc.)
 
@@ -99,6 +114,10 @@ cp fabric-ca/bin/fabric-ca-client       fabric-samples/bin/
 docker build -f Dockerfile.pqc-peer    -t hyperledger/fabric-peer:pqc    .
 docker build -f Dockerfile.pqc-orderer -t hyperledger/fabric-orderer:pqc .
 docker build -f Dockerfile.pqc-ca      -t hyperledger/fabric-ca:pqc      fabric-ca/
+
+# The test-network compose file references hyperledger/fabric-peer:latest,
+# so alias the PQC peer image to that tag:
+docker tag hyperledger/fabric-peer:pqc hyperledger/fabric-peer:latest
 ```
 
 > Note the **build context for the CA image is `fabric-ca/`**, not the project root, because the linux binaries it copies live there.
@@ -119,6 +138,10 @@ docker run --rm --entrypoint sha1sum hyperledger/fabric-orderer:pqc /usr/local/b
 ## Running the test network
 
 ```bash
+# macOS: OpenSSL 3 must be first on PATH before generating crypto material
+# (see Prerequisites); otherwise createChannel fails MSP chain validation.
+export PATH="$(brew --prefix openssl@3)/bin:$PATH"
+
 cd fabric-samples/test-network
 
 ./network.sh up -ca           # Start CAs, peers, orderer (all PQC images)
@@ -151,7 +174,11 @@ cd caliper-workspace
   --caliper-benchconfig   benchmarks/baseline.yaml \
   --caliper-flow-only-test
 
-# Reports land in caliper-workspace/report.html (overwritten each run)
+# Reports land in caliper-workspace/report.html (overwritten each run).
+# Archive each run before starting the next, e.g.:
+#   cp report.html ../results/report-<algo>-<workload>-run<N>.html
+# The archived per-run data behind the papers/thesis lives in results/
+# (see results/README.md for the naming scheme and data-quality notes).
 ```
 
 To switch signing algorithm, edit `--csr.keyrequest.algo` in [organizations/fabric-ca/registerEnroll.sh](fabric-samples/test-network/organizations/fabric-ca/registerEnroll.sh) (`mldsa44`, `mldsa65`, or `fndsa512`), then `network.sh down && up -ca && createChannel && deployCC`.
@@ -203,7 +230,7 @@ See `organizations/peerOrganizations/orgN.example.com/msp/config.yaml` for the O
 |---|---|---|---|
 | Digital signature (BCCSP) | ML-DSA-44, ML-DSA-65 | FIPS 204 | [`circl/sign/mldsa`](https://github.com/cloudflare/circl) |
 | Digital signature (BCCSP) | FN-DSA-512 (FALCON-512) | FIPS 206 | [`go-fn-dsa`](https://github.com/pornin/go-fn-dsa) |
-| Key encapsulation (TLS) | ML-KEM-768 (hybrid w/ X25519) | FIPS 203 | Go stdlib `crypto/mlkem` (1.23+) |
+| Key encapsulation (TLS) | ML-KEM-768 (hybrid w/ X25519) | FIPS 203 | Go stdlib `crypto/tls` (`X25519MLKEM768`, Go 1.24+) |
 
 All implementations are pure Go — no CGo, no liboqs runtime dependency.
 
@@ -217,6 +244,9 @@ All implementations are pure Go — no CGo, no liboqs runtime dependency.
 | `access denied: certifiersIdentifier does not match` | Wrong CA in fabric-network.yaml | Same as above — `caliper@` is the only valid client identity |
 | `Local fabric binaries and docker images are out of sync` | Host binaries built with default version strings | Rebuild with `make peer FABRIC_VER=latest` and `make fabric-ca-client BASE_VERSION=1.5.12` |
 | Dockerfile.pqc-ca COPY fails with "not found" | Wrong build context | Use `fabric-ca/` as the build context, not `.` |
+| CA containers exit with `GLIBC_2.3x not found` | fabric-ca binaries linked against a newer glibc than the 1.5.12 base image | Static musl build as in step 2 |
+| `failed to traverse certificate verification chain ... CN=caliper-ca.orgN` at createChannel | Crypto material generated with LibreSSL (caliper-ca cert has no X509v3 extensions) | Put OpenSSL 3 first on PATH, `network.sh down`, delete generated `organizations/` material, re-run `up -ca` |
+| Peers run a stock image, or `fabric-peer:latest` missing | compose-test-net.yaml references `hyperledger/fabric-peer:latest` | `docker tag hyperledger/fabric-peer:pqc hyperledger/fabric-peer:latest` |
 
 ## Citation
 
@@ -241,7 +271,7 @@ This work builds on the open-source contributions of:
 - **Cloudflare CIRCL** — ML-DSA reference implementation
 - **Thomas Pornin's `go-fn-dsa`** — FN-DSA reference implementation
 - The **Open Quantum Safe** project — algorithm test vectors and ACVP data
-- The **Go team** for `crypto/mlkem` in the standard library
+- The **Go team** for the hybrid `X25519MLKEM768` TLS key exchange in the standard library
 
 ## License
 
